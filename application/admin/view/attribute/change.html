@@ -1,0 +1,120 @@
+<extend name="Public/layout"/>
+<block name="head">
+    <title>首页</title>
+    <style>
+        .control-label{font-size: 13px;
+            color: #6B6B6B;}
+        .controls input{width: 300px;}
+        .control-group{
+            padding-bottom: 20px;
+            border-bottom: dotted 1px #e2e2e2;
+        }
+
+    </style>
+</block>
+
+
+<block name="main">
+    <div class="row-fluid">
+        <div class='page-header' style="margin:5px 0px 0px 0px;background-color:#e7f2f8;height: 30px ">
+
+            <div class='pull-left' >
+
+                <ul class='breadcrumb'>
+                    <i class='icon-home' style="color: #000000;"></i>
+                    <li class='' style="margin-left: 5px;"><a href="{:url('/Admin/Index/index')}" style="color: #4c8fbd">首页</a></li>
+                    <li class='' style="margin-left: 5px;"><i class='icon-angle-left'></i></li>
+                    <li class='' style="margin-left: 5px;"><a href="{:url('/Admin/Attribute/index')}" style="color: #4c8fbd">商品属性</a></li>
+                    <li class='' style="margin-left: 5px;"><i class='icon-angle-left'></i></li>
+                    <li class='' style="margin-left: 5px;">添加商品属性</li>
+                </ul>
+            </div>
+
+        </div>
+        <div class='page-header' style="margin:5px 0px 0px 0px;background-color:#ffffff;height: 40px ;border-bottom: dotted 1px #e2e2e2">
+            <div class='pull-left' >
+                <ul class='breadcrumb'>
+
+
+                    <li class='active'><h3>商品</h3></li>
+
+
+                    <li class='separator'>
+                        <i class='icon-angle-right'></i>
+                    </li>
+                    <li class='active'>添加商品属性</li>
+
+
+
+                </ul>
+            </div>
+        </div>
+
+        <div class='span12'>
+
+
+            <div class='box-content'>
+                <form accept-charset="UTF-8" action="{:url('Attribute/updateattr')}" class="form form-horizontal" method="post" style="margin-bottom: 0;" />
+                <!--<form id="data" class="form form-horizontal" method="get" style="margin-bottom: 0;" enctype="multipart/form-data"/>-->
+
+                <volist name="attlist" id="vo">
+                    <input type="hidden" name="attr_id" value="{$vo.attr_id}">
+                <div class='control-group' style="padding-top: 15px;">
+                    <label class='control-label' for='attr_name'><em style="color: red;">*</em>属性名称</label>
+                    <div class='controls'>
+                        <input name="attr_name" id="attr_name" type='text' value="{$vo.attr_name}"/>
+                    </div>
+                </div>
+
+
+
+                <div class='control-group'>
+                    <label class='control-label' for='type_id'><span style="color: red">*</span>所属模型名称</label>
+                    <div class='controls'>
+                        <select name="type_id" id="type_id" style="width: 150px">
+                            <option value="{$vo.type_id}">{$vo.type_name}</option>
+                            <foreach name="typelist" item="v1" key="k1">
+                                <option value="{$v1.tid}">{$v1.type_name}</option>
+                            </foreach>
+                        </select>
+                    </div>
+                </div>
+
+                <div class='control-group'>
+                    <label class='control-label' for=''><span style="color: red">*</span>该属性值的录入方式：</label>
+                    <div class='controls' style="font-size: 12px;color: #777">
+                        <input type="radio" name="attr_input_type" style="margin-right:5px;outline: none;" value="0" <if condition="$vo.attr_input_type eq 0">checked</if>>手工录入
+                        <input type="radio" name="attr_input_type"  style="margin-right:5px;outline: none;" value="1"<if condition="$vo.attr_input_type eq 1">checked</if>>从下面的列表中选择（一行代表一个可选值）
+                        <input type="radio" name="attr_input_type"  style="margin-right:5px;outline: none;" value="2"<if condition="$vo.attr_input_type eq 2">checked</if>>多行文本框
+                    </div>
+                </div>
+
+
+                <div class='control-group'>
+                    <label class='control-label' for='attr_values'>可选值列表</label>
+                    <div class='controls'>
+                        <textarea  style="height: 100px" name="attr_values" id="attr_values" type='text' >{$vo.attr_values}</textarea>
+                        <p style="font-size:12px;color: #AAA;margin-top: 4px;clear: both;">录入方式为手工或者多行文本时，此输入框不需填写。</p>
+                    </div>
+                </div>
+
+
+
+
+
+                <!--<div class='form-actions' id="submit">-->
+                <!--<div class='btn btn-primary'  >-->
+                <!--<i class='icon-save'></i>-->
+                <!--确认提交-->
+                <!--</div>-->
+
+                <input class='btn btn-primary' type="submit" value="确认提交"></input>
+                </volist>
+                </form>
+            </div>
+
+        </div>
+    </div>
+    </div>
+
+</block>

@@ -1,0 +1,51 @@
+<!doctype html>
+<meta name=”renderer” content=”webkit”>
+<meta http-equiv=”X-UA-Compatible” content=”IE=Edge,chrome=1″ >
+<head>
+    <meta charset="utf-8">
+    <title>登录页</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="icon" href="__PUBLIC__/static/animated_favicon.gif" type="image/gif" />
+    <link href="__PUBLIC__/static/css/login.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="/public/static/js/jquery.js"></script>
+    <script>
+
+        function ajaxPost(){
+
+            var formData = $("#myform").serialize();
+            var id = true;
+            if($('#myform input[name=id]').val() == ''){
+                $('#content').html('<span class="error">用户名不能为空!</span>');
+                $('#myform input[name=id]').focus();
+               
+            }
+            console.log(formData);
+            //serialize() 方法通过序列化表单值，创建 URL 编码文本字符串,这个是jquery提供的方法
+            $.ajax({
+                type:"post",
+                url:"{:url('Index/index/test')}",
+                data:formData,//这里data传递过去的是序列化以后的字符串
+                success:function(data){
+                    $("#content").append(data);//获取成功以后输出返回值
+                }
+            });
+        }
+
+    </script>
+</head>
+<body>
+
+<form id="myform" method="post"><!--这里给表单起个id用于获取表单并序列化-->
+    <input type="text" name="mess" />
+    <input type="text" name="id" />
+    <button onclick="ajaxPost()">---------</button>
+</form>
+<div id="content">
+
+</div>
+
+</body>
+
+
+</html>

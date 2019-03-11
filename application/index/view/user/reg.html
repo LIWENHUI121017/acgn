@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">   
+    <title>注册</title>
+
+   
+    <link href="__PUBLIC__/static/css/reg3.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/static/css/base.css"/>
+    <script type="text/javascript" src="__PUBLIC__/static/js/jquery/jquery.min.js"></script>
+
+</head>
+<body>
+    <div class="regcon">
+        <a class="m-fnlogoa fn-fl" href="/" ><img src="__PUBLIC__/static/images/acgn-logo.ico" style="width: 159px;height: 58px;"/></a>
+        <span class="m-fntit">欢迎注册</span>
+        <div class="ui_tab">
+            <ul class="ui_tab_nav regnav">
+                    <li class="no fn-fr loginbtn">我已注册，马上<a href="{:url('User/login')}">登录></a></li>
+            </ul>
+
+                <form id="reg_form2"  method="post" action="{:url('User/userreg')}">
+                    <input type="hidden" name="auth_code" value="{$Think.config.AUTH_CODE}"/>
+                    <div class="ui_tab_content">
+                        <div class="m-fnbox ui_panel" style="display: block;">
+                            <div class="fnlogin clearfix">
+
+                                <div class="line">
+                                    <label class="linel"><em>*</em><span class="dt">账号：</span></label>
+                                    <div class="liner">
+                                        <input class="inp J_cellphone" name="username" id="username" type="text" autocomplete="off" value="" placeholder="请输入账号" >
+                                    </div>
+                                </div>
+                                <div class="line">
+                                    <label class="linel"><em>*</em><span class="dt">设置密码：</span></label>
+                                    <div class="liner">
+                                        <input name="password" type="password" id="password" class="inp fpass J_password" autocomplete="off"   placeholder="6-16位大小写英文字母、数字或符号的组合" />
+                                    </div>
+                                </div>
+                                <div class="line">
+                                    <label class="linel"><em>*</em><span class="dt">确认密码：</span></label>
+                                    <div class="liner">
+                                        <input name="password2" type="password" class="inp fsecpass J_password2" placeholder="请再次输入密码" autocomplete="off" maxlength="16" id="password2" required="" value=""/>
+
+                                    </div>
+                                </div>
+                                <div class="line">
+                                    <label class="linel"><em>*</em><span class="dt">手机号码：</span></label>
+                                    <div class="liner">
+                                        <input type="text" class="inp fmobile J_cellphone" placeholder="请输入手机号码"  name="phone" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" id="phone" required=""/>
+                                    </div>
+                                </div>
+
+                                <div class="line">
+                                    <label class="linel"><em>*</em><span class="dt">手机验证码：</span></label>
+                                    <div class="liner">
+                                        <input type="text" class="inp imgcode J_imgcode" placeholder="手机验证码" id="code" name="code" required=""/>
+                                        <button class="fn-fl icode"  type="button" id="send">发送</button>
+                                        <!--<input class="fn-fl icode"  type="sub" id="send">发送</input>-->
+                                    </div>
+                                    <div id="show-voice" class="show-voice"></div>
+                                </div>
+
+                                <!--<div class="line">-->
+                                    <!--<label class="linel"><em>*</em><span class="dt">验证码：</span></label>-->
+                                    <!--<div class="liner">-->
+                                        <!--<i class="glyphicon glyphicon-eye-open"></i>-->
+                                        <!--<input name="vertify" id="vertify" style="width: 140px;float: left;"  class="inp imgcode J_imgcode"  type="text" autocomplete="off"  value="" placeholder="验证码"/>-->
+                                        <!--<img src="{:captcha_src()}" name="verify" id="verify" class="po-ab to0"  id="imgVerify" onclick="fleshVerify()">-->
+                                    <!--</div>-->
+                                    <!--<div id="show-voice" class="show-voice"></div>-->
+                                <!--</div>-->
+
+                                <div class="line liney clearfix">
+                                    <label class="linel">&nbsp;</label>
+                                    <div class="liner">
+                                        <input value="注册" class="regbtn J_btn_agree"  type="submit" />
+                                        <!--<a class="regbtn J_btn_agree" href="javascript:void(0);" onClick="check_submit();">注册</a>-->
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+
+
+        </div>
+    </div>    
+</div>
+    <!--footer-s-->
+    <div class="footer p">
+        <include file="public/footer" />
+    </div>
+    <!--footer-e-->
+<script>
+
+// 发送手机短信
+$(function(){
+    $("#send").click(function(){
+            $.ajax({
+                type: "POST",
+                url: "/Index/User/sendreg",
+                data: {'phone':$('input[name="phone"]').val()},
+                async: false,
+                dataType:'json',
+                success: function(data){
+                    if (data.status == 0){
+                        alert( '短信发送次数已达上限，请明天再来！   ' );
+                    }
+                    if(data.status == 1){
+                        alert( '短信发送成功');
+                    }
+                    if (data.status == 3){
+                        alert( data.msg );
+                    }
+
+                },
+                error : function(XMLHttpRequest, textStatus, errorThrown) {
+                    alert("网络失败，请刷新页面后重试!");
+                }
+            });
+    });
+
+})
+
+</script>
+</body> 
+</html>

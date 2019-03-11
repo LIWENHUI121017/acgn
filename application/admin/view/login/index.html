@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>后台管理</title>
+    <link href="/public/static/css/login.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="/public/static/js/jquery.js"></script>
+    <script type="text/javascript" src="/public/static/js/jquery.SuperSlide.2.1.2.js"></script>
+    <script type="text/javascript" src="/public/static/js/jquery.validation.min.js"></script>
+    <script type="text/javascript" src="/public/static/js/jquery.cookie.js"></script>
+    <style>
+        body {
+            background-image: url("/public/static/images/login-bg.jpg"); background-size: cover; }
+    </style>
+</head>
+
+<body>
+<div class="login_box">
+    <div class="login_l_img"><img src="/public/static/images/login-img.png" /></div>
+    <div class="login">
+        <div class="login_logo"><a href="#"><img src="/public/static/images/login_logo.png" /></a></div>
+        <div class="login_name">
+            <p>集优后台系统</p>
+        </div>
+        <form method="post" action="" id="theForm" name="theForm" >
+            <input name="username" id="username" type="text" autocomplete="off" value="" placeholder="用户名" >
+            <input name="password" id="password" type="password" id="password" autocomplete="off"   placeholder="密码" />
+            <input name="vertify" id="vertify" style="width: 140px;float: left;" class="input-text" type="text" autocomplete="off"  value="" placeholder="验证码"/>
+            <img src="{:captcha_src()}" name="verify" id="verify" style="margin-left: 10px;"  id="imgVerify" onclick="fleshVerify()">
+
+            <input value="登录" style="width:100%;"  type="button" name="submit">
+            <div id="error" style="position: absolute;left:110px;bottom: 10px;text-align: center;width:180px;color: red;">
+
+            </div>
+        </form>
+    </div>
+
+</div>
+</body>
+<script>
+    $(function(){
+        function loginsubmit(){
+            var username=true;
+            var password=true;
+            var vertify=true;
+
+            if($('#theForm input[name=username]').val() == ''){
+                $('#error').html('<span class="error">用户名不能为空!</span>');
+                $('#theForm input[name=username]').focus();
+                username = false;
+                return false;
+            }
+
+            if($('#theForm input[name=password]').val() == ''){
+                $('#error').html('<span class="error">密码不能为空!</span>');
+                $('#theForm input[name=password]').focus();
+                password = false;
+                return false;
+            }
+
+            if($('#theForm input[name=vertify]').val() == ''){
+                $('#error').html('<span class="error">验证码不能为空!</span>');
+                $('#theForm input[name=vertify]').focus();
+                vertify = false;
+                return false;
+            }
+
+            if(vertify && $('#theForm input[name=username]').val() != '' && $('#theForm input[name=password]').val() != ''){
+                $.ajax({
+                    url:"/Admin/Login/login",
+                    data:{'username':$('#theForm input[name=username]').val(),'password':$('#theForm input[name=password]').val(),vertify:$('#theForm input[name=vertify]').val()},
+                    type:'post',
+                    async: false,
+                    dataType:'json',
+                    success:function(data){
+
+                        if(data.status == 0){
+                            $('#error').html('<span class="error">'+data.msg+'!</span>');
+                            fleshVerify();
+                            username=false;
+                            password=false;
+                            return false;
+                        }else{
+                            top.location.href = '/Admin/index/index';
+                        }
+                    },
+                    error : function(XMLHttpRequest, textStatus, errorThrown) {
+                        $('#error').html('<span class="error">网络失败，请刷新页面后重试!</span>');
+                    }
+                });
+            }else{
+                return false;
+            }
+        }
+
+        $('.submit_span .sub').on('click',function(){
+            $('.code').show();
+        });
+        $('#theForm input[name=submit]').on('click',function(){
+            loginsubmit();
+        });
+
+        $(document).click(function(e){
+            if(e.target.name !='vertify' && !$(e.target).parents("div").is(".submitDiv")){
+                $('.code').hide();
+            }
+        });
+        //回车提交
+        $(document).keyup(function(event){
+            if(event.keyCode ==13){
+                var isFocus=$("#vertify").is(":focus");
+                if(true==isFocus){
+                    loginsubmit();
+                }
+            }
+        });
+    });
+
+    function fleshVerify() {
+        var ts = Date.parse(new Date())/1000;
+        var img = document.getElementById('verify');
+        img.src = "/captcha?id="+ts;
+    }
+
+</script>
+</html>
+

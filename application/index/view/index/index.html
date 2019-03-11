@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+    <include file="public/head"/>
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/static/css/base.css"/>
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/static/css/index.css"/>
+
+
+
+</head>
+<body id="back">
+
+<include file="public/indexhead"/>
+
+    <div class="back">
+
+    <foreach name="catelist" key="k" item="v">
+        <div class="floor floor{$k+1} w1224">
+        <div class="floor-top">
+            <h3 class="floor-title">{$v['name']}</h3>
+            <div class="floor-nav-list clearfix">
+            <foreach name="$v['tmenu']" key="kk" item="vv">
+                <a class="floor-nav-item" href="#">{$vv['name']}</a>
+            </foreach>
+
+
+            </div>
+            <a class="nav-more-btn" href="#">更多<i>></i></a>
+        </div>
+        <div class="floor-main">
+            <div class="floor-brand cleanflow">
+
+                <a class="brand-big" href="javascript:void(0);"><img class="w-100" src="__PUBLIC__/static/images/index-goods/1.png" alt="" /></a>
+
+
+                <a class="brand-samll" href="javascript:void(0);"><img class="w-100" src="__PUBLIC__/static/images/test/2.jpg" alt="" /></a>
+
+            </div>
+            <div class="floor-goods-list">
+
+            <foreach name="$v['hot_goods']" item="g" key="gk">
+                <a class="floor-goods-item" href="{:url('Goods/goodsInfo',array('id'=>$g['id']))}">
+                    <div class="googs-title ellipsis-1">{$g['goods_name']}</div>
+                    <div class="googs-price ellipsis-1">￥{$g['goods_price']}</div>
+                    <div class="goods-pic"><img class="w-100" src="{$g['original_img']}" alt=""></div>
+                </a>
+            </foreach>
+
+
+
+            </div>
+            <div class="floor-recommend">
+                <div class="floor-recommend-title">热门推荐</div>
+                <div class="floor-recommend-wrap">
+                    <div class="floor-recommend-list">
+
+                        <a class="floor-recommend-item" href="#">
+                            <div class="floor-recommend-pic">
+                                <img class="w-100" src="__PUBLIC__/static/images/test/2.jpg" alt="" />
+                            </div>
+                            <div class="floor-recommend-cont">
+                                <div class="recommend-goods-name ellipsis-1">国家地理（National G...</div>
+                                <div class="recommend-goods-des ellipsis-1"></div>
+                                <div class="recommend-goods-price  recommend-goods-des">￥ 1699.00</div>
+                            </div>
+                        </a>
+                        <a class="floor-recommend-item" href="#">
+                            <div class="floor-recommend-pic">
+                                <img class="w-100" src="__PUBLIC__/static/images/test/2.jpg" alt="" />
+                            </div>
+                            <div class="floor-recommend-cont">
+                                <div class="recommend-goods-name ellipsis-1">国家地理（National G...</div>
+                                <div class="recommend-goods-des ellipsis-1"></div>
+                                <div class="recommend-goods-price  recommend-goods-des">￥ 1699.00</div>
+                            </div>
+                        </a>
+
+                    </div>
+                </div>
+                <a class="recommend-more-btn" href="#">更多 <i>></i></a>
+            </div>
+        </div>
+    </div>
+    </foreach>
+
+    </div>
+<include file="public/footer"/>
+</body>
+<script>
+
+    function init(){  //初始化函数
+        //首页商品分类显示
+        $('.categorys .dd').show();
+
+        //自动楼层居中设置
+        $('#floor-nav').css('margin-top',(-41*$('#floor-nav').find('li').length+1)/2);
+
+        //推荐列表自动滚动
+        carouselList('.floor-recommend-wrap','.floor-recommend-list','.floor-recommend-item');
+
+        //右侧边栏
+        rightBar();
+
+        //楼层导航切换
+        sidebarRollChange();
+    }
+
+    function rightBar(){  //右侧边栏
+        var $_slidebar4 = $('.ico-slidebar4');
+        $(window).scroll(function(){
+            if($(window).scrollTop()>100){
+                $_slidebar4.css('height',40);
+            }else{
+                $_slidebar4.css('height',0);
+            }
+        })
+        $_slidebar4.click(function () {
+            $('html,body').animate({'scrollTop':0},500)
+        });
+    }
+    function carouselList(wrap,list,item,timeWait,timeRun){ //推荐列表滚动
+        /*
+         * wrap：包裹容器
+         * list：列表容器
+         *item：列表单元
+         *timeWait：停顿时间(单位ms,可不传参数，默认3秒)
+         *timeRun：运动时间(单位ms,可不传参数，默认0.5秒)
+         * */
+        if(timeWait===undefined||typeof timeWait!="number"){
+            timeWait=3000;
+        }
+        if(timeRun===undefined||typeof timeRun!="number"){
+            timeRun=500;
+        }
+        $(wrap).each(function(){
+            var length=$(this).find(item).length;
+            if(length<3){
+                return;
+            }
+            var html=$(this).find(list).html();
+            $(this).find(list).html(html+html);
+            var num=1;
+            var _this=this;
+            function interval(){
+                clearInterval($(_this)[0].timer);
+                $(_this)[0].timer=setInterval(function(){
+                    num++;
+                    if(num==length){
+                        $(_this).find(list).animate({top:-108*num},timeRun,function (){
+                            $(_this).find(list).css('top',0);
+                        });
+                        num=0;
+                    }else{
+                        $(_this).find(list).animate({top:-108*num},timeRun);
+                    }
+                },timeWait);
+            }
+            interval();
+            $(this).find(item).hover(function (){
+                clearInterval($(_this)[0].timer);
+            },function (){
+                interval();
+            })
+        });
+    }
+    function sidebarRollChange() {  //楼层切换
+        var $_floorList=$('.floor');
+        var $_sidebar=$('#floor-nav');
+        $_sidebar.find('li').click(function(){ //点击切换楼层
+            $('html,body').animate({'scrollTop':$_floorList.eq($(this).index()).offset().top},500)
+        });
+        $(window).scroll(function(){
+            var scrollTop=$(window).scrollTop();
+            if(scrollTop<$_floorList.eq(0).offset().top-$(window).height()/2){
+                $_sidebar.hide();
+                return;
+            }
+            $_sidebar.show();  //左边侧边栏显示
+            for(var j=0,k=$_floorList.length;j<k;j++){ /*滚动改变侧边栏的状态*/
+                if(scrollTop>$_floorList.eq(j).offset().top-$(window).height()/2){
+                    $_sidebar.find('li').eq(j).addClass('floor-nav-ac').siblings().removeClass('floor-nav-ac');
+                }
+            }
+        })
+    }
+
+    init();
+</script>
+<script src="__STATIC__/js/common.js" type="text/javascript" charset="utf-8"></script>
+</html>

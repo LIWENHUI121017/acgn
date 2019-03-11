@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>登录</title>
+    <link href="/public/static/css/login.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="/public/static/js/jquery.js"></script>
+    <script type="text/javascript" src="/public/static/js/jquery.SuperSlide.2.1.2.js"></script>
+    <script type="text/javascript" src="/public/static/js/jquery.validation.min.js"></script>
+    <script type="text/javascript" src="/public/static/js/jquery.cookie.js"></script>
+    <style>
+        body {
+            background-image: url("/public/static/images/login-bg.jpg"); background-size: cover;
+        }
+
+    </style>
+</head>
+
+<body>
+<div class="login_box">
+    <div class="login_l_img"><img src="/public/static/images/login-img.png" /></div>
+    <div class="login" style="height: 420px;">
+        <div class="login_logo"><a href="#"><img src="/public/static/images/login_logo.png" /></a></div>
+        <div class="login_name">
+            <p>acgn周边商城 </p><span style="float: right;font-size: 12px">还没有账号？<a href="{:url('User/reg')}" style="float: right">注册</a></span>
+        </div>
+                <!--<form method="post" action="{:url('User/userlogin')}" id="theForm" name="theForm" >-->
+
+
+             <form method="post" action="" id="theForm" name="theForm" >
+
+                 <input name="phone" id="phone" type="text" autocomplete="off" value="" placeholder="请输入手机号码" >
+
+
+                 <input name="code" id="code" style="width: 120px;float: left;" class="input-text" type="text" autocomplete="off"  value="" placeholder="输入手机验证码"/>
+                   <!--<button class="icode" style="margin-left: 15px;" type="button" id="send">发送</button>-->
+                 <input value=" 发送" style="width:50%;float: right;margin-top: 1px"  type="button" id="send">
+
+
+                 <!--<input value="登录" style="width:100%;"  type="submit" />-->
+                 <input value=" 登录" style="width:100%;"  type="button" name="submit">
+                 <div  style="position: absolute;left:110px;bottom: 50px;text-align: center;width:180px;color: #27A9E3;">
+                     <a href="{:url('User/login')}">--账户密码登录--</a>
+                 </div>
+                 <div id="error" style="position: absolute;left:110px;bottom: 10px;text-align: center;width:180px;color: red;">
+
+                 </div>
+             </form>
+
+
+            </div>
+
+        </div>
+        </body>
+        <script>
+            $(function(){
+
+                $("#send").click(function(){
+                    var tel = $('#theForm input[name=phone]').val();
+                    if (!checkMobile(tel)){
+                        $('#error').html('<span class="error">请输入正确的手机号码!</span>');
+                        tel = false;
+                        return false;
+                    }
+                    function checkMobile(tel) {
+                        var reg = /^1[0-9]{10}$/;
+                        if (reg.test(tel)) {
+                            return true;
+                        }else{
+                            return false;
+                        };
+                    }
+                    $.ajax({
+                        type: "POST",
+                        url: "/Index/User/sendlogin",
+                        data: {'phone':$('input[name="phone"]').val()},
+                        async: false,
+                        dataType:'json',
+                        success: function(data){
+                            if (data.status == 0){
+                                alert( '短信发送次数已达上限，请明天再来！   ' );
+                            }
+                            if(data.status == 1){
+                                alert( '短信发送成功');
+                                console.log(data.code);
+                            }
+                            if (data.status == 3){
+                                alert( data.msg );
+                            }
+
+                        },
+                        error : function(XMLHttpRequest, textStatus, errorThrown) {
+                            alert("网络失败，请刷新页面后重试!");
+                        }
+                    });
+                });
+
+                function loginsubmit(){
+                    var phone=true;
+                    var code=true;
+
+
+                    if($('#theForm input[name=phone]').val() == ''){
+                        $('#error').html('<span class="error">手机号码不能为空!</span>');
+                        $('#theForm input[name=phone]').focus();
+                        phone = false;
+                        return false;
+                    }
+
+                    if($('#theForm input[name=code]').val() == ''){
+                        $('#error').html('<span class="error">验证码不能为空!</span>');
+                        $('#theForm input[name=code]').focus();
+                        code = false;
+                        return false;
+                    }
+
+
+                    if($('#theForm input[name=code]').val() != '' && $('#theForm input[name=phone]').val() != ''){
+                        $.ajax({
+                            url:"/Index/User/phonelogin",
+                            data:{'code':$('#theForm input[name=code]').val(),'phone':$('#theForm input[name=phone]').val()},
+                            type:'post',
+                            async: false,
+                            dataType:'json',
+                            success:function(data){
+
+                                if(data.status == 0){
+                                    $('#error').html('<span class="error">'+data.msg+'!</span>');
+                                    return false;
+                                }else{
+                                    top.location.href = data.url;
+                                }
+                            },
+                            error : function(XMLHttpRequest, textStatus, errorThrown) {
+                                $('#error').html('<span class="error">网络失败，请刷新页面后重试!</span>');
+                            }
+                        });
+                    }else{
+                        return false;
+                    }
+                }
+
+                $('.submit_span .sub').on('click',function(){
+                    $('.code').show();
+                });
+                $('#theForm input[name=submit]').on('click',function(){
+                    loginsubmit();
+                });
+
+
+                //回车提交
+                $(document).keyup(function(event){
+                    if(event.keyCode ==13){
+                        var isFocus=$("#vertify").is(":focus");
+                        if(true==isFocus){
+                            loginsubmit();
+                        }
+                    }
+                });
+            });
+
+
+
+        </script>
+        </html>
+
+

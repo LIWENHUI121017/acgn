@@ -1,0 +1,87 @@
+<extend name="Public/layout"/>
+<block name="head">
+<title>商品模型</title>
+<style>
+    .control-label{font-size: 13px;
+        color: #6B6B6B;}
+   .controls input{width: 300px;}
+    .control-group{
+        padding-bottom: 20px;
+        border-bottom: dotted 1px #e2e2e2;
+    }
+
+</style>
+</block>
+
+
+<block name="main">
+<div class="row-fluid">
+    <div class='page-header' style="margin:5px 0px 0px 0px;background-color:#e7f2f8;height: 30px ">
+
+        <div class='pull-left' >
+
+            <ul class='breadcrumb'>
+                <i class='icon-home' style="color: #000000;"></i>
+                <li class='' style="margin-left: 5px;"><a href="{:url('/Admin/Index/index')}" style="color: #4c8fbd">首页</a></li>
+                <li class='' style="margin-left: 5px;"><i class='icon-angle-left'></i></li>
+                <li class='' style="margin-left: 5px;"><a href="{:url('/Admin/Goodstype/index')}" style="color: #4c8fbd">商品模型</a></li>
+                <li class='' style="margin-left: 5px;"><i class='icon-angle-left'></i></li>
+                <li class='' style="margin-left: 5px;">新增商品模型</li>
+            </ul>
+        </div>
+
+    </div>
+    <div class='page-header' style="margin:5px 0px 0px 0px;background-color:#ffffff;height: 40px ;border-bottom: dotted 1px #e2e2e2">
+        <div class='pull-left' >
+            <ul class='breadcrumb'>
+
+
+                <li class='active'><h3>商品</h3></li>
+
+
+                <li class='separator'>
+                    <i class='icon-angle-right'></i>
+                </li>
+                <li class='active'>商品模型</li>
+
+
+
+
+
+            </ul>
+        </div>
+    </div>
+
+    <div class='span12'>
+
+
+    <div class='box-content'>
+        <form accept-charset="UTF-8" action="{:url('Goodstype/addgoodstype')}" class="form form-horizontal" method="post" style="margin-bottom: 0;" />
+        <!--<form id="data" class="form form-horizontal" method="get" style="margin-bottom: 0;" enctype="multipart/form-data"/>-->
+
+
+            <div class='control-group' style="padding-top: 15px;">
+                <label class='control-label' for='type_name'><span style="color: red">*</span>模型名称</label>
+                <div class='controls'>
+                    <input name="type_name" id="type_name" type='text' />
+                </div>
+            </div>
+
+
+
+
+            <!--<div class='form-actions' id="submit">-->
+                 <!--<div class='btn btn-primary'  >-->
+                    <!--<i class='icon-save'></i>-->
+                    <!--确认提交-->
+                <!--</div>-->
+
+                <input class='btn btn-primary' type="submit" value="确认提交"></input>
+
+            </div>
+        </form>
+    </div>
+</div>
+</div>
+
+</block>

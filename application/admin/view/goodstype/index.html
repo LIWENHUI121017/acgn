@@ -1,0 +1,258 @@
+<extend name="Public/layout"/>
+<block name="head"><title>商品模型</title>
+<style>
+    .td-word{
+        color: #555;
+        font-size: 12px;
+    }
+    .ok-icon {
+        font-size: 16px;
+        color: #1BBC9D;
+    }
+    .notok-icon {
+        font-size: 16px;
+        color:#9ea3a7;
+    }
+    .tDiv{
+        background-color: #FAFAFA;
+        border-top: 1px solid #C8C8C8;
+        border-bottom: 1px solid #D7D7D7;
+        position: relative;
+        z-index: 3;
+        overflow: hidden;
+    }
+    .tDiv2{
+        font-size: 0;
+        *word-spacing: -1px;
+        padding: 6px 0 6px 6px;
+        float: left;
+        overflow: hidden;
+    }
+    .fbutton{
+        vertical-align: top;
+        letter-spacing: normal;
+        display: inline-block;
+        *display: inline;
+        padding-right: 8px;
+        margin-left: 8px;
+        margin-right: -1px;
+        border-right: dotted 1px #D7D7D7;
+        *zoom: 1;
+        cursor: pointer;
+    }
+    .fbutton a{
+
+        text-decoration: none;
+        blr: expression(this.onFocus=this.blur());
+        font-size: 12px;
+        line-height: 25px;
+        color: #0ba4da;
+        background-color: #FFFFFF;
+        height: 20px;
+        padding: 5px 7px;
+
+        border: solid 1px #3aa8cf;
+        border-radius: 4px;
+    }
+
+    .fbutton a:hover{
+        color: #3aa8cf;
+        background-color: #e7f2f8;
+        text-decoration: none;
+
+    }
+
+</style>
+</block>
+<block name="main">
+<div class='row-fluid'>
+
+    <div class='page-header' style="margin:5px 0px 0px 0px;background-color:#e7f2f8;height: 30px ">
+
+        <div class='pull-left' >
+
+            <ul class='breadcrumb'>
+                <i class='icon-home' style="color: #000000;"></i>
+                <li class='' style="margin-left: 5px;"><a href="{:url('/Admin/Index/index')}" style="color: #4c8fbd">首页</a></li>
+            </ul>
+        </div>
+
+    </div>
+    <div class='page-header' style="margin:5px 0px 0px 0px;background-color:#ffffff;height: 40px ;border-bottom: dotted 1px #e2e2e2">
+        <div class='pull-left' >
+            <ul class='breadcrumb'>
+
+
+                <li class='active'><h3>商品</h3></li>
+
+
+                <li class='separator'>
+                    <i class='icon-angle-right'></i>
+                </li>
+                <li class='active'>商品模型</li>
+
+            </ul>
+        </div>
+    </div>
+
+    <div class="span10"style="height: 40px;">
+
+        <div class='controls '>
+            <div class='input-append pull-right'>
+                <select class="span3">
+                    <option>所有分类</option>
+                </select>
+                <select class="span3">
+                    <option>D--戴尔</option>
+                </select>
+                <select class="span2">
+                    <option>全部</option>
+                </select>
+                <select class="span2">
+                    <option>全部</option>
+                </select>
+                <input class='span3' id='appendedInputButtons1' type='text' />
+                <button class='btn' type='button'>
+                    <i class='icon-search'></i>
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <div class='row-fluid' style="margin-top: 0px">
+        <div class='span12 box bordered-box green-border' style='margin-bottom:0;'>
+
+            <div class='box-content box-no-padding'>
+
+                <div class='scrollable-area'>
+
+                    <table class='table table-bordered table-hover td-word' style='margin-bottom:0;'>
+                        <thead style="background-color: #F5F5F5;">
+                        <tr>
+                            <th>
+                                <input type="checkbox" value="">
+                            </th>
+                            <th>id</th>
+                            <th>模型名称</th>
+                            <th>操作</th>
+
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        <div class="tDiv">
+                            <div class="tDiv2">
+                                <div class="fbutton">
+                                    <a href="{:url('Admin/Goodstype/add')}" onfocus="this.blur();">
+                                                <span>
+                                                    <i class="icon-plus"></i>
+                                                    新增模型
+                                                </span>
+                                    </a>
+                                </div>
+
+                              div>
+                        </div>
+                        <foreach name="typelist" item="v1" key="k1">
+                        <tr>
+                            <td>
+                                <input type="checkbox" value="">
+                            </td>
+                            <td>{$v1.tid}</td>
+
+                            <td>{$v1.type_name}  </td>
+
+                            <td>
+
+                                <a class="btn-success btn" href="{:url('Admin/Goodstype/change',array('id'=>$v1.tid))}">修改</a>
+                                <a id="delete1" href="{:url('Admin/Goodstype/deletetypename',array('id'=>$v1.tid))}" class="btn-danger btn">删除</a>
+                            </td>
+                        </tr>
+
+                        </foreach>
+
+                        </tbody>
+
+                    </table>
+                </div>
+
+
+
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(document).on("click",'#delete1',function() {
+        var a = confirm('是否删除该商品？');
+        if (a==true){
+
+            // $.ajax({
+            //     type:'post',
+            //     async:false,
+            //     dataType:'json',
+            //     data:{id:id},
+            //     url:"{:url('Admin/Goods/deletegoods')}",
+            //     success: function(data) {
+            //         layer.alert(data.msg)
+            //         window.location.reload();
+            //     }
+            // })
+        }else {
+            return false;
+        }
+
+    })
+    $(document).on("click",'#delete2',function() {
+        var a = confirm('是否删除该商品？');
+        if (a==true){
+            var id = $("delete2").parents('tr')[0];
+            console.log(id);
+            // $.ajax({
+            //     type:'post',
+            //     async:false,
+            //     dataType:'json',
+            //     data:{id:id},
+            //     url:"{:url('Admin/Goods/deletegoods')}",
+            //     success: function(data) {
+            //         layer.alert(data.msg)
+            //         window.location.reload();
+            //     }
+            // })
+        }else {
+            return false;
+        }
+
+    })
+    $(document).on("click",'#delete3',function() {
+        var a = confirm('是否删除该商品？');
+        if (a==true){
+            var id = $("delete3").parents('tr')[0];
+            console.log(id);
+            // $.ajax({
+            //     type:'post',
+            //     async:false,
+            //     dataType:'json',
+            //     data:{id:id},
+            //     url:"{:url('Admin/Goods/deletegoods')}",
+            //     success: function(data) {
+            //         layer.alert(data.msg)
+            //         window.location.reload();
+            //     }
+            // })
+        }else {
+            return false;
+        }
+
+    })
+
+</script>
+</block>
+
+
+

@@ -1,0 +1,85 @@
+.box-content{
+
+}
+.page-header .subject {
+    vertical-align: bottom;
+    display: inline-block;
+    *display: inline;
+    *zoom: 1;
+    min-width: 190px;
+    height: 26px;
+    padding: 6px 0;
+    margin-right: 10px;
+    padding-top: 14px;
+}
+.page-header .subject >ul >li{
+    list-style-image: none;
+    list-style-type: none;
+    float: left;
+    height: 35px;
+    margin-right: 2px;
+    font-size: 12px;
+    vertical-align: top;
+    letter-spacing: normal;
+    display: inline-block!important;
+    *display: inline;
+    *zoom: 1;
+}
+.subject a.current, .subject a:active, .subject a:hover.current {
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    background-color: #FFF !important;
+    border-bottom-color: #FFF !important;
+    cursor: default !important;
+    text-decoration: none;
+}
+.subject a:hover{
+    line-height: 20px !important;
+    color: black !important;
+    background-color: #E6E6E6 !important;
+    display: block;
+!important height: 20px !important;
+    padding: 7px 20px !important;
+    border: solid 1px #E6E6E6 !important;
+    border-radius: 5px 5px 0 0 !important;
+    cursor: pointer;
+    color: #3b639f;
+    text-decoration: none;
+!important: ;
+}
+.subject a {
+    line-height: 20px !important;
+    color: #777 !important;
+    background-color: #E6E6E6 !important;
+    display: block;
+!important height: 20px !important;
+    padding: 7px 20px !important;
+    border: solid 1px #E6E6E6 !important;
+    border-radius: 5px 5px 0 0 !important;
+    cursor: pointer;
+    color: #3b639f;
+    text-decoration: none;
+!important: ;
+}
+.tab-pane {
+    margin-right: 20px;
+    line-height: 20px;
+
+}
+
+.row .table-bordered td {
+    padding: 8px;
+    line-height: 1.42857143;
+}
+.tab-spec{
+    float: left;
+    position: relative;
+    left:0;
+    width: 70%;
+}
+.tab-attr{
+    float: left;
+    position: relative;
+    left:0;
+    width: 30%;
+}

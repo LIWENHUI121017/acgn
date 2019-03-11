@@ -1,0 +1,357 @@
+body, html {
+    font-size: 12px;
+    color: #222;
+    font-family: Microsoft Yahei,Hiragino Sans GB,Heiti SC,WenQuanYi Micro Hei,sans-serif!important;
+}
+.buyticket {
+    background: #fff;
+    width: 100%;
+    padding-bottom: 58px;
+}
+.bread-wrapper {
+    width: 1160px;
+    margin: auto;
+    background: #fff;
+    padding: 10px;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: center;
+    align-items: center;
+}
+.whole-detail-info-wrapper {
+    background: #fff;
+    width: 1160px;
+    margin: auto;
+    display: -ms-flexbox;
+    display: flex;
+}
+
+.whole-detail-info-wrapper .detail-img-icon {
+    margin-right: 20px;
+    width: 300px;
+    height: 400px;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    box-shadow: 0 1px 2px 0 rgba(0,0,0,.5), 0 4px 8px 0 rgba(0,0,0,.4);
+    border-radius: 4px;
+}
+.whole-detail-info-wrapper .detail-info-wrapper {
+    width: 840px;
+}
+.whole-detail-info-wrapper .detail-info-wrapper .product-info-name {
+    font-size: 18px;
+}
+.product-info-time-wrapper {
+    margin-top: 30px;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: center;
+    align-items: center;
+}
+.product-info-time-wrapper .product-info-time-title {
+    font-size: 14px;
+    color: #99a2aa;
+    line-height: 14px;
+    margin-right: 15px;
+}
+.product-info-time-wrapper .product-info-time {
+    font-size: 14px;
+    color: #222;
+    line-height: 14px;
+}
+
+.whole-detail-info-wrapper .detail-info-wrapper .vuene-wrapper {
+    padding-bottom: 8px;
+    margin-top: 10px;
+    -ms-flex-align: center;
+    align-items: center;
+    display: -ms-flexbox;
+    display: flex;
+    border-bottom: 1px dashed #e7ecf1;
+}
+.whole-detail-info-wrapper .detail-info-wrapper .vuene-wrapper .title {
+    line-height: 38px;
+    font-size: 14px;
+    color: #99a2aa;
+    margin-right: 15px;
+}
+.whole-detail-info-wrapper .detail-info-wrapper .vuene-wrapper .vuene-info-content {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: center;
+    align-items: center;
+}
+.whole-detail-info-wrapper .detail-info-wrapper .vuene-wrapper .vuene-info-content .vuene-name {
+    font-size: 14px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-width: 430px;
+}
+.whole-detail-info-wrapper .detail-info-wrapper .vuene-wrapper .vuene-info-content .address-name {
+    margin-right: 5px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    margin-left: 10px;
+    font-size: 12px;
+    color: #99a2aa;
+    line-height: 14px;
+    max-width: 250px;
+}
+
+.whole-detail-info-wrapper .detail-info-wrapper .clearfix.mr4 {
+    margin-top: 14px;
+}
+.whole-detail-info-wrapper .detail-info-wrapper .clearfix {
+    margin-top: 10px;
+    display: -ms-flexbox;
+    display: flex;
+}
+.whole-detail-info-wrapper .detail-info-wrapper .clearfix .title {
+    line-height: 38px;
+    font-size: 14px;
+    color: #99a2aa;
+    margin-right: 15px;
+}
+.selectable-option {
+    display: inline-block;
+    position: relative;
+    height: 38px;
+    line-height: 38px;
+    text-align: center;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    padding: 0 30px;
+    border: 1px solid #ccd0d7;
+    border-radius: 4px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    cursor: pointer;
+}
+.selectable-option.active:before {
+    display: inline-block;
+    position: absolute;
+    content: "";
+    font-size: 0;
+    line-height: 0;
+    width: 6px;
+    height: 4px;
+    right: 1px;
+    bottom: 3px;
+    border: 1px solid #fff;
+    border-width: 0 0 2px 2px;
+    transform: rotate(-43deg);
+    z-index: 10;
+}
+.selectable-option.active {
+    height: 38px;
+    line-height: 38px;
+    color: #f25d8e;
+    border: 1px solid #f25d8e;
+    box-shadow: inset 0 0 0 1px #f25d8e;
+}
+.selectable-option.unable {
+    color: #b8c0cc;
+    border-color: #e5e9ef;
+    background-color: #f4f5f7;
+    cursor: not-allowed;
+}
+
+
+
+.num-content{
+    width: 300px;
+}
+
+.ticket-count {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: center;
+    align-items: center;
+    height: 38px;
+    border-radius: 3px;
+    border: 1px solid #ccd0d7;
+    width: 158px;
+    line-height: 38px;
+    float: left;
+}
+.ticket-count .count-reduce {
+    margin-left: 13px;
+    width: 14px;
+    height: 14px;
+    cursor: pointer;
+    font-size: 25px;
+    padding-bottom: 25px;
+
+}
+.ticket-count .count-number {
+    -ms-flex: 1;
+    flex: 1;
+    width: 1.44rem;
+    height: 1.013rem;
+    line-height: 1.013rem;
+    left: 1.013rem;
+    text-align: center;
+}
+.ticket-count .count-plus {
+    margin-right: 13px;
+    position: relative;
+    right: 0;
+    padding-bottom: 25px;
+    width: 14px;
+    height: 14px;
+    font-size: 25px;
+    cursor: pointer;
+}
+.whole-detail-info-wrapper .product-buy-wrapper {
+    margin-left: 57px;
+    margin-top: 30px;
+    display: -ms-flexbox;
+    display: flex;
+}
+.buyticket .product-buy {
+    width: 240px;
+    height: 50px;
+    text-align: center;
+    font-size: 16px;
+    line-height: 50px;
+    border-radius: 3px;
+    cursor: pointer;
+    background: #e4eaef;
+    color: #99a2aa;
+}
+
+.buyticket .product-buy.enable {
+    color: #fff;
+    background-image: linear-gradient(-48deg,#ff6a9c,#fe8574);
+    box-shadow: 0 3px 4px 0 #fdb8cc;
+}
+.buyticket .product-buy.enable {
+    color: #fff;
+    background-image: linear-gradient(-48deg,#ff6a9c,#fe8574);
+    box-shadow: 0 3px 4px 0 #fdb8cc;
+}
+.buyticket .product-buy.buy_button.unable{
+    color: #b8c0cc;
+    border-color: #e5e9ef;
+    background-color: #f4f5f7;
+    cursor: not-allowed;
+}
+.buyticket .product-buy.buy_car.unable{
+    color: #b8c0cc;
+    border-color: #e5e9ef;
+    background-color: #f4f5f7;
+    cursor: not-allowed;
+}
+.whole-detail-info-wrapper .product-buy-wrapper .want-wrapper {
+    width: 240px;
+    height: 50px;
+    margin-left: 17px;
+}
+.whole-detail-info-wrapper .product-buy-wrapper .want-wrapper .want-content {
+    position: relative;
+}
+.whole-detail-info-wrapper .product-buy-wrapper .want-wrapper .want-content p {
+    font-size: 12px;
+    line-height: 50px;
+    color: #212121;
+    cursor: default;
+}
+
+.ticket-system-container {
+    width: 1160px;
+    margin: 0 auto;
+}
+.tabs-wrapper .tabs {
+    display: -ms-flexbox;
+    display: flex;
+    margin-top: 20px;
+    line-height: 50px;
+}
+.tabs-wrapper {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    z-index: 9;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    height: 50px;
+    background: #fff;
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,.1);
+    border-radius: 4px;
+}
+
+.tabs-wrapper .tabs .tabs-item.active {
+    color: #f25c8e;
+}
+.tabs-wrapper .tabs .tabs-item.active:before {
+    left: 50%;
+    transform: translate(-50%);
+    position: absolute;
+    content: "";
+    top: 45px;
+    width: 30px;
+    height: 3px;
+    background: #f25c8e;
+    border-radius: 4px;
+}
+.tabs-wrapper .tabs .tabs-item {
+    position: relative;
+    cursor: pointer;
+    font-size: 14px;
+    width: 140px;
+    text-align: center;
+}
+
+.activity-info {
+    line-height: 20px;
+    font-size: 14px;
+    overflow: hidden;
+    background: #fff;
+    cursor: auto;
+    display: inline-block;
+    width: 850px;
+    padding: 20px;
+    margin-top: 10px;
+    border: 1px solid #e7ecf1;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+.detail-content-wrapper {
+    display: flex;
+    width: 1160px;
+    margin: 0 auto;
+}
+.detail-content {
+    width: 850px;
+    box-sizing: border-box;
+}
+
+.recommend-wrapper {
+    margin-top: 10px;
+    width: 290px;
+    box-sizing: border-box;
+    margin-left: 20px;
+}
+.ticket-tips-wrapper .ticket-tips {
+    margin-bottom: 10px;
+    border: 1px solid #e7ecf1;
+    border-radius: 4px;
+    padding: 0 20px;
+    background: #fff;
+}
+.ticket-tips-wrapper .ticket-tips-header {
+    padding: 20px 0;
+    font-size: 16px;
+    color: #212121;
+    line-height: 16px;
+}
+.ticket-tips-wrapper .ticket-tips-content {
+    padding-bottom: 20px;
+    line-height: 20px;
+}

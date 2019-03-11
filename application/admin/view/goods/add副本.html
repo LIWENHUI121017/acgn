@@ -1,0 +1,262 @@
+{extend name="Public/layout"/}
+{block name="head"}
+<title>首页</title>
+<style>
+    .control-label{font-size: 13px;
+        color: #6B6B6B;}
+   .controls input{width: 300px;}
+
+</style>
+{/block}
+
+{block name="main"}
+<div class="row-fluid">
+    <div class='page-header' style="margin:5px 0px 0px 0px;background-color:#e7f2f8;height: 30px ">
+
+        <div class='pull-left' >
+
+            <ul class='breadcrumb'>
+                <i class='icon-home' style="color: #000000;"></i>
+                <li class='' style="margin-left: 5px;"><a href="{:url('/Admin/Index/index')}" style="color: #4c8fbd">首页</a></li>
+            </ul>
+        </div>
+
+    </div>
+    <div class='page-header' style="margin:5px 0px 0px 0px;background-color:#ffffff;height: 40px ;border-bottom: dotted 1px #e2e2e2">
+        <div class='pull-left' >
+            <ul class='breadcrumb'>
+
+
+                <li class='active'><h3>商品</h3></li>
+
+
+                <li class='separator'>
+                    <i class='icon-angle-right'></i>
+                </li>
+                <li class='active'>添加商品</li>
+
+            </ul>
+        </div>
+    </div>
+
+    <div class='span12'>
+
+
+    <div class='box-content'>
+        <form accept-charset="UTF-8" action="#" class="form form-horizontal" method="post" style="margin-bottom: 0;" />
+        <div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="authenticity_token" type="hidden" value="CFC7d00LWKQsSahRqsfD+e/mHLqbaVIXBvlBGe/KP+I=" /></div>
+
+        <div class='control-group'>
+            <label class='control-label' for='inputText1'>商品名称</label>
+            <div class='controls'>
+                <input style="border-radius: 10px"  name="name" type='text' />
+            </div>
+        </div>
+
+        <div class='control-group'>
+            <label class='control-label' for='inputTextArea1'>商品简介</label>
+            <div class='controls'>
+                <textarea id='inputTextArea1' name="summary"  rows='2' style="resize: vertical;width: 300px"></textarea>
+            </div>
+        </div>
+
+        <div class='control-group'>
+            <label class='control-label' for='inputText1'>商品库存</label>
+            <div class='controls'>
+                <input id='inputText1' name="stock" type='text' style="border-radius: 50px;"/>
+            </div>
+        </div>
+        <div class='control-group'>
+            <label class='control-label' for='inputText1'>本店售价</label>
+            <div class='controls'>
+                <input id='inputText2' name="price" type='text' />
+            </div>
+        </div>
+        <hr class='hr-normal' />
+        <div class='control-group'>
+            <label class='control-label' for='inputText1'>折扣</label>
+            <div class='controls'>
+                <input id='inputText2' name="discount" type='text' />
+            </div>
+        </div>
+        <div class='control-group'>
+            <label class='control-label' for='inputText1'>本店售价</label>
+            <div class='controls'>
+                <input id='inputText2' type='text' />
+            </div>
+        </div>
+        <div class='control-group'>
+            <label class='control-label' for='inputText1'>本店售价</label>
+            <div class='controls'>
+                <input id='inputText2' type='text' />
+            </div>
+        </div>
+
+        <div class='control-group'>
+            <label class='control-label' for='inputText1'>简单描述</label>
+            <div class='controls'>
+                <input id='inputText2' type='text' />
+            </div>
+        </div>
+
+        <div class='control-group'>
+            <label class='control-label' for='inputText1'>商品详情描述</label>
+            <div class='controls'>
+                <input id='inputText2' type='text' />
+            </div>
+        </div>
+
+        <div class='control-group'>
+            <label class='control-label'>Uneditable input</label>
+            <div class='controls'>
+                <span class='input-xlarge uneditable-input'>Some value here</span>
+            </div>
+        </div>
+        <div class='control-group'>
+            <label class='control-label' for='disabledInput1'>Disabled input</label>
+            <div class='controls'>
+                <input class='input-xlarge' disabled='' id='disabledInput1' placeholder='Disabled input here...' type='text' />
+            </div>
+        </div>
+        <hr class='hr-normal' />
+        <div class='control-group'>
+            <label class='control-label'>Checkboxes</label>
+            <div class='controls'>
+                <label class='checkbox'>
+                    <input type='checkbox' value='' />
+                    Culpa ea.
+                </label>
+                <label class='checkbox'>
+                    <input type='checkbox' value='' />
+                    Et dolorum et dolores consequuntur enim deleniti molestiae qui quam.
+                </label>
+                <label class='checkbox'>
+                    <input type='checkbox' value='' />
+                    Nostrum provident molestias optio quia vel non eius possimus aut ut ducimus.
+                </label>
+            </div>
+        </div>
+        <div class='control-group'>
+            <label class='control-label' for='inputPassword4'>Password field</label>
+            <div class='controls'>
+                <input id='inputPassword4' placeholder='Password field' type='password' value='Top secret!' />
+            </div>
+        </div>
+        <div class='control-group'>
+            <label class='control-label'>Inline checkboxes</label>
+            <div class='controls'>
+                <label class='checkbox inline'>
+                    <input type='checkbox' value='' />
+                    Magni
+                </label>
+                <label class='checkbox inline'>
+                    <input type='checkbox' value='' />
+                    Explicabo
+                </label>
+                <label class='checkbox inline'>
+                    <input type='checkbox' value='' />
+                    Odit
+                </label>
+            </div>
+        </div>
+        <hr class='hr-normal' />
+        <div class='control-group'>
+            <label class='control-label'>Radios</label>
+            <div class='controls'>
+                <label class='radio'>
+                    <input type='radio' value='' />
+                    Doloribus omnis est explicabo dignissimos necessitatibus molestiae est expedita possimus sit natus exercitationem.
+                </label>
+                <label class='radio'>
+                    <input type='radio' value='' />
+                    Beatae quae recusandae dolor esse fugiat est harum culpa.
+                </label>
+                <label class='radio'>
+                    <input type='radio' value='' />
+                    Aut sapiente autem facere sint adipisci officiis voluptatem.
+                </label>
+            </div>
+        </div>
+        <div class='control-group'>
+            <label class='control-label'>Inline radios</label>
+            <div class='controls'>
+                <label class='radio inline'>
+                    <input type='radio' value='' />
+                    Vitae
+                </label>
+                <label class='radio inline'>
+                    <input type='radio' value='' />
+                    Ratione
+                </label>
+                <label class='radio inline'>
+                    <input type='radio' value='' />
+                    Sit
+                </label>
+            </div>
+        </div>
+        <hr class='hr-normal' />
+        <div class='control-group'>
+            <label class='control-label' for='inputSelect'>Select</label>
+            <div class='controls'>
+                <select id='inputSelect'>
+                    <option />1
+                    <option />2
+                    <option />3
+                    <option />4
+                    <option />5
+                </select>
+            </div>
+        </div>
+        <div class='control-group'>
+            <label class='control-label' for='inputSelectMulti'>Multiple select</label>
+            <div class='controls'>
+                <select id='inputSelectMulti' multiple='multiple'>
+                    <option />1
+                    <option />2
+                    <option />3
+                    <option />4
+                    <option />5
+                </select>
+            </div>
+        </div>
+        <hr class='hr-normal' />
+        <div class='control-group warning'>
+            <label class='control-label' for='inputWarning'>Input with warning</label>
+            <div class='controls'>
+                <input id='inputWarning' type='text' />
+                <span class='help-inline'>Something may have gone wrong</span>
+            </div>
+        </div>
+        <div class='control-group error'>
+            <label class='control-label' for='inputError'>Input with error</label>
+            <div class='controls'>
+                <input id='inputError' type='text' />
+                <span class='help-inline'>Please correct the error</span>
+            </div>
+        </div>
+        <div class='control-group info'>
+            <label class='control-label' for='inputInfo'>Input with info</label>
+            <div class='controls'>
+                <input id='inputInfo' type='text' />
+                <span class='help-inline'>Username is already taken</span>
+            </div>
+        </div>
+        <div class='control-group success'>
+            <label class='control-label' for='inputSuccess'>Input with success</label>
+            <div class='controls'>
+                <input id='inputSuccess' type='text' />
+                <span class='help-inline'>Woohoo!</span>
+            </div>
+        </div>
+        <div class='form-actions'>
+            <button class='btn btn-primary' type='submit'>
+                <i class='icon-save'></i>
+                Save
+            </button>
+            <button class='btn' type='submit'>Cancel</button>
+        </div>
+        </form>
+    </div>
+</div>
+</div>
+{/block}
