@@ -87,6 +87,9 @@ em {
 	z-index: 200;
 	background: rgba(0,0,0,.5);
 }
+.to-pay-tip .modal-body{
+	height: 400px;
+}
 .balance-pay .modal-body{
 	position: fixed;
 	left: 50%;
@@ -97,6 +100,10 @@ em {
 	background: #fff;
 	border-radius: 2px;
 	transform: translate(-50%,-50%);
+}
+.balance-pay .modal-body input{
+	margin-bottom: 10px;
+	margin-top: 10px;
 }
 .balance-pay .close{
 	position: absolute;
@@ -294,7 +301,9 @@ em {
 	color:#4e85fc
 }
 .pay-tip {
-	background:url("http://s1.mi.com/zt/2013//payment-mitu.jpg") no-repeat 70px 20px
+	background:url("http://s1.mi.com/zt/2013//payment-mitu.jpg") no-repeat 70px 20px;
+	height:300px;
+	margin-top: 50px;
 }
 .pay-tip a {
 	color:#ee330a

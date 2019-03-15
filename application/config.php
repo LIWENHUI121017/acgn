@@ -142,7 +142,7 @@ return [
     'view_replace_str'	=>	[
         '__PUBLIC__'=>'/public',
         '__ROOT__'	=>	'/',
-        '__STATIC__'	=>	'/public/static/',
+        '__STATIC__'	=>	'/public/statics',
     ],
     // 默认跳转页面对应的模板文件
     'dispatch_success_tmpl'  => THINK_PATH . 'tpl' . DS . 'dispatch_jump.tpl',

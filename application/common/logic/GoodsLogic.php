@@ -8,6 +8,9 @@ use think\Db;
 use think\Session;
 
 class GoodsLogic extends My_Logic{
+    public function __construct(){
+        $this->table = 'Goods';
+    }
     //首页热门
     public function getlist(){
         $hot_goods = $cateList = array();

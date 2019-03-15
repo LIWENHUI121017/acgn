@@ -101,7 +101,7 @@ $(function(){
             $.ajax({
                 type: "POST",
                 url: "/Index/User/sendreg",
-                data: {'phone':$('input[name="phone"]').val()},
+                data: {'phone':$('input[name="phone"]').val(),'status':1},
                 async: false,
                 dataType:'json',
                 success: function(data){

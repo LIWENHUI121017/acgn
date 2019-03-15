@@ -5,54 +5,10 @@
 <title>订单支付</title>
         <!--<link href="__PUBLIC__/static/css/order/public.css" type="text/css" rel="stylesheet"/>-->
     <link rel="stylesheet" type="text/css" href="__PUBLIC__/static/css/index.css"/>
-        <link rel="stylesheet" type="text/css" href="__PUBLIC__/static/css/order/base.css"/>
-        <link rel="stylesheet" type="text/css" href="__PUBLIC__/static/css/order/buyConfirm.css" />
-		<script src="__PUBLIC__/static/js/jquery/jquery.min.js" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/static/css/order/buyConfirm.css" />
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/static/css/order/base.css"/>
+    <script src="__PUBLIC__/static/js/jquery/jquery.min.js" type="text/javascript"></script>
     <link rel="stylesheet" href="__PUBLIC__/static/css/base.css" type="text/css">
-<script type="text/javascript">
-
-window.onload = function(){
-new tab('test4-input-input_tab1-input_tab2', '-');
-}
-function tab(o, s, cb, ev){ //tab换类
-var $ = function(o){return document.getElementById(o)};
-var css = o.split((s||'_'));
-if(css.length!=4)return;
-this.event = ev || 'onclick';
-o = $(o);
-if(o){
-this.ITEM = [];
-o.id = css[0];
-var item = o.getElementsByTagName(css[1]);
-var j=1;
-for(var i=0;i<item.length;i++){
-if(item[i].className.indexOf(css[2])>=0 || item[i].className.indexOf(css[3])>=0){
-if(item[i].className == css[2])o['cur'] = item[i];
-item[i].callBack = cb||function(){};
-item[i]['css'] = css;
-item[i]['link'] = o;
-this.ITEM[j] = item[i];
-item[i]['Index'] = j++;
-item[i][this.event] = this.ACTIVE;
-}
-}
-return o;
-}
-}
-tab.prototype = {
-ACTIVE:function(){
-var $ = function(o){return document.getElementById(o)};
-this['link']['cur'].className = this['css'][3];
-this.className = this['css'][2];
-try{
-$(this['link']['id']+'_'+this['link']['cur']['Index']).style.display = 'none';
-$(this['link']['id']+'_'+this['Index']).style.display = 'block';
-}catch(e){}
-this.callBack.call(this);
-this['link']['cur'] = this;
-}
-}
-</script>
 </head>
 
 <body>
@@ -66,6 +22,7 @@ this['link']['cur'] = this;
 
         <div class="container payment-con">
     <form  id="pay-form" method="post">
+        <input type="hidden" name="orderid" value="{$order.id}"/>
             <div class="order-info">
                 <div class="msg">
                     <h3>您的订单已提交成功！请您尽快付款！</h3>
@@ -91,7 +48,7 @@ this['link']['cur'] = this;
             </div>
             
             <div class="xm-plain-box">
-                                                <!-- 选择支付方式 -->
+                <!-- 选择支付方式 -->
                 <div class="box-hd bank-title clearfix">
                     <div id="titleWrap" class="title-wrap">
                         <h2 class="title">选择支付方式</h2>
@@ -126,12 +83,6 @@ this['link']['cur'] = this;
                              </fieldset>
                         </dd>
                         </dl>
-
-
-                        
-
-                                                
-                                                
                     </div>
                             </div>
             <div class="box-ft clearfix">
@@ -142,20 +93,10 @@ this['link']['cur'] = this;
     </form>
 </div>
 <!-- 支付弹框 -->
-<div class="modal hide  to-pay-tip" id="toPayTip">
-    <div class="modal-header">
-        <span class="close" id="toPayTipClose">
-            <i class="iconfont">&#xe617;</i>
-        </span>
-        <h3>正在支付...</h3>
-    </div>
-    <div class="modal-body">
+<div class="modal hidden  to-pay-tip" id="toPayTip">
+    <div class="modal-body" style="display: none;">
+        <div class="close"></div>
         <div class="pay-tip clearfix">
-            <div class="fail">
-                <h4>如果支付失败...</h4>
-                <p>额度问题，推荐<a href="#" id="alipayTrigger">支付宝快捷支付 &gt;</a></p>
-                <p>其他问题，查看<a href="#">支付常见问题 &gt;</a></p>
-            </div>
             <div class="success">
                 <h4>支付成功了</h4>
                 <p>立即查看<a href="#" target="_blank">订单详情 &gt;</a></p>
@@ -168,20 +109,32 @@ this['link']['cur'] = this;
     <div class="shadow">
         <div class="modal-body" style="display: none;">
             <div class="close"></div>
-            <h3>付款金额：<span class="num"><em id="useCashAccountPayLeft">{$order.order_amount}</em>元</span></h3>
-            <p id="checkCodeTip">您的账户余额：<span class="num"><em style="color: red;font-size: 14px;">{$user.user_money}</em>元</span></p>
-           <if condition="$user.user_pwd eq ''">
-               <input type="password" name="paypwd" id="paypwd" class="input" placeholder="请输入支付密码">
+            <if condition="$user.paypwd neq ''">
+                <h3>付款金额：<span class="num"><em id="useCashAccountPayLeft">{$order.order_amount}</em>元</span></h3>
+                <p id="checkCodeTip">您的账户余额：<span class="num"><em style="color: red;font-size: 14px;">{$user.user_money}</em>元</span></p>
+                <input type="hidden" name="status" value="1"/>
+                <input type="password" name="Newpaypwd[first]" maxlength="6" oninput = "value=value.replace(/[^\d]/g,'')" id="paypwd" class="input" placeholder="请输入支付密码">
                <span class="send-again" id="forgetpwd">忘记支付密码<em></em></span>
-               <else/>
-               <h4 style="margin-top: 5px;">你还没设置支付密码</p>
-               <input type="password" name="Newpaypwd[first]"  class="input" placeholder="请输入支付密码">
-               <input type="password" name="Newpaypwd[second]"  class="input" placeholder="请再次输入支付密码">
-               <input type="number" name="phone"  class="input" placeholder="请输入接收短信的手机号">
-               <span class="send-again" id="sendAgain">发送手机验证码<em></em></span>
+                <p><input type="button" value="确认支付" class="btn btn-primary" id="toPay">
+                <else/>
+
+               <h4 style="margin-top: 5px;">你还没设置支付密码</h4>
+               <input type="password" name="Newpaypwd[first]" maxlength="6" oninput = "value=value.replace(/[^\d]/g,'')" class="input" placeholder="请输入6位纯数字支付密码">
+               <span class="red" style="font-size: 13px" id="paypwdfirstcheck"><em></em></span>
+               <input type="password" name="Newpaypwd[second]"  maxlength="6" oninput = "value=value.replace(/[^\d]/g,'')" class="input" placeholder="请再次输入支付密码">
+               <span class="red" style="font-size: 13px" id="paypwdcheck"><em></em></span>
+                   <if condition="$user.user_phone eq ''">
+                       <h4 style="margin-top: 5px;">你还没绑定手机号码</h4>
+                       <input type="hidden" name="status" value="2"/>
+                       <input type="text" name="phone" maxlength="11" oninput = "value=value.replace(/[^\d]/g,'')"  class="input" placeholder="请输入接收短信的手机号">
+                       <span class="send-again" id="sendmessage">发送手机验证码<em></em></span>
+                       <input type="text" name="code"  maxlength="4" oninput = "value=value.replace(/[^\d]/g,'')"  id="code" class="input" placeholder="请输入验证码">
+
+                   </if>
+                <p><input type="button" value="提交" class="btn btn-primary" id="toPay">
            </if>
 
-            <p><input type="button" value="确认支付" class="btn btn-primary" id="toPay">
+
 
         </div>
     </div>
@@ -194,14 +147,32 @@ this['link']['cur'] = this;
 </div>
 
 <include file="public/footer"/>
-    
-    
-name=list[de]
 
 </body>
 <script type="text/javascript">
+   //判断支付密码输入
+       $("input[name='Newpaypwd[first]']").blur(function () {
+           var pwdfirst =  $(this).val().trim();
+           if(pwdfirst.length!=6){
+               $('#paypwdfirstcheck').html('请输入6位支付密码!');
+           }else {
+               $('#paypwdfirstcheck').html('');
+           }
+       })
 
-    //默认让每种规格第一个选中
+       $("input[name='Newpaypwd[second]']").blur(function () {
+           var pwdfirst = $("input[name='Newpaypwd[first]']").val();
+           var pwdsecond = $("input[name='Newpaypwd[second]']").val();
+           if (pwdfirst!=pwdsecond){
+               $('#paypwdcheck').html('两次输入的密码必须相同!');
+           }else {
+               $('#paypwdcheck').html('');
+           }
+
+       })
+
+
+    //默认让支付方式第一个选中
     function initFirstPaytype() {
         $('#paytype').each(function (i, o) {
             var firstPayRadio = $(this).find("input[type='radio']").eq(0);
@@ -224,5 +195,102 @@ name=list[de]
             $('.modal-body').css('display','block')
         }
     })
+    //点击close关闭弹窗
+    $(document).on('click','.close',function () {
+        $('#balancePay').addClass('modal');
+        $('.modal-body').css('display','none');
+    })
+    //点击发送短信
+    $(document).on('click','#sendmessage',function () {
+        var phone = $(this).siblings("input[name='phone']").val();
+        var status = $(this).siblings("input[name='status']").val();
+        // console.log(status);
+        $.ajax({
+            type: "POST",
+            url: "/Index/User/test",
+            data: {
+                'phone':phone,
+                'status':status
+            },
+            async: false,
+            dataType:'json',
+            success: function(data){
+                if (data.status == 0){
+                    alert( '短信发送次数已达上限，请明天再来！   ' );
+                }
+                if(data.status == 1){
+                    alert( '短信发送成功');
+                }
+                if (data.status == 3){
+                    alert( data.msg );
+                }
+
+            },
+            error : function(XMLHttpRequest, textStatus, errorThrown) {
+                alert("网络失败，请刷新页面后重试!");
+            }
+        });
+    })
+
+    //点击确认支付
+    $(document).on('click','#toPay',function () {
+        var phone = $("input[name='phone']").val();
+        var status = $("input[name='status']").val();
+        var pwdfirst = $("input[name='Newpaypwd[first]']").val();
+        var pwdsecond = $("input[name='Newpaypwd[second]']").val();
+        var code = $("input[name='code']").val();
+        var orderid = $("input[name='orderid']").val();
+        if (status==2){
+            if (pwdfirst!=pwdsecond){
+                $('#paypwdcheck').html('两次输入的密码必须相同!');
+                return false;
+            }else if(pwdfirst==''){
+                $('#paypwdfirstcheck').html('密码不能为空!');
+            }else if(pwdsecond==''){
+                $('#paypwdcheck').html('密码不能为空!');
+            }
+        }
+            $('#paypwdcheck').html('');
+            $('#paypwdfirstcheck').html('');
+                $.ajax({
+                    type: "POST",
+                    url: "/Index/Order/toPay",
+                    data: {
+                        'phone':phone,
+                        'status':status,
+                        'pwdfirst':pwdfirst,
+                        'pwdsecond':pwdsecond,
+                        'code':code,
+                        'orderid':orderid,
+                    },
+                    async: false,
+                    dataType:'json',
+                    success: function(data){
+                        if (data.status == -100){
+                            alert(data.msg);
+                        }
+                        if(data.status == 200){
+                            alert( data.msg);
+                            location.reload();
+                            $('#balancePay').removeClass('modal');
+                            $('.modal-body').css('display','block')
+                        }
+                        if(data.status == 300){
+                            alert( data.msg);
+                            $('#toPayTip').removeClass('hide');
+                           $('.close').trigger('click');
+                        }
+
+
+                    },
+                    error : function(XMLHttpRequest, textStatus, errorThrown) {
+                        alert("网络失败，请刷新页面后重试!");
+                    }
+                });
+
+
+
+    })
+
 </script>
 </html>

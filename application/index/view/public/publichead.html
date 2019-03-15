@@ -1,0 +1,38 @@
+<link rel="stylesheet" href="__PUBLIC__/static/css/user/common.css" />
+<link rel="stylesheet" href="__PUBLIC__/static/css/user/shopsManager.css" />
+<div class="top" style="position: relative; top: 0px; z-index: 999999;">
+    <div class="nav-mask"></div>
+    <div class="c100">
+        <div class="link_01">
+            <ul>
+                <li class="NoBg">
+                    <a style="color: black;">
+                    <img src="__PUBLIC__/static/images/acgn-logo.ico" style="width: 50px;height: 40px;"/>
+                        ACGN 周边商城
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="top_mem top_nm">
+            <div class="loginup">
+                <ul>
+                    <li class="login_txt">
+                        <if condition="$Think.session.user_id eq '' ">
+                                <a href="{:url('User/login')}">登录</a>
+                                <a href="{:url('User/reg')}">注册</a>
+                            <else/>
+                            {$Think.session.nickname}
+                            <a href="{:url('User/logout')}">退出</a>
+                        </if>
+                        <a href="{:url('Index/Index/index')}">首页</a>
+                        <a href="{:url('Index/User/index')}">个人中心</a>
+                        <a href="#">我的订单</a>
+                    </li>
+
+                </ul>
+            </div>
+
+        </div>
+    </div>
+
+</div>

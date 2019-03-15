@@ -30,6 +30,9 @@ class User extends Base
 
     }
 
+    public function index(){
+        return $this->fetch();
+    }
     public function login()
     {
         if($this->user_id > 0){
@@ -135,7 +138,7 @@ class User extends Base
 
     }
 
-    //注册发送短信
+    //发送短信
     public function sendreg(){
         $sms = new SendSms();
         //设置关键的四个配置参数，其实配置参数应该写在公共或者模块下的config配置文件中，然后在获取使用，这里我就直接使用了。
@@ -144,13 +147,20 @@ class User extends Base
         $sms->signName = 'acgn周边商城';
         $sms->templateCode = 'SMS_151576238';
 
-        //$mobile为手机号
-        $phone = input('phone');
-        $check = new UserLogic();
-        $check_phone = $check->checkphone($phone);
-        if (!$check_phone){
-            return json(['status'=>3,'msg'=>'电话已经被使用！']);
+        $status = input('status');
+        //注册操作
+        if ($status==1){
+            //$mobile为手机号
+            $phone = input('phone');
+            $check = new UserLogic();
+            $check_phone = $check->checkphone($phone);
+            if (!$check_phone){
+                return json(['status'=>3,'msg'=>'电话已经被使用！']);
+            }
+        }else{
+            $phone = input('phone');
         }
+
         //模板参数，自定义了随机数，你可以在这里保存在缓存或者cookie等设置有效期以便逻辑发送后用户使用后的逻辑处理
         $code = mt_rand(1000,9999);
         cookie('code',$code,300);
@@ -204,7 +214,9 @@ class User extends Base
 
 
             return json(['status'=> 1,'code'=>$code]);
-//
+
     }
+
+
 }
 

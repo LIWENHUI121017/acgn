@@ -5,9 +5,11 @@ use app\index\controller\User;
 use think\Db;
 use think\Session;
 
-class UserLogic
+class UserLogic extends My_Logic
 {
-
+    public function __construct(){
+        $this->table = 'User';
+    }
     public function login($username,$password){
         $data['user_name'] = $username;
         $data['user_pwd'] = $password;

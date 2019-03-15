@@ -7,38 +7,43 @@ use think\Db;
 class My_Logic{
 
     protected $table;
-    protected $search_field;
+
 
 
     //查询一条数据
-    public function get_one($where = array(),$field = '*',$table){
+    public function get_one($where = array(),$field = '*',$table=''){
         if ($table){
             $res = model($table)->field($field)->where($where)->find();
             if (!empty($res)){
                 $res = $res->toArray();
             }
-//            $res = Db::name($table)->field($field)->where($where)->find();
         }else{
-            $res = model($this->table)->field($field)->where($where)->find()->toArray();
-//            $res = Db::name($this->table)->field($field)->where($where)->find();
+            $res = model($this->table)->field($field)->where($where)->find();
+            if (!empty($res)){
+                $res = $res->toArray();
+            }
         }
         return $res;
     }
 
     //查询多条数据
-    public function get_all($where = array(),$field = '*',$table){
+    public function get_all($where = array(),$field = '*',$table=''){
         if ($table){
-            $res = model($table)->field($field)->where($where)->select()->toArray();
-//            $res = Db::name()->field($field)->where($where)->select();
+            $res = model($table)->field($field)->where($where)->select();
+            if (!empty($res)){
+                $res = $res->toArray();
+            }
         }else{
-            $res = model($this->table)->field($field)->where($where)->select()->toArray();
-//            $res = Db::name($this->table)->field($field)->where($where)->select();
+            $res = model($this->table)->field($field)->where($where)->select();
+            if (!empty($res)){
+                $res = $res->toArray();
+            }
         }
         return $res;
     }
 
     //添加一条数据
-    public function add($data,$table){
+    public function add($data,$table=''){
         if ($table){
             $res = Db::name($table)->insertGetId($data);
         }else{
@@ -48,7 +53,7 @@ class My_Logic{
     }
 
     //添加多条数据
-    public function addall($data,$table){
+    public function addall($data,$table=''){
         if ($table){
             $res = model($table)->saveAll($data);
         }else{
@@ -65,9 +70,15 @@ class My_Logic{
     }
 
     //修改数据
-    public function edit($where = array(),$data){
-        $res = Db::name($this->table)->where($where)->update($data);
-        return $res;
+    public function edit($where = array(),$data,$table=''){
+        if ($table){
+            $res = Db::name($table)->where($where)->update($data);
+            return $res;
+        }else{
+            $res = Db::name($this->table)->where($where)->update($data);
+            return $res;
+        }
+
     }
 
     //查询总数

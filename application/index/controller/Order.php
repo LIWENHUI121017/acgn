@@ -2,7 +2,9 @@
 namespace app\index\controller;
 
 use app\common\logic\CartLogic;
+use app\common\logic\GoodsLogic;
 use app\common\logic\OrderLogic;
+use app\common\logic\UserLogic;
 use phpDocumentor\Reflection\Types\Object_;
 use think\Db;
 use think\Loader;
@@ -124,9 +126,114 @@ class Order extends Base {
         $logic = new OrderLogic();
         $where = ['id'=>$orderid];
         $order = $logic->get_one($where,'*','Order');
+//        dump($order);
         $this->assign('order',$order);
         $this->assign('user',$this->user);
+
         return $this->fetch();
     }
 
+    /**
+     * 付款
+     * @param int $paypwd 支付密码
+     * @param int $paypwdsecond 再次输入的支付密码
+     * @param int $status 判断执行不同操作的状态码
+     * @param int $phone 手机号码
+     * @param int $code 用户输入的验证码
+     * @return array
+     */
+    public function toPay(){
+        $userid=$this->user_id;
+        $user = $this->user;
+        $orderid = input('orderid');
+//        dump($orderid);
+        $status = input('status');
+        $paypwd = input('pwdfirst');
+        $userlogic = new UserLogic();
+        if ($status==2){
+            $paypwdsecond = input('pwdsecond');
+            $code = input('code');
+            $cookiecode = cookie('code');
+            $phone = input('phone');
+            if ($paypwd!=$paypwdsecond){
+                return json(['status'=>-100,'msg'=>'输入的两次密码不一样！']);
+            }
+            if (!$phone){
+                return json(['status'=>-100,'msg'=>'请输入手机号码！']);
+            }
+            if ($code!=$cookiecode){
+                return json(['status'=>-100,'msg'=>'验证码错误！']);
+            }
+            if ($status==2) {//执行新建支付密码和绑定手机号码
+
+                $where = ['id' => $userid];
+                $data = [
+                    'paypwd' => $paypwd,
+                    'user_phone' => $phone,
+                ];
+                $res = $userlogic->edit($where, $data);
+                if ($res) {
+                    return json(['status'=>200,'msg'=>'新建支付密码成功！请重新点击下一步进行支付！']);
+                }
+            }
+
+        }else{
+            $where=['id'=>$userid,'paypwd'=>$paypwd];
+//            dump($paypwd);
+           $res = $userlogic->get_one($where);
+           if ($res){
+               Db::startTrans();
+               try{
+                    //订单状态
+                   $orderlogic = new OrderLogic();
+                   $where=['id'=>$orderid];
+                   $data=['order_status'=>1];
+                   $orderres = $orderlogic->edit($where,$data);
+                   $order=$orderlogic->get_one($where);
+
+                   //订单日志
+                   $where=['order_id'=>$orderid];
+                   $data=['order_status'=>1,'pay_status'=>1,'action_note'=>'支付成功，耐心等候发货!'];
+                   $orderactionres = $orderlogic->edit($where,$data,'order_action');
+
+                   //扣除账号金额
+                   $where=['id'=>$userid];
+                   $money = $user['user_money']-$order['order_amount'];
+//                   dump($money);
+                   $data=['user_money'=>$money];
+                   $useres = $userlogic->edit($where,$data,'User');
+
+                   //商品库存
+                   $where=['order_id'=>$orderid];
+                   $field = 'goods_id,spec_key,goods_num';
+                   $ordergoodsres = $orderlogic->get_all($where,$field,'OrderGoods');
+                   foreach ($ordergoodsres as $k=>$v) {
+                       if ($v['spec_key']==0){
+                           $goodslogic = new GoodsLogic();
+                           $where=['id'=>$v['goods_id']];
+                           $field = 'goods_inventory';
+                           $goods = $goodslogic->get_one($where,$field,'Goods');
+                           $data=['goods_inventory'=>$goods['goods_inventory']-$v['goods_num']];
+                           $res = $goodslogic->edit($where,$data);
+//                           dump($res);
+                       }
+                   }
+
+                   if ($orderres&&$orderactionres&&$useres&&$res){
+                       Db::commit();
+                       return json(['status'=>300,'msg'=>'支付成功！']);
+                   }else{
+                       return json(['status'=>300,'msg'=>'支付失败，请联系管理员！']);
+                   }
+
+               }catch (\PDOException $e){
+                   Db::rollback();
+               }
+
+           }else{
+               return json(['status'=>-100,'msg'=>'支付密码错误！']);
+           }
+        }
+
+    }
 }
