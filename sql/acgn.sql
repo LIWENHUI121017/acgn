@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: 2019-03-11 21:33:05
+-- Generation Time: 2019-03-16 00:06:31
 -- 服务器版本： 5.7.21
 -- PHP Version: 5.6.35
 
@@ -75,7 +75,7 @@ CREATE TABLE IF NOT EXISTS `ji_admin` (
 
 INSERT INTO `ji_admin` (`id`, `admin_name`, `admin_pwd`, `admin_login`, `admin_role`) VALUES
 (1, 'root', '14e1b600b1fd579f47433b88e8d85291', 1550542751, '1'),
-(2, 'admin', '14e1b600b1fd579f47433b88e8d85291', 1552226212, '');
+(2, 'admin', '14e1b600b1fd579f47433b88e8d85291', 1552545539, '');
 
 -- --------------------------------------------------------
 
@@ -218,7 +218,7 @@ CREATE TABLE IF NOT EXISTS `ji_cart` (
   KEY `user_id` (`user_id`),
   KEY `goods_id` (`goods_id`),
   KEY `spec_key` (`spec_key`)
-) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=utf8;
 
 --
 -- 转存表中的数据 `ji_cart`
@@ -227,8 +227,7 @@ CREATE TABLE IF NOT EXISTS `ji_cart` (
 INSERT INTO `ji_cart` (`id`, `user_id`, `session_id`, `goods_id`, `goods_sn`, `goods_name`, `market_price`, `goods_price`, `member_goods_price`, `goods_num`, `item_id`, `spec_key`, `spec_key_name`, `bar_code`, `selected`, `add_time`, `prom_type`, `prom_id`, `sku`, `combination_group_id`) VALUES
 (15, 1, 'k95n8i92k5neqtd9amnb8hv5q3', 11, 'JI0000001', '皮卡丘手办神奇宝贝口袋', '0.00', '22.00', '0.00', 1, 23, '2_4', '玩偶：只有精灵 6款6cm(B)', '', 0, 1548253073, 0, 0, '', 0),
 (27, 0, '0vr4uakn20trqqgcm789ovae57', 1, 'SM0000001', '皮卡丘手办神奇宝贝口袋妖怪扭蛋摆件宠物小精灵合集diy情侣礼物', '0.00', '22.00', '0.00', 21, 1, '1_4', '颜色分类:6款4.5cm(A) 玩偶:只有小精灵', '', 1, 1552135227, 0, 0, '', 0),
-(28, 0, '0vr4uakn20trqqgcm789ovae57', 18, 'JI0000002', '标志LOGO 浴巾 魔兽世界', '0.00', '88.00', '0.00', 1, 0, '0', '0', '', 1, 1552138090, 0, 0, '', 0),
-(43, 1, 'f20oeomlj7skjs9ennqlscsgo4', 11, 'JI0000001', '皮卡丘手办神奇宝贝口袋', '0.00', '39.00', '0.00', 1, 24, '3_4', '颜色分类:12款(A+B) 玩偶:只有小精灵', '', 0, 1552202248, 0, 0, '', 0);
+(28, 0, '0vr4uakn20trqqgcm789ovae57', 18, 'JI0000002', '标志LOGO 浴巾 魔兽世界', '0.00', '88.00', '0.00', 1, 0, '0', '0', '', 1, 1552138090, 0, 0, '', 0);
 
 -- --------------------------------------------------------
 
@@ -262,6 +261,7 @@ CREATE TABLE IF NOT EXISTS `ji_comment` (
 DROP TABLE IF EXISTS `ji_delivery`;
 CREATE TABLE IF NOT EXISTS `ji_delivery` (
   `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `order_id` int(10) UNSIGNED NOT NULL,
   `order_sn` int(11) NOT NULL COMMENT '订单编号',
   `user_id` int(11) UNSIGNED NOT NULL,
   `consignee` varchar(64) NOT NULL COMMENT '收货人',
@@ -275,7 +275,6 @@ CREATE TABLE IF NOT EXISTS `ji_delivery` (
   `create_time` int(11) NOT NULL,
   `is_del` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否删除',
   `admin_id` int(11) UNSIGNED NOT NULL,
-  `order_id` int(10) UNSIGNED NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_ji_delivery_ji_admin1_idx` (`admin_id`),
   KEY `fk_ji_delivery_ji_order1_idx` (`order_id`)
@@ -317,7 +316,7 @@ CREATE TABLE IF NOT EXISTS `ji_goods` (
 
 INSERT INTO `ji_goods` (`id`, `goods_sn`, `goods_name`, `goods_type_id`, `goods_click`, `goods_inventory`, `goods_price`, `original_img`, `is_hot`, `is_on_sale`, `goods_sale`, `goods_startdate`, `goods_enddate`, `goods_abstract`, `goods_desc`, `goods_time`, `goods_sales`, `goods_delete`) VALUES
 (1, 'SM0000001', '皮卡丘手办神奇宝贝口袋妖怪扭蛋摆件宠物小精灵合集diy情侣礼物', 13, 0, 934, '198.00', '/public/static/images/index-goods/pigaqiu/5.jpg', 1, 1, NULL, NULL, NULL, '皮卡丘手办神奇宝贝口袋妖怪扭蛋摆件宠物小精灵合集diy情侣礼物', NULL, 0, 1000, NULL),
-(7, 'JI0000002', '标志LOGO 浴巾 魔兽世界', 10, 0, 99, '88.00', '/public/static/images/index-goods/baoxue/1.png', 1, 1, NULL, NULL, NULL, '感受艾泽拉斯的柔软', NULL, 0, 0, NULL),
+(7, 'JI0000002', '标志LOGO 浴巾 魔兽世界', 10, 0, 98, '88.00', '/public/static/images/index-goods/baoxue/1.png', 1, 1, NULL, NULL, NULL, '感受艾泽拉斯的柔软', NULL, 0, 0, NULL),
 (8, 'JI0000003', '炉石酒馆 鼠标垫', 17, 0, 934, '99.00', '/public/static/images/index-goods/baoxue/4.png', 1, 1, NULL, NULL, NULL, '看看是谁来了！', NULL, 0, 0, NULL),
 (9, 'JI0000004', '项链 身份牌 铭牌 温斯顿 守望先锋', 20, 0, 934, '99.00', '/public/static/images/index-goods/baoxue/3.png', 1, 1, NULL, NULL, NULL, '时尚单品，温斯顿铭牌', NULL, 0, 0, NULL),
 (10, 'FZ0000010', '伊利丹 夜光套头卫衣 魔兽世界', 26, 0, 934, '198.00', '/public/static/images/index-goods/baoxue/2.png', 1, 1, '0.0', NULL, NULL, '', '', 1549114715, 0, NULL),
@@ -579,14 +578,19 @@ CREATE TABLE IF NOT EXISTS `ji_order` (
   KEY `fk_ji_order_ji_pay_type1_idx` (`pay_type_id`),
   KEY `fk_ji_order_ji_user1_idx` (`user_id`),
   KEY `fk_ji_order_ji_shipping1_idx` (`shipping_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
 
 --
 -- 转存表中的数据 `ji_order`
 --
 
 INSERT INTO `ji_order` (`id`, `user_id`, `order_sn`, `admin_id`, `address_id`, `order_status`, `pay_status`, `shipping_status`, `reason`, `pay_type_id`, `shipping_id`, `shipping_price`, `coupon_price`, `total_amount`, `order_amount`, `shipping_time`, `order_time`, `deleted`, `confirm_time`, `user_note`, `admin_note`) VALUES
-(15, 1, '2019031015173915', NULL, 3, 0, 0, 0, NULL, 1, 1, '0.00', '0.00', '169.00', '169.00', 0, 1552202259, 0, 0, 'dsfsafsadfsfsafsadfsa', '');
+(15, 1, '2019031015173915', NULL, 3, 0, 0, 0, NULL, 1, 1, '0.00', '0.00', '169.00', '169.00', 0, 1552202259, 0, 0, 'dsfsafsadfsfsafsadfsa', ''),
+(16, 1, '2019031509395116', NULL, 3, 0, 0, 0, NULL, 1, 1, '0.00', '0.00', '39.00', '39.00', 0, 1552613991, 0, 0, '', ''),
+(17, 1, '2019031510383417', NULL, 3, 0, 0, 0, NULL, 1, 1, '0.00', '0.00', '88.00', '88.00', 0, 1552617514, 0, 0, '', ''),
+(18, 1, '2019031512205918', NULL, 3, 0, 0, 0, NULL, 1, 1, '0.00', '0.00', '176.00', '176.00', 0, 1552623659, 0, 0, '', ''),
+(19, 1, '2019031515482519', NULL, 3, 0, 0, 0, NULL, 1, 1, '0.00', '0.00', '88.00', '88.00', 0, 1552636105, 0, 0, '而对方公司的风格', ''),
+(20, 1, '2019031516073420', NULL, 3, 1, 0, 0, NULL, 1, 1, '0.00', '0.00', '88.00', '88.00', 0, 1552637254, 0, 0, '', '');
 
 -- --------------------------------------------------------
 
@@ -607,14 +611,19 @@ CREATE TABLE IF NOT EXISTS `ji_order_action` (
   `status_desc` varchar(255) DEFAULT NULL COMMENT '状态描述',
   PRIMARY KEY (`action_id`),
   KEY `order_id` (`order_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 --
 -- 转存表中的数据 `ji_order_action`
 --
 
 INSERT INTO `ji_order_action` (`action_id`, `order_id`, `action_user`, `order_status`, `shipping_status`, `pay_status`, `action_note`, `log_time`, `status_desc`) VALUES
-(4, 15, 0, 0, 0, 0, '您提交了订单，请等待系统确认', 1552202259, '提交订单');
+(5, 16, 0, 0, 0, 0, '您提交了订单，请等待系统确认', 1552613991, '提交订单'),
+(4, 15, 0, 0, 0, 0, '您提交了订单，请等待系统确认', 1552202259, '提交订单'),
+(6, 17, 0, 0, 0, 0, '您提交了订单，请等待系统确认', 1552617514, '提交订单'),
+(7, 18, 0, 0, 0, 0, '您提交了订单，请等待系统确认', 1552623659, '提交订单'),
+(8, 19, 0, 0, 0, 0, '您提交了订单，请等待系统确认', 1552636105, '提交订单'),
+(9, 20, 0, 1, 0, 1, '支付成功，耐心等候发货!', 1552637254, '提交订单');
 
 -- --------------------------------------------------------
 
@@ -639,7 +648,7 @@ CREATE TABLE IF NOT EXISTS `ji_order_goods` (
   `prom_type` tinyint(4) NOT NULL COMMENT '0 普通订单,1 限时抢购, 2 团购 , 3 促销优惠,4预售',
   PRIMARY KEY (`id`),
   KEY `fk_ji_order_goods_ji_order1_idx` (`order_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
 
 --
 -- 转存表中的数据 `ji_order_goods`
@@ -648,7 +657,12 @@ CREATE TABLE IF NOT EXISTS `ji_order_goods` (
 INSERT INTO `ji_order_goods` (`id`, `order_id`, `goods_id`, `goods_name`, `goods_sn`, `goods_num`, `spec_key`, `spec_key_name`, `is_comment`, `is_send`, `delivery_id`, `prom_id`, `prom_type`) VALUES
 (13, 15, 7, '标志LOGO 浴巾 魔兽世界', 'JI0000002', 1, '0', '0', 0, 0, 7, 0, 0),
 (14, 15, 11, '皮卡丘手办神奇宝贝口袋', 'JI0000001', 1, '1_5', '小精灵+礼盒礼袋贺卡：6款4.5cm(A)', 0, 0, 11, 0, 0),
-(15, 15, 11, '皮卡丘手办神奇宝贝口袋', 'JI0000001', 1, '2_5', '小精灵+礼盒礼袋贺卡：12款(A+B)', 0, 0, 11, 0, 0);
+(15, 15, 11, '皮卡丘手办神奇宝贝口袋', 'JI0000001', 1, '2_5', '小精灵+礼盒礼袋贺卡：12款(A+B)', 0, 0, 11, 0, 0),
+(16, 16, 11, '皮卡丘手办神奇宝贝口袋', 'JI0000001', 1, '3_4', '颜色分类:12款(A+B) 玩偶:只有小精灵', 0, 0, 11, 0, 0),
+(17, 17, 16, '标志LOGO 浴巾 魔兽世界', 'JI0000002', 1, '0', '0', 0, 0, 16, 0, 0),
+(18, 18, 7, '标志LOGO 浴巾 魔兽世界', 'JI0000002', 2, '0', '0', 0, 0, 7, 0, 0),
+(19, 19, 16, '标志LOGO 浴巾 魔兽世界', 'JI0000002', 1, '0', '0', 0, 0, 16, 0, 0),
+(20, 20, 7, '标志LOGO 浴巾 魔兽世界', 'JI0000002', 1, '0', '0', 0, 0, 7, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -48230,7 +48244,14 @@ CREATE TABLE IF NOT EXISTS `ji_shipping` (
   `status` tinyint(1) NOT NULL COMMENT '配送状态',
   `shipping_money` decimal(6,2) NOT NULL COMMENT '邮费',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+--
+-- 转存表中的数据 `ji_shipping`
+--
+
+INSERT INTO `ji_shipping` (`id`, `shipping_num`, `shipping_name`, `shipping_desc`, `status`, `shipping_money`) VALUES
+(1, '1', '顺丰', NULL, 1, '0.00');
 
 -- --------------------------------------------------------
 
@@ -48258,7 +48279,7 @@ CREATE TABLE IF NOT EXISTS `ji_shipping_area` (
 DROP TABLE IF EXISTS `ji_spec`;
 CREATE TABLE IF NOT EXISTS `ji_spec` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '规格表',
-  `type_id` int(11) DEFAULT '0' COMMENT '规格类型',
+  `type_id` int(11) DEFAULT '0' COMMENT '模型id',
   `name` varchar(55) DEFAULT NULL COMMENT '规格名称',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
@@ -48406,7 +48427,7 @@ CREATE TABLE IF NOT EXISTS `ji_user` (
 --
 
 INSERT INTO `ji_user` (`id`, `user_name`, `user_pwd`, `paypwd`, `user_sex`, `user_question`, `user_answer`, `user_nickname`, `user_pic`, `birthday`, `user_money`, `user_address`, `user_regtime`, `user_lastlogin`, `user_count`, `user_qq`, `user_phone`, `is_disable`) VALUES
-(1, 'test1', '123456', '', NULL, NULL, NULL, '红鼻子', NULL, 0, '10000000.00', NULL, 0, 1552200132, 62, NULL, NULL, 0),
+(1, 'test1', '123456', '111111', NULL, NULL, NULL, '红鼻子', NULL, 0, '9999824.00', NULL, 0, 1552637215, 67, NULL, '13533901333', 0),
 (27, 'test2', '123456', '', NULL, NULL, NULL, 'test21542702701', NULL, 0, NULL, NULL, 0, 1542786076, 2, NULL, '18011752647', 0);
 COMMIT;
 
