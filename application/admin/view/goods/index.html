@@ -1,70 +1,95 @@
 <extend name="Public/layout"/>
-<block name="head"><title>商品列表</title>
-<style>
-    .td-word{
-        color: #555;
-        font-size: 12px;
-    }
-    .ok-icon {
-        font-size: 16px;
-        color: #1BBC9D;
-    }
-    .notok-icon {
-        font-size: 16px;
-        color:#9ea3a7;
-    }
-    .tDiv{
-        background-color: #FAFAFA;
-        border-top: 1px solid #C8C8C8;
-        border-bottom: 1px solid #D7D7D7;
-        position: relative;
-        z-index: 3;
-        overflow: hidden;
-    }
-    .tDiv2{
-        font-size: 0;
-        *word-spacing: -1px;
-        padding: 6px 0 6px 6px;
-        float: left;
-        overflow: hidden;
-    }
-    .fbutton{
-        vertical-align: top;
-        letter-spacing: normal;
-        display: inline-block;
-        *display: inline;
-        padding-right: 8px;
-        margin-left: 8px;
-        margin-right: -1px;
-        border-right: dotted 1px #D7D7D7;
-        *zoom: 1;
-        cursor: pointer;
-    }
-    .fbutton a{
+<block name="head">
+    <title>商品列表</title>
+    <style>
+        .td-word{
+            color: #555;
+            font-size: 12px;
+        }
+        .ok-icon {
+            font-size: 16px;
+            color: #1BBC9D;
+        }
+        .notok-icon {
+            font-size: 16px;
+            color:#9ea3a7;
+        }
+        .acgnthead{
+            background: #F5F5F5;
+        }
+        .tDiv{
+            box-sizing: border-box;
+            box-shadow: 0 0 2px 1px #cbd0d8;
+            border-radius: 4px;
+            background: #fff;
+            position: relative;
+            z-index: 3;
+            overflow: hidden;
+        }
+        .tDiv2{
+            font-size: 0;
+            *word-spacing: -1px;
+            padding: 6px 0 6px 6px;
+            float: left;
+            overflow: hidden;
+        }
+        .fbutton{
+            vertical-align: top;
+            letter-spacing: normal;
+            display: inline-block;
+            *display: inline;
+            padding-right: 8px;
+            margin-left: 8px;
+            margin-right: -1px;
+            border-right: dotted 1px #D7D7D7;
+            *zoom: 1;
+            cursor: pointer;
+        }
+        .fbutton a{
 
-        text-decoration: none;
-        blr: expression(this.onFocus=this.blur());
-        font-size: 12px;
-        line-height: 25px;
-        color: #0ba4da;
-        background-color: #FFFFFF;
-        height: 20px;
-        padding: 5px 7px;
+            text-decoration: none;
+            blr: expression(this.onFocus=this.blur());
+            font-size: 12px;
+            line-height: 25px;
+            color: #0ba4da;
+            background-color: #FFFFFF;
+            height: 20px;
+            padding: 5px 7px;
 
-        border: solid 1px #3aa8cf;
-        border-radius: 4px;
-    }
+            border: solid 1px #3aa8cf;
+            border-radius: 4px;
+        }
 
-    .fbutton a:hover{
-        color: #3aa8cf;
-        background-color: #e7f2f8;
-        text-decoration: none;
+        .fbutton a:hover{
+            color: #3aa8cf;
+            background-color: #e7f2f8;
+            text-decoration: none;
 
-    }
+        }
+        .caozuo .btn{
+            font-size: 12px;
+            font-weight: normal;
+            line-height: 20px;
+            color: #777;
+            background: #FFF none;
+            vertical-align: top;
+            letter-spacing: normal;
+            display: inline-block;
+            border-radius: 10px;
+            *display: inline;
+            *zoom: 1;
+            height: 20px;
+            padding: 1px 6px;
+            margin: 0 5px 0 0;
+            border: solid 1px #F5F5F5;
+            border-radius: 4px;
+            cursor: pointer !important;
+        }
 
-</style>
+    </style>
 </block>
 <block name="main">
+
 <div class='row-fluid'>
 
     <div class='page-header' style="margin:5px 0px 0px 0px;background-color:#e7f2f8;height: 30px ">
@@ -128,7 +153,7 @@
                 <div class='scrollable-area'>
 
                     <table class='table table-bordered table-hover td-word' style='margin-bottom:0;'>
-                        <thead style="background-color: #F5F5F5;">
+                        <thead class="acgnthead">
                         <tr>
                             <th>
                                 <input type="checkbox" value="">
@@ -224,9 +249,12 @@
                                 </div>
                             </td>
                             <td>{$v1.goods_inventory}</td>
-                            <td>
-                                <a class="btn-success btn" href="{:url('Admin/Goods/goodsinfo',array('id'=>$v1.id))}">修改</a>
-                                <a id="delete" class="btn-danger btn">删除</a>
+
+                            <td align="center">
+                                <div class="caozuo" style="text-align: center; width: 170px; max-width:170px;">
+                                    <a class=" btn"  href="{:url('Admin/Goods/goodsinfo',array('id'=>$v1.id))}"><span class="icon-pencil"></span>&nbsp;修改</a>
+                                    <a id="delete"  class="red btn"><span class="icon-trash"></span>&nbsp;删除</a>
+                                </div>
                             </td>
                         </tr>
                         </foreach>
@@ -270,7 +298,7 @@
 
     })
 </script>
-</block>
 
+</block>
 
 

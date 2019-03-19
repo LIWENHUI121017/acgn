@@ -5,6 +5,7 @@ use app\common\logic\CartLogic;
 use app\common\logic\UserLogic;
 use think\Cache;
 use think\cache\driver\Redis;
+use think\Config;
 use think\Controller;
 use think\Db;
 use alisms\SendSms;
@@ -81,6 +82,11 @@ class User extends Base
                 $userlogic = new UserLogic();
                 $userlogic->handleLogin($user,$data);
                 $url = '/Index/index/index';
+
+                    $cartLogic = new CartLogic();
+                    $cartLogic->setUserId($user['id']);
+                    $cartLogic->doUserLoginHandle();// 用户登录后 需要对购物车 一些操作
+
                 return json(['status'=>1,'url'=>$url]);
 
             }
@@ -104,14 +110,19 @@ class User extends Base
 
 //注册
     public  function reg(){
-        return view('reg');
+        return $this->fetch('reg');
     }
     public function userreg(){
         $username = input('username');
         $password = input('password');
         $password2 = input('password2');
-        $code = input('code');
         $phone = input('phone');
+        if(!preg_match('/((?=.*[0-9])(?=.*[A-z]))|((?=.*[A-z])(?=.*[^A-z0-9]))|((?=.*[0-9])(?=.*[^A-z0-9]))^.{6,16}$/',$password)) {
+            return json(['status'=> 0,'msg'=>'6-16位大小写英文字母、数字或符号的组合！']);
+        }
+        if (empty($username)){
+            return json(['status'=> 0,'msg'=>'用户名不能为空！']);
+        }
         if ($password != $password2){
             return json(['status'=> 0,'msg'=>'你输入的两个密码不一样！']);
         }
@@ -180,10 +191,10 @@ class User extends Base
     public function sendlogin(){
         $sms = new SendSms();
         //设置关键的四个配置参数，其实配置参数应该写在公共或者模块下的config配置文件中，然后在获取使用，这里我就直接使用了。
-        $sms->accessKeyId = 'LTAI8CDXqHonU0Ck';
-        $sms->accessKeySecret = 'FzvkfdtZvEAwagKS0wKBAay99EBJsT';
-        $sms->signName = 'acgn周边商城';
-        $sms->templateCode = 'SMS_151576238';
+        $sms->accessKeyId = Config::get('accessKeyId');
+        $sms->accessKeySecret = Config::get('accessKeySecret');
+        $sms->signName = Config::get('signName');
+        $sms->templateCode = Config::get('templateCode');
 
         //$mobile为手机号
         $phone = input('phone');

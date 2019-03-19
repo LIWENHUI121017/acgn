@@ -142,7 +142,7 @@ return [
     'view_replace_str'	=>	[
         '__PUBLIC__'=>'/public',
         '__ROOT__'	=>	'/',
-        '__STATIC__'	=>	'/public/statics',
+        '__STATIC__'	=>	'/public/staticscaptcha',
     ],
     // 默认跳转页面对应的模板文件
     'dispatch_success_tmpl'  => THINK_PATH . 'tpl' . DS . 'dispatch_jump.tpl',
@@ -289,6 +289,7 @@ return [
         //设置纯数字
         'codeSet'    =>    '0123456789',
         'imageW'     =>    150,
+        'useCurve' => false,
         'imageH'     =>    50,
         'reset'   => true,
     ],
@@ -301,5 +302,8 @@ return [
     //重置密码
     'phone_reset' =>'SMS_151233920',
 
-
+    'accessKeyId' => 'LTAI8CDXqHonU0Ck',
+    'accessKeySecret' => 'FzvkfdtZvEAwagKS0wKBAay99EBJsT',
+    'signName' => 'acgn周边商城',
+    'templateCode' => 'SMS_151576238',
 ];

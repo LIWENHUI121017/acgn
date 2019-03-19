@@ -149,11 +149,8 @@ class Goods extends Base
     //添加修改商品
     public function addEditgoods(){
         $data = input('post.');
-//        dump($data);
        //获取商品属性值
         $goodsid=$data['goods_id'];
-//        dump($data);
-
         foreach($data as $key=>$val ){
             if(preg_match('/^attr.*/',$key)) {
                $attr[ltrim($key,"attr_")]=$val;//添加到attribute表的数据
@@ -166,7 +163,6 @@ class Goods extends Base
             if($info){
                 // 成功上传后 获取上传信息
                 $filePathname = $info->getSaveName();
-//                $data['original_img']='/public/uploads/'.$filePathname;
                 $data['original_img']=$this->path.str_replace('\\', '/', $filePathname);
 
             }else{
@@ -201,8 +197,6 @@ class Goods extends Base
             if ($goodsid==0){
                 $args1['goods_time']=time();
             }
-
-
 
             Db::startTrans();
                 try{
@@ -396,8 +390,24 @@ class Goods extends Base
         Db::startTrans();
         try{
             $res = Db::name('goods')->where('id',$goodsid)->delete();
-            $res1= $logic->delspecattr($goodsid);
-            if ($res&&$res1){
+            $where = ['goods_id'=>$goodsid];
+            $filed = '*';
+            $checkspec = $logic->get_one($where,$filed,'SpecGoodsPrice');//查询是否有属性
+            $checkattr = $logic->get_one($where,$filed,'GoodsAttr');//查询是否有属性
+            if ($checkspec){
+                $res1= $logic->delspec($where);
+                if ($res1){
+                    return json(['status'=>0,'msg'=>'商品删除失败']);
+                }
+            }
+            if ($checkattr){
+                $res2= $logic->delattr($where);
+                if ($res2){
+                    return json(['status'=>0,'msg'=>'商品删除失败']);
+                }
+            }
+
+            if ($res){
                 Db::commit();
                 return json(['status'=>1,'msg'=>'商品删除成功']);
             }else{

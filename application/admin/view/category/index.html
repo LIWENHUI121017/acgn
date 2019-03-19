@@ -1,68 +1,6 @@
 <extend name="Public/layout"/>
 <block name="head"><title>商品列表</title>
-<style>
-    .td-word{
-        color: #555;
-        font-size: 12px;
-    }
-    .ok-icon {
-        font-size: 16px;
-        color: #1BBC9D;
-    }
-    .notok-icon {
-        font-size: 16px;
-        color:#9ea3a7;
-    }
-    .tDiv{
-        background-color: #FAFAFA;
-        border-top: 1px solid #C8C8C8;
-        border-bottom: 1px solid #D7D7D7;
-        position: relative;
-        z-index: 3;
-        overflow: hidden;
-    }
-    .tDiv2{
-        font-size: 0;
-        *word-spacing: -1px;
-        padding: 6px 0 6px 6px;
-        float: left;
-        overflow: hidden;
-    }
-    .fbutton{
-        vertical-align: top;
-        letter-spacing: normal;
-        display: inline-block;
-        *display: inline;
-        padding-right: 8px;
-        margin-left: 8px;
-        margin-right: -1px;
-        border-right: dotted 1px #D7D7D7;
-        *zoom: 1;
-        cursor: pointer;
-    }
-    .fbutton a{
-
-        text-decoration: none;
-        blr: expression(this.onFocus=this.blur());
-        font-size: 12px;
-        line-height: 25px;
-        color: #0ba4da;
-        background-color: #FFFFFF;
-        height: 20px;
-        padding: 5px 7px;
-
-        border: solid 1px #3aa8cf;
-        border-radius: 4px;
-    }
-
-    .fbutton a:hover{
-        color: #3aa8cf;
-        background-color: #e7f2f8;
-        text-decoration: none;
-
-    }
-
-</style>
+    <include file="public/style"/>
 </block>
 <block name="main">
 <div class='row-fluid'>
@@ -128,7 +66,7 @@
                 <div class='scrollable-area'>
 
                     <table class='table table-bordered table-hover td-word' style='margin-bottom:0;'>
-                        <thead style="background-color: #F5F5F5;">
+                        <thead class="acgnthead">
                         <tr>
                             <th>
                                 <input type="checkbox" value="">
@@ -216,17 +154,12 @@
                                 </div>
                             </td>
 
-                            <td>
-                                <!--<select name="choose" id="choose" style="width: 150px">-->
-                                    <!--<option value="0">-->
-                                        <!--<a class="btn-success btn" href="{:url('Admin/Goods/goodsinfo',array('id'=>$v1.id))}">编辑</a>-->
-                                    <!--</option>-->
-                                    <!--<option value="1"><a class="btn-dark btn" href="{:url('Admin/Goods/goodsinfo',array('id'=>$v1.id))}">向下级添加分类</a>-->
-                                    <!--</option>-->
-                                    <!--<option value="2"><a href="{:url('Admin/Category/delete',array('id'=>$v1.id))}" id="delete" class="btn-danger btn">删除</a></option>-->
-                                <!--</select>-->
-                                <a class="btn-success btn" href="{:url('Admin/Category/change',array('id'=>$v1.id))}">修改</a>
-                                <a id="delete1" href="{:url('Admin/Category/delete',array('id'=>$v1.id))}" class="btn-danger btn">删除</a>
+
+                            <td align="center">
+                                <div class="caozuo" style="text-align: center; width: 170px; max-width:170px;">
+                                    <a class=" btn" href="{:url('Admin/Category/change',array('id'=>$v1.id))}"><span class="icon-pencil"></span>&nbsp;修改</a>
+                                    <a id="delete" href="{:url('Admin/Category/delete',array('id'=>$v1.id))}" class="red btn"><span class="icon-trash"></span>&nbsp;删除</a>
+                                </div>
                             </td>
                         </tr>
                             <foreach name="v1.tmenu" item="v2" key="k2">
@@ -270,17 +203,11 @@
                                         </div>
                                     </td>
 
-                                    <td>
-                                        <!--<select name="choose" id="choose" style="width: 150px">-->
-                                            <!--<option value="0">-->
-                                                <!--<a class="btn-success btn" href="{:url('Admin/Goods/goodsinfo',array('id'=>$v1.id))}">编辑</a>-->
-                                            <!--</option>-->
-                                            <!--<option value="1"><a class="btn-dark btn" href="{:url('Admin/Goods/goodsinfo',array('id'=>$v1.id))}">向下级添加分类</a>-->
-                                            <!--</option>-->
-                                            <!--<option value="2"><a id="delete" class="btn-danger btn">删除</a></option>-->
-                                        <!--</select>-->
-                                        <a class="btn-success btn" href="{:url('Admin/Category/change',array('id'=>$v2.id))}">修改</a>
-                                        <a id="delete2" href="{:url('Admin/Category/delete',array('id'=>$v2.id))}" class="btn-danger btn">删除</a>
+                                    <td align="center">
+                                        <div class="caozuo" style="text-align: center; width: 170px; max-width:170px;">
+                                            <a class=" btn" href="{:url('Admin/Category/change',array('id'=>$v2.id))}"><span class="icon-pencil"></span>&nbsp;修改</a>
+                                            <a id="delete" href="{:url('Admin/Category/delete',array('id'=>$v2.id))}" class="red btn"><span class="icon-trash"></span>&nbsp;删除</a>
+                                        </div>
                                     </td>
                                 </tr>
                                 <foreach name="v2.sub_menu" item="v3" key="k3">
@@ -323,19 +250,13 @@
                                                 <input type="text" style="width: 50px" value="{$v3.sort_order}">
                                             </div>
                                         </td>
-
-                                        <td>
-                                            <!--<select name="choose" id="choose" style="width: 150px">-->
-                                                <!--<option value="0">-->
-                                                    <!--<a class="btn-success btn" href="{:url('Admin/Goods/goodsinfo',array('id'=>$v1.id))}">编辑</a>-->
-                                                <!--</option>-->
-                                                <!--<option value="1"><a class="btn-dark btn" href="{:url('Admin/Goods/goodsinfo',array('id'=>$v1.id))}">向下级添加分类</a>-->
-                                                <!--</option>-->
-                                                <!--<option value="2"><a href="{:url('Admin/Category/delete',array('id'=>$v3.id))}"  class="btn-danger btn">删除</a></option>-->
-                                            <!--</select>-->
-                                            <a class="btn-success btn" href="{:url('Admin/Category/change',array('id'=>$v3.id))}">修改</a>
-                                            <a id="delete3" href="{:url('Admin/Category/delete',array('id'=>$v3.id))}" class="btn-danger btn">删除</a>
+                                        <td align="center">
+                                            <div class="caozuo" style="text-align: center; width: 170px; max-width:170px;">
+                                                <a class=" btn" href="{:url('Admin/Category/change',array('id'=>$v3.id))}"><span class="icon-pencil"></span>&nbsp;修改</a>
+                                                <a id="delete" href="{:url('Admin/Category/delete',array('id'=>$v3.id))}" class="red btn"><span class="icon-trash"></span>&nbsp;删除</a>
+                                            </div>
                                         </td>
+
                                     </tr>
 
                                 </foreach>

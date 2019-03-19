@@ -2084,12 +2084,14 @@ body {
         margin-top: -1px; }
   .box .box-content {
     padding: 10px;
-    border: 1px solid #dddddd;
+    margin-top: 2px;
     background: white;
     display: block;
-    -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.055);
-    -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.055);
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.055); }
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    
+  }
     .box .box-content .box-toolbox {
       *zoom: 1;
       background-color: #f4f4f4;

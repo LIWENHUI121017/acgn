@@ -16,24 +16,17 @@ class Goods extends Controller
         $id = input('id');
         $get = new GoodsLogic();
         $goodslist = $get->goodslist($id);
-//        dump($goodslist);
-//        exit();
         Session::set('goodsname',$goodslist[0]['goods_name']);
         $goodsinfo = array();
         $goodsinfo = array_reduce($goodslist, 'array_merge', array());
         $spec_goods_price = Db::name('spec_goods_price')->where("goods_id", $id)->column("key,item_id,price,store_count,price"); // 规格 对应 价格 库存表
-//        dump($spec_goods_price);
 
         $this->assign('goods',$goodslist);
         $this->assign('goodsinfo',$goodsinfo);
         $this->assign('navigate',navigate_goods($id,$type=1));
         $this->assign('spec', $get->getspec($id));
         $this->assign('spec_goods_price', json_encode($spec_goods_price, true));
-
-//dump(json_encode($spec_goods_price, true));
-//dump($spec_goods_price);
-
-       return $this->fetch('goodsinfo');
+        return $this->fetch('goodsinfo');
 
     }
 

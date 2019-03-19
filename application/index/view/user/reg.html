@@ -10,7 +10,13 @@
     <script type="text/javascript" src="__PUBLIC__/static/js/jquery/jquery.min.js"></script>
 
 </head>
+<style>
+    label{
+        line-height: 0px !important;
+    }
+</style>
 <body>
+<include file="public/publichead"/>
     <div class="regcon">
         <a class="m-fnlogoa fn-fl" href="/" ><img src="__PUBLIC__/static/images/acgn-logo.ico" style="width: 159px;height: 58px;"/></a>
         <span class="m-fntit">欢迎注册</span>
@@ -20,7 +26,7 @@
             </ul>
 
                 <form id="reg_form2"  method="post" action="{:url('User/userreg')}">
-                    <input type="hidden" name="auth_code" value="{$Think.config.AUTH_CODE}"/>
+                    <!--<input type="hidden" name="auth_code" value="{$Think.config.AUTH_CODE}"/>-->
                     <div class="ui_tab_content">
                         <div class="m-fnbox ui_panel" style="display: block;">
                             <div class="fnlogin clearfix">
@@ -28,13 +34,13 @@
                                 <div class="line">
                                     <label class="linel"><em>*</em><span class="dt">账号：</span></label>
                                     <div class="liner">
-                                        <input class="inp J_cellphone" name="username" id="username" type="text" autocomplete="off" value="" placeholder="请输入账号" >
+                                        <input type="email" class="inp J_cellphone" name="username" id="username" type="text" autocomplete="off" value="" placeholder="请输入账号" >
                                     </div>
                                 </div>
                                 <div class="line">
                                     <label class="linel"><em>*</em><span class="dt">设置密码：</span></label>
                                     <div class="liner">
-                                        <input name="password" type="password" id="password" class="inp fpass J_password" autocomplete="off"   placeholder="6-16位大小写英文字母、数字或符号的组合" />
+                                        <input name="password"  type="password" id="password" class="inp fpass J_password" autocomplete="off" maxlength="16"  placeholder="6-16位大小写英文字母、数字或符号的组合" />
                                     </div>
                                 </div>
                                 <div class="line">
@@ -47,7 +53,7 @@
                                 <div class="line">
                                     <label class="linel"><em>*</em><span class="dt">手机号码：</span></label>
                                     <div class="liner">
-                                        <input type="text" class="inp fmobile J_cellphone" placeholder="请输入手机号码"  name="phone" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" id="phone" required=""/>
+                                        <input type="text"  class="inp fmobile J_cellphone" placeholder="请输入手机号码"  name="phone" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" id="phone" required=""/>
                                     </div>
                                 </div>
 
@@ -94,8 +100,13 @@
     </div>
     <!--footer-e-->
 <script>
-
-// 发送手机短信
+    var patrn = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,16}$/;
+    if(!patrn.test($("#PASSWORD").val()))
+    {
+        alert('只能输入6-12个字母、数字、下划线 ！');
+        return false;
+    }
+    // 发送手机短信
 $(function(){
     $("#send").click(function(){
             $.ajax({

@@ -299,12 +299,12 @@ background:#f5f5f5;
     height:34px;
     line-height:34px;
     padding-left:10px;
-    background:url(../images/fn-icon.png) 0px -137px no-repeat;
+    /*background:url(../images/fn-icon.png) 0px -137px no-repeat;*/
 }
 .fnlogin .line .linel{
     float:left;
     text-align:right;
-    width:90px;
+    width:120px;
 
 }
 .fnlogin .line .liner{

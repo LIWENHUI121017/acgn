@@ -129,7 +129,6 @@ class Order extends Base {
 //        dump($order);
         $this->assign('order',$order);
         $this->assign('user',$this->user);
-
         return $this->fetch();
     }
 
@@ -187,7 +186,7 @@ class Order extends Base {
                     //订单状态
                    $orderlogic = new OrderLogic();
                    $where=['id'=>$orderid];
-                   $data=['order_status'=>1];
+                   $data=['order_status'=>1,'pay_status'=>1];
                    $orderres = $orderlogic->edit($where,$data);
                    $order=$orderlogic->get_one($where);
 
@@ -221,9 +220,10 @@ class Order extends Base {
 
                    if ($orderres&&$orderactionres&&$useres&&$res){
                        Db::commit();
-                       return json(['status'=>300,'msg'=>'支付成功！']);
+                       $url = "/index/order/paysuccess/order_id/$orderid";
+                       return json(['status'=>300,'msg'=>'支付成功！','url'=>$url]);
                    }else{
-                       return json(['status'=>300,'msg'=>'支付失败，请联系管理员！']);
+                       return json(['status'=>-100,'msg'=>'支付失败，请联系管理员！']);
                    }
 
                }catch (\PDOException $e){
@@ -235,5 +235,21 @@ class Order extends Base {
            }
         }
 
+    }
+
+    /**
+     * 订单支付成功
+     */
+    public function paysuccess(){
+        $orderid = input('order_id');
+        $logic = new OrderLogic();
+        $where = ['id'=>$orderid];
+        $order = $logic->get_one($where,'*','Order');
+        if ($order['order_status']!=1){
+          $this->redirect('index/order/orderpay',array('order_id'=>$orderid));
+        }
+        $this->assign('order',$order);
+        $this->assign('user',$this->user);
+        return $this->fetch();
     }
 }

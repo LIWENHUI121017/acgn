@@ -12,8 +12,7 @@ class Index extends Base
 
     public function index()
     {
-       $goods = controller('Goods');
-        return $goods->index();
+       $this->redirect('admin/goods/index');
 
 
     }

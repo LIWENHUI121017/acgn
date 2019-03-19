@@ -318,18 +318,30 @@ class GoodsLogic extends My_Logic{
     }
 
     /**
-     *删除商品规格和属性操作
+     *删除商品规格操作
      * @param int $goods_id 商品id
      * @return bool
      */
-    public function delspecattr($goods_id){
-        $res1 = Db::name('spec_goods_price')->where('goods_id',$goods_id)->delete();
-        $res2 = Db::name('goods_attr')->where('goods_id',$goods_id)->delete();
+    public function delspec($where=array()){
+            $res = Db::name('spec_goods_price')->where($where)->delete();
+            return $res;
+
+
+    }
+    /**
+     *删除商品和属性操作
+     * @param int $goods_id 商品id
+     * @return bool
+     */
+    public function delattr($where=array(),$filed='*',$goods_id){
+            $res2 = Db::name('goods_attr')->where('goods_id',$goods_id)->delete();
+
+
         if ($res1&&$res2){
             return true;
         }
-
     }
+
 
     /**
      * 动态获取商品属性输入框 根据不同的数据返回不同的输入框类型
