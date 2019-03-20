@@ -38,7 +38,7 @@ class AdminLogic
 
         session('admin_id',$admin['id']);
         session('admin_name',$admin['admin_name']);
-        session('admin_name',$admin['admin_name']);
+        session('admin',$admin);
         session('last_login',$admin['admin_login']);
     }
 

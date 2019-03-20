@@ -173,44 +173,13 @@ class OrderLogic extends My_Logic
             ->order('order_time desc')
             ->select();
         foreach ($res as $k => $v) {
-            switch ($v['order_status']) {
-                case 0:
-                    $res[$k]['order_status'] = '未支付';
-                    break;
-                case 1:
-                    $res[$k]['order_status'] = '待发货';
-                    break;
-                case 2:
-                    $res[$k]['order_status'] = '发货中';
-                    break;
-                case 3:
-                    $res[$k]['order_status'] = '待收货';
-                    break;
-                case 4:
-                    $res[$k]['order_status'] = '已签收';
-                    break;
-            }
-            switch ($v['pay_status']) {
-                case 0:
-                    $res[$k]['pay_status'] = '未支付';
-                    break;
-                case 1:
-                    $res[$k]['pay_status'] = '已支付';
-                    break;
-            }
-            switch ($v['shipping_status']) {
-                case 0:
-                    $res[$k]['shipping_status'] = '未发货';
-                    break;
-                case 1:
-                    $res[$k]['shipping_status'] = '已发货';
-                    break;
-            }
+            //支付类别
             switch ($v['pay_type_id']) {
                 case 1:
                     $res[$k]['pay_type_id'] = '钱包支付';
                     break;
             }
+            //快递类别
             switch ($v['shipping_id']) {
                 case 1:
                     $res[$k]['shipping_id'] = '顺丰快递';
@@ -230,39 +199,13 @@ class OrderLogic extends My_Logic
             ->join('address s', 'a.address_id=s.address_id')
             ->where($where)
             ->find();
-        switch ($order['order_status']) {
-            case 0:
-                $order['order_status'] = '未支付';
-                break;
-            case 1:
-                $order['order_status'] = '待发货';
-                break;
-            case 2:
-                $order['order_status'] = '发货中';
-                break;
-            case 3:
-                $order['order_status'] = '待收货';
-                break;
-            case 4:
-                $order['order_status'] = '已签收';
-                break;
-        }
-        switch ($order['pay_status']) {
-            case 0:
-                $order['pay_status'] = '未支付';
-                break;
-            case 1:
-                $order['pay_status'] = '已支付';
-                break;
-        }
-        switch ($order['shipping_status']) {
-            case 0:
-                $order['shipping_status'] = '未发货';
-                break;
-            case 1:
-                $order['shipping_status'] = '已发货';
-                break;
-        }
+//
+//        ["province"] => int(28240)
+//        ["city"] => int(28241)
+//        ["county"] => int(28308)
+            $order['province']=$this->get_one(['id'=>$order['province']],'name','Region')['name'];
+            $order['city']=$this->get_one(['id'=>$order['city']],'name','Region')['name'];
+            $order['county']=$this->get_one(['id'=>$order['county']],'name','Region')['name'];
         switch ($order['pay_type_id']) {
             case 1:
                 $order['pay_type_id'] = '钱包支付';
@@ -291,5 +234,64 @@ class OrderLogic extends My_Logic
             $order['orderGoods'][$k]['goods_total'] =$v['goods_num']*$v['goods_price'];
         }
         return $order;
+    }
+
+    //订单日志
+    public function get_order_action($order_id){
+        $where = ['order_id'=>$order_id];
+        $filed = '*';
+        $user = Db::name('user')->alias('a')->join('order s','a.id=s.user_id')
+            ->where('s.id',$order_id)
+            ->field('a.user_name')
+            ->find();
+        $res = $this->get_all($where,$filed,'OrderAction');
+        foreach ($res as $k=>$v) {
+            if ($v['action_user']==0){
+                $res[$k]['user_name']="用户：".$user['user_name'];
+            }else{
+                $where=['id'=>$v['action_user']];
+                $filed='admin_name';
+                $admin = $this->get_one($where,$filed,'Admin');
+                $res[$k]['user_name']="管理员：".$admin['admin_name'];
+            }
+            $res[$k]['log_time']=date('Y-m-d H:i:s',$v['log_time']);
+            //订单状态
+            switch ($v['order_status']) {
+                case 0:
+                    $res[$k]['order_status'] = '未支付';
+                    break;
+                case 1:
+                    $res[$k]['order_status'] = '待发货';
+                    break;
+                case 2:
+                    $res[$k]['order_status'] = '发货中';
+                    break;
+                case 3:
+                    $res[$k]['order_status'] = '待收货';
+                    break;
+                case 4:
+                    $res[$k]['order_status'] = '已签收';
+                    break;
+            }
+            //付款状态
+            switch ($v['pay_status']) {
+                case 0:
+                    $res[$k]['pay_status'] = '未支付';
+                    break;
+                case 1:
+                    $res[$k]['pay_status'] = '已支付';
+                    break;
+            }
+            //发货状态
+            switch ($v['shipping_status']) {
+                case 0:
+                    $res[$k]['shipping_status'] = '未发货';
+                    break;
+                case 1:
+                    $res[$k]['shipping_status'] = '已发货';
+                    break;
+            }
+        }
+        return $res;
     }
 }

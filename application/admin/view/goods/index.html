@@ -288,8 +288,11 @@
                 data:{goodsid:id},
                 url:"{:url('Admin/Goods/deletegoods')}",
                 success: function(data) {
-                   alert(data.msg);
-                    window.location.reload();
+
+                    layer.msg(data.msg,{icon: 2,time:2000},function () {
+                        window.location.reload();
+                    })
+
                 }
             })
         }else {

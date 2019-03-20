@@ -186,7 +186,7 @@ class Order extends Base {
                     //订单状态
                    $orderlogic = new OrderLogic();
                    $where=['id'=>$orderid];
-                   $data=['order_status'=>1,'pay_status'=>1];
+                   $data=['order_status'=>1,'pay_status'=>1,'pay_time'=>time()];
                    $orderres = $orderlogic->edit($where,$data);
                    $order=$orderlogic->get_one($where);
 

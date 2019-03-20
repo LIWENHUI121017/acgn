@@ -24,7 +24,7 @@
                         <span>商品</span>
                         <i class='icon-angle-down angle-down'></i>
                     </a>
-                    <ul class='nav nav-stacked'>
+                    <ul class='nav nav-stacked' style="display: block">
                         <li class=''>
                             <a  href="{:url('Goods/index')}" id="link">
                                 <i class='icon-caret-right'></i>
@@ -32,25 +32,25 @@
                             </a>
                         </li>
                         <li class=''>
-                            <a href="{:url('Admin/Category/index')}" id="link">
+                            <a href="{:url('Admin/Category/index')}" id="link1">
                                 <i class='icon-caret-right'></i>
                                 <span>商品分类</span>
                             </a>
                         </li>
                         <li class=''>
-                            <a href="{:url('Admin/Attribute/index')}" >
+                            <a href="{:url('Admin/Attribute/index')}" id="link2">
                                 <i class='icon-caret-right'></i>
                                 <span>商品属性</span>
                             </a>
                         </li>
                         <li class=''>
-                            <a href="{:url('Admin/Goodstype/index')}">
+                            <a href="{:url('Admin/Goodstype/index')}" id="link3">
                                 <i class='icon-caret-right'></i>
                                 <span>商品模型</span>
                             </a>
                         </li>
                         <li class=''>
-                            <a href="{:url('Admin/Spec/index')}">
+                            <a href="{:url('Admin/Spec/index')}" id="link4">
                                 <i class='icon-caret-right'></i>
                                 <span>商品规格</span>
                             </a>
@@ -71,16 +71,16 @@
                     <span>订单管理</span>
                     <i class='icon-angle-down angle-down'></i>
                 </a>
-                <ul class='nav nav-stacked'>
+                <ul class='nav nav-stacked' style="display: block">
                     <li class=''>
-                        <a href='/Admin/order/index'>
+                        <a href='/Admin/order/index' id="link5">
                             <i class='icon-caret-right'></i>
                             <span>订单详情</span>
                         </a>
                     </li>
                     <li class=''>
                         <a href='widgets.html'>
-                            <i class='icon-caret-right'></i>
+                            <i class='icon-caret-right' id="link6"></i>
                             <span>订单日志</span>
                         </a>
                     </li>
@@ -154,4 +154,90 @@
         </ul>
     </div>
 </nav>
-
+<script>
+    // $(document).ready(function(){
+    //
+    //         $('#link').each(function(){
+    //             $this = $(this);
+    //             if($this[0].href==String(window.location)){
+    //                 $(".nav li").removeClass("active");
+    //                 $this.parent('li').addClass("active");  //active表示被选中效果的类名
+    //                 $this.parent().parent().parent().addClass("active")
+    //                 $this.parent().parent().parent().children('ul').css("display",'block')
+    //                 console.log( $(this).parent().html())
+    //             }
+    //         });
+    //
+    //     $('#link1').each(function(){
+    //         $this = $(this);
+    //         if($this[0].href==String(window.location)){
+    //             $(".nav li").removeClass("active");
+    //             $this.parent('li').addClass("active");  //active表示被选中效果的类名
+    //             $this.parent().parent().parent().addClass("active")
+    //             $this.parent().parent().parent().children('ul').css("display",'block')
+    //             console.log( $(this).parent().html())
+    //         }
+    //     });
+    //     $('#link2').each(function(){
+    //         $this = $(this);
+    //         if($this[0].href==String(window.location)){
+    //             $(".nav li").removeClass("active");
+    //             $this.parent('li').addClass("active");  //active表示被选中效果的类名
+    //             $this.parent().parent().parent().addClass("active")
+    //             $this.parent().parent().parent().children('ul').css("display",'block')
+    //             console.log( $(this).parent().html())
+    //         }
+    //     });
+    //     $('#link3').each(function(){
+    //         $this = $(this);
+    //         if($this[0].href==String(window.location)){
+    //             $(".nav li").removeClass("active");
+    //             $this.parent('li').addClass("active");  //active表示被选中效果的类名
+    //             $this.parent().parent().parent().addClass("active")
+    //             $this.parent().parent().parent().children('ul').css("display",'block')
+    //             console.log( $(this).parent().html())
+    //         }
+    //     });
+    //     $('#link4').each(function(){
+    //         $this = $(this);
+    //         if($this[0].href==String(window.location)){
+    //             $(".nav li").removeClass("active");
+    //             $this.parent('li').addClass("active");  //active表示被选中效果的类名
+    //             $this.parent().parent().parent().addClass("active")
+    //             $this.parent().parent().parent().children('ul').css("display",'block')
+    //             console.log( $(this).parent().html())
+    //         }
+    //     });
+    //     $('#link5').each(function(){
+    //         $this = $(this);
+    //         if($this[0].href==String(window.location)){
+    //             $(".nav li").removeClass("active");
+    //             $this.parent('li').addClass("active");  //active表示被选中效果的类名
+    //             $this.parent().parent().parent().addClass("active")
+    //             $this.parent().parent().parent().children('ul').css("display",'block')
+    //             console.log( $(this).parent().html())
+    //         }
+    //     });
+    //     $('#link6').each(function(){
+    //         $this = $(this);
+    //         if($this[0].href==String(window.location)){
+    //             $(".nav li").removeClass("active");
+    //             $this.parent('li').addClass("active");  //active表示被选中效果的类名
+    //             $this.parent().parent().parent().addClass("active")
+    //             $this.parent().parent().parent().children('ul').css("display",'block')
+    //             console.log( $(this).parent().html())
+    //         }
+    //     });
+    //     $('#link7').each(function(){
+    //         $this = $(this);
+    //         if($this[0].href==String(window.location)){
+    //             $(".nav li").removeClass("active");
+    //             $this.parent('li').addClass("active");  //active表示被选中效果的类名
+    //             $this.parent().parent().parent().addClass("active")
+    //             $this.parent().parent().parent().children('ul').css("display",'block')
+    //             console.log( $(this).parent().html())
+    //         }
+    //     });
+    //
+    // });
+</script>
