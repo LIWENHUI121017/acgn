@@ -122,13 +122,12 @@
                             </dl>
                             <dl>
                                 <dt>订单状态：</dt>
-                                <dd><if condition="$order.order_status eq 1">待确认
-                                <elseif condition="2"/>发货中
-                                <elseif condition="3"/>待收货
-                                </if>
+                                <dd>
+                                    {$order_status[$order.order_status]}
                                     /
+                                        {$pay_status[$order.pay_status]}
                                     <if condition="$order.pay_status eq 1">
-                                        已支付<span style="color: red">（{$order.pay_type_id}）</span>
+                                        <span style="color: red">（{$order.pay_type_id}）</span>
                                     </if>
                                     /
                                     <if condition="$order.shipping_status eq 1">
@@ -252,17 +251,24 @@
                                     <label for="note">可执行操作</label>
                                 </dt>
                                 <dd class="opt" style="margin-left:10px">
+                                    <!--订单已确认-->
+                                    <if condition="$order.order_status eq 1">
 
-
+                                        <!--订单未发货-->
+                                        <if condition="$order.shipping_status eq 0">
+                                            <a class="ncap-btn-big ncap-btn-green" id="confirm" data-status="2">取消确认</a>
                                             <a class="ncap-btn-big ncap-btn-green" href="{:url('Admin/order/delivery',array('orderid'=>$order.id))}" >去发货</a>
+                                        </if>
+                                        <elseif condition="$order.order_status eq 0"/>
+                                        <a class="ncap-btn-big ncap-btn-green" id="confirm" data-status="1">确认</a>
+                                    </if>
 
-
-                                                <a class="ncap-btn-big ncap-btn-green" >移除</a>
-
-
-                                            <a class="ncap-btn-big ncap-btn-green"  >
-                                                无效</a>
-
+                                    <in name="$order.order_status" value="2,5">
+                                        <a class="ncap-btn-big ncap-btn-green" id="confirm" data-status="3">移除</a>
+                                    </in>
+                                    <if condition="$order.order_status neq 5">
+                                        <a class="ncap-btn-big ncap-btn-green" id="confirm" data-status="5">无效</a>
+                                    </if>
 
                                 </dd>
                             </dl>
@@ -326,6 +332,40 @@
                 }
             });
         }
+
+        //点击操作按钮
+        $(document).on('click','#confirm',function () {
+            var order_id = "{$order.id}";
+            var status = $(this).data('status');
+            var note = $('#note').val();
+
+            $.ajax({
+                type : "post",
+                url  : "{:url('Admin/order/ChangeOrderstatus')}",
+                data : {order_id:order_id,status:status,note:note},
+                dataType: 'json',
+                error: function(request) {
+                    layer.msg("服务器繁忙, 请联系管理员!", {icon: 1, time: 2000});
+                },
+                success: function(data) {
+                        if (data.status==1){
+                            layer.msg(data.msg,{icon: 1,time:2000},function () {
+                                window.location.reload();
+                            })
+                        }else if (data.status==3){
+                            layer.msg(data.msg, {icon: 1, time: 2000},function () {
+                                window.location.replace("/Admin/order/index");
+                            });
+                        }else{
+                            layer.msg(data.msg, {icon: 2, time: 2000});
+                        }
+                    getOrderAction();
+                    }
+
+            });
+        })
+
+
     </script>
 </block>
 

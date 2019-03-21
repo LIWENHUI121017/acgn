@@ -14,16 +14,16 @@
 
     <style>
         body {
-            background-image: url("/public/static/images/login-bg.jpg"); background-size: cover; }
+            background-image: url("/public/static/images/login/4.jpg"); background-size: cover; }
     </style>
 </head>
 
 <body>
 <include file="public/publichead"/>
 <div class="login_box">
-    <div class="login_l_img"><img src="/public/static/images/login-img.png" /></div>
-    <div class="login" style="height: 480px;">
-        <div class="login_logo"><a href="#"><img src="/public/static/images/login_logo.png" /></a></div>
+    <div class="login_l_img"><img src="/public/static/images/index-index/6.png" /></div>
+    <div class="login">
+        <div class="login_logo"><a href="#"><img src="/public/static/images/index-index/5.png" /></a></div>
         <div class="login_name">
             <p>acgn周边商城 </p><span style="float: right;font-size: 12px">还没有账号？<a href="{:url('User/reg')}" style="float: right">注册</a></span>
         </div>
@@ -43,9 +43,8 @@
                 <img src="{:captcha_src()}" name="verify" id="verify" style="margin-left: 10px;"  id="imgVerify" onclick="fleshVerify()">
                 <!--<input value="登录" style="width:100%;"  type="submit" />-->
                 <input value="登录" style="width:100%;"  type="button" name="submit">
-                <div  style="position: absolute;left:110px;bottom: 50px;text-align: center;width:180px;color: #27A9E3;">
-                    <a href="{:url('User/plogin')}">--手机登录--</a>
-                </div>
+                 <a style="position: absolute;left:110px;bottom: 30px;text-align: center;width:180px;" href="{:url('User/plogin')}">--手机登录--</a>
+
                 <div id="error" style="position: absolute;left:110px;bottom: 10px;text-align: center;width:180px;color: red;">
 
                 </div>

@@ -12,14 +12,11 @@ class Shippinglogic extends My_Logic
     }
 
     //发货处理
-    public function set_delivery($data){
+    public function set_delivery($data,$shipping,$order){
         $list['order_id']=$data['order_id'];
-        $where=['id'=>$data['order_id']];
-        $order = $this->get_one($where,'*','Order');//订单信息
+
         $where=['address_id'=>$order['address_id']];
         $address = $this->get_one($where,'*','Address');//地址信息
-        $where=['id'=>$data['shippingtype']];
-        $shipping = $this->get_one($where,'*','Shipping');//快递信息
         $list['order_sn']=$order['order_sn'];
         $list['user_id']=$order['user_id'];
         $list['consignee']=$address['consignee'];
@@ -38,4 +35,6 @@ class Shippinglogic extends My_Logic
         $res = $this->add($list,'Delivery');
         return $res;
     }
+
+
 }

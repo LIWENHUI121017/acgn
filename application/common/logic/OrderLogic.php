@@ -184,6 +184,9 @@ class OrderLogic extends My_Logic
                 case 1:
                     $res[$k]['shipping_id'] = '顺丰快递';
                     break;
+                case 2:
+                    $res[$k]['shipping_id'] = '中通快递';
+                    break;
                 default:
                     $res[$k]['shipping_id'] = '';
             }
@@ -244,7 +247,7 @@ class OrderLogic extends My_Logic
             ->where('s.id',$order_id)
             ->field('a.user_name')
             ->find();
-        $res = $this->get_all($where,$filed,'OrderAction');
+        $res = $this->get_all($where,$filed,'OrderAction','log_time desc');
         foreach ($res as $k=>$v) {
             if ($v['action_user']==0){
                 $res[$k]['user_name']="用户：".$user['user_name'];
@@ -258,19 +261,22 @@ class OrderLogic extends My_Logic
             //订单状态
             switch ($v['order_status']) {
                 case 0:
-                    $res[$k]['order_status'] = '未支付';
+                    $res[$k]['order_status'] = '待确认';
                     break;
                 case 1:
-                    $res[$k]['order_status'] = '待发货';
+                    $res[$k]['order_status'] = '已确认';
                     break;
                 case 2:
-                    $res[$k]['order_status'] = '发货中';
+                    $res[$k]['order_status'] = '已取消';
                     break;
                 case 3:
                     $res[$k]['order_status'] = '待收货';
                     break;
                 case 4:
                     $res[$k]['order_status'] = '已签收';
+                    break;
+                case 5:
+                    $res[$k]['order_status'] = '已作废';
                     break;
             }
             //付款状态
@@ -293,5 +299,38 @@ class OrderLogic extends My_Logic
             }
         }
         return $res;
+    }
+
+    //写入订单日志
+    public function add_order_action($data,$table=''){
+      $res = $this->add($data,$table);
+      return $res;
+    }
+
+    //发货后订单参数改变
+    public function edit_order($data,$order){
+        $where = ['id'=>$data['order_id']];
+        $data1 = [
+            'order_status'=>3,
+            'shipping_status'=>1,
+            'shipping_id'=>$data['shipping_id'],
+            'shipping_price'=>$order['shipping_price'],
+            'shipping_time'=>time()
+        ];
+
+        $res = $this->edit($where,$data1,'Order');
+//        dump($res);
+        return $res;
+    }
+
+    //改变订单状态
+    public function editOrderStatus($where=array(),$data){
+            $res = $this->edit($where,$data);
+            return $res;
+    }
+    //移除或删除订单
+    public function deleteorder($orderid){
+        $where=['id'=>$orderid];
+        return $this->del($where);
     }
 }

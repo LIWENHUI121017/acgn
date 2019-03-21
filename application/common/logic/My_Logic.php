@@ -27,14 +27,14 @@ class My_Logic{
     }
 
     //查询多条数据
-    public function get_all($where = array(),$field = '*',$table=''){
+    public function get_all($where = array(),$field = '*',$table='',$order=''){
         if ($table){
-            $res = model($table)->field($field)->where($where)->select();
+            $res = model($table)->field($field)->where($where)->order($order)->select();
             if (!empty($res)){
                 $res = $res->toArray();
             }
         }else{
-            $res = model($this->table)->field($field)->where($where)->select();
+            $res = model($this->table)->field($field)->where($where)->order($order)->select();
             if (!empty($res)){
                 $res = $res->toArray();
             }

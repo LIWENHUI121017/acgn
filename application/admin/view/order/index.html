@@ -1,6 +1,7 @@
 <extend name="Public/layout"/>
 <block name="head"><title>订单列表</title>
     <include file="public/style"/>
+
 </block>
 <block name="main">
 <div class='row-fluid'>
@@ -137,8 +138,11 @@
 
                             <td align="center">
                                 <div class="caozuo" style="text-align: center; width: 170px; max-width:170px;">
-                                    <a class=" btn" href="{:url('Admin/order/detail',array('orderid'=>$v1.id))}"><span class="icon-pencil"></span>&nbsp;查看</a>
-                                    <a id="delete"  class="red btn"><span class="icon-trash"></span>&nbsp;删除</a>
+                                    <a id="see" class="green btn" href="{:url('Admin/order/detail',array('orderid'=>$v1.id))}"><span class="icon-pencil"></span>&nbsp;查看</a>
+                                    <in name="$v1.order_status" value="2,5">
+                                        <a id="delete" data-orderid="{$v1.id}" class="red btn"><span class="icon-trash"></span>&nbsp;删除</a>
+                                    </in>
+
                                 </div>
                             </td>
                         </tr>
@@ -162,70 +166,30 @@
 
 <script>
     $(document).on("click",'#delete',function() {
-        var a = confirm('是否删除该商品？');
-        if (a==true){
-            var id = $(this).parents('tr').children('td').eq(1).html();
-            console.log(id);
+        var orderid = $(this).data('orderid');
+        layer.confirm('你确定要删除该订单吗？',{btn: ['确定', '取消']}, function () {
             $.ajax({
                 type:'post',
                 async:false,
                 dataType:'json',
-                data:{id:id},
-                url:"{:url('Admin/Attribute/deleteattr')}",
+                data:{orderid:orderid},
+                url:"{:url('Admin/Order/delete')}",
                 success: function(data) {
-                        alert(data.msg)
+                    layer.msg(data.msg,{icon:1,time:2000},function () {
                         window.location.reload();
-
-
+                    })
                 }
             })
-        }else {
-            return false;
+        }),function(){
+
         }
 
-    })
-    $(document).on("click",'#delete2',function() {
-        var a = confirm('是否删除该商品？');
-        if (a==true){
-            var id = $("delete2").parents('tr')[0];
-            console.log(id);
-            // $.ajax({
-            //     type:'post',
-            //     async:false,
-            //     dataType:'json',
-            //     data:{id:id},
-            //     url:"{:url('Admin/Goods/deletegoods')}",
-            //     success: function(data) {
-            //         layer.alert(data.msg)
-            //         window.location.reload();
-            //     }
-            // })
-        }else {
-            return false;
-        }
+
+
+
 
     })
-    $(document).on("click",'#delete3',function() {
-        var a = confirm('是否删除该商品？');
-        if (a==true){
-            var id = $("delete3").parents('tr')[0];
-            console.log(id);
-            // $.ajax({
-            //     type:'post',
-            //     async:false,
-            //     dataType:'json',
-            //     data:{id:id},
-            //     url:"{:url('Admin/Goods/deletegoods')}",
-            //     success: function(data) {
-            //         layer.alert(data.msg)
-            //         window.location.reload();
-            //     }
-            // })
-        }else {
-            return false;
-        }
 
-    })
 
 </script>
 </block>

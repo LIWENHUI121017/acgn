@@ -186,14 +186,23 @@ class Order extends Base {
                     //订单状态
                    $orderlogic = new OrderLogic();
                    $where=['id'=>$orderid];
-                   $data=['order_status'=>1,'pay_status'=>1,'pay_time'=>time()];
+                   $data=['order_status'=>0,'pay_status'=>1,'pay_time'=>time()];
                    $orderres = $orderlogic->edit($where,$data);
                    $order=$orderlogic->get_one($where);
 
                    //订单日志
-                   $where=['order_id'=>$orderid];
-                   $data=['order_status'=>1,'pay_status'=>1,'action_note'=>'支付成功，耐心等候发货!'];
-                   $orderactionres = $orderlogic->edit($where,$data,'order_action');
+                   $data=[
+                       'order_id'=>$orderid,
+                       'action_user'=>0,
+                       'order_status'=>0,
+                       'shipping_status'=>0,
+                       'pay_status'=>1,
+                       'action_note'=>'支付成功，耐心等候发货!!',
+                       'status_desc'=>'',
+                       'log_time'=>time(),
+                   ];
+                   $table = 'order_action';
+                   $orderactionres = $orderlogic->add_order_action($data,$table);
 
                    //扣除账号金额
                    $where=['id'=>$userid];
