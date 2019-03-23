@@ -117,6 +117,8 @@ class User extends Base
         $password = input('password');
         $password2 = input('password2');
         $phone = input('phone');
+        $userlogic = new UserLogic();
+
         if(!preg_match('/((?=.*[0-9])(?=.*[A-z]))|((?=.*[A-z])(?=.*[^A-z0-9]))|((?=.*[0-9])(?=.*[^A-z0-9]))^.{6,16}$/',$password)) {
             return json(['status'=> 0,'msg'=>'6-16位大小写英文字母、数字或符号的组合！']);
         }
@@ -138,13 +140,15 @@ class User extends Base
             return json(['status'=> 0,'msg'=>'验证码过期，请重新发送！']);
         }
 
-        $userlogic = new UserLogic();
+
        $res = $userlogic->reg($username,$password,$phone);
 
        if ($res){
-           $this->success('注册成功！','/Index/index/index');
+           return json(['status'=> 1,'msg'=>'注册成功','url'=>'/Index/index/index']);
+//           $this->success('注册成功！','/Index/index/index');
        }else{
-           $this->error('注册失败！','/Index/user/reg');
+           return json(['status'=> 0,'msg'=>'注册失败','url'=>'/Index/user/reg']);
+//           $this->error('注册失败！','/Index/user/reg');
        }
 
     }

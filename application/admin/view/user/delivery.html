@@ -1,0 +1,274 @@
+<extend name="Public/layout"/>
+<block name="head"><title>订单发货</title>
+    <link href='__PUBLIC__/static/css/adminorder/main.css' media='all' rel='stylesheet' type='text/css' />
+   <include file="public/style"/>
+
+</block>
+<block name="main">
+    <div class='page-header' style="margin:5px 0px 0px 0px;background-color:#e7f2f8;height: 30px ">
+
+        <div class='pull-left' >
+
+            <ul class='breadcrumb'>
+                <i class='icon-home' style="color: #000000;"></i>
+                <li class='' style="margin-left: 5px;"><a href="{:url('/Admin/Index/index')}" style="color: #4c8fbd">首页</a></li>
+            </ul>
+        </div>
+
+    </div>
+    <div class="page" >
+
+        <div class="fixed-bar">
+            <div class="item-title"><a class="back" href="javascript:history.go(-1)"  title="返回订单列表">返回列表</a>
+                <div class="subject">
+                    <h3>订单发货</h3>
+                    <h5>订单发货编辑</h5>
+                </div>
+                <div class="subject" style="width:62%">
+                    <a href="" target="_blank"  style="float:right;margin-right:10px" class="ncap-btn-big ncap-btn-green" ><i class="fa fa-print"></i>打印发货单</a>
+                </div>
+            </div>
+
+        </div>
+        <div class="ncap-order-style">
+            <div class="titile">
+                <h3></h3>
+            </div>
+
+            <div class="ncap-order-details">
+                <form id="order-action">
+                    <input name="order_id" value="{$order['id']}" type="hidden"/>
+                    <div class="tabs-panels">
+                        <div class="misc-info">
+
+                            <h4>基本信息</h4>
+                            <dl>
+                                <dt>订单号：</dt>
+                                <dd>{$order.order_sn}</dd>
+                                <dt>下单时间：</dt>
+                                <dd>{$order.order_time|date='Y-m-d H:i',###}</dd>
+                                <dt>物流公司：</dt>
+                                <dd id="setcode3">
+                                    <select style="width:100px;" id="shippingtype">
+                                     <option value="0"></option>
+                                        <foreach name="shipping" key="key" item="val">
+                                            <option value="{$val.id}">{$val.shipping_name}</option>
+                                        </foreach>
+                                    </select>
+                                    <input type="hidden" name="shippingtype" value="0"/>
+                                </dd>
+                            </dl>
+                            <dl>
+                                <dt>配送费用：</dt>
+                                <dd>{$order.shipping_price}</dd>
+                                <dt>发货方式：</dt>
+                                <dd>
+                                    <select style="width:150px;" id="shippingcode">
+                                        <option value="0">手填物流单号</option>
+                                        <option value="1">无需物流</option>
+                                    </select>
+                                    <input type="hidden" name="shippingcode" value="0"/>
+                                </dd>
+                                <dt id="setcode1">配送单号：</dt>
+                                <dd id="setcode2">
+                                    <input type="text"  name="code" style="width: 100px" value="" onkeyup="this.value=this.value.replace(/\D/g,'')"/>
+                                </dd>
+                            </dl>
+                        </div>
+                        <div class="addr-note">
+                            <h4>收货信息</h4>
+                            <dl>
+                                <dt>联系人：</dt>
+                                <dd>{$order.consignee}</dd>
+                                <dt>联系方式：</dt>
+                                <dd>{$order.phone}</dd>
+                            </dl>
+                            <dl>
+                                <dt>收货地址：</dt>
+                                <dd>{$order.province}&nbsp{$order.city}&nbsp{$order.county}&nbsp{$order.address}</dd>
+                            </dl>
+                            <dl>
+                                <dt>邮编：</dt>
+                                <dd>{$order.zipcode|default='N'}</dd>
+                            </dl>
+                            <dl>
+                                <dt>配送方式：</dt>
+                                <dd>{$order.zipcode}</dd>
+                            </dl>
+                            <dl>
+                                <dt>留言：</dt>
+                                <dd>{$order.user_note|default=''}</dd>
+                            </dl>
+                        </div>
+
+
+                        <div class="goods-info">
+                            <h4>商品信息</h4>
+                            <table>
+                                <thead>
+                                <tr>
+                                    <th >商品编号</th>
+                                    <th colspan="2">商品</th>
+                                    <th>规格属性</th>
+                                    <th>数量</th>
+                                    <th>商品价格</th>
+                                    <th>商品小计</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <foreach name="$order.orderGoods" item="v1" key="k1">
+                                    <tr>
+                                        <td class="w60">{$v1.goods_sn}</td>
+                                        <td class="w30"><div class="goods-thumb"><img alt="" src="{$v1.original_img}" /></div></td>
+                                        <td style="text-align: left;">{$v1.goods_name}<br/></td>
+                                        <td class="w80">{$v1.spec_key_name}</td>
+                                        <td class="w60">{$v1.goods_num}</td>
+                                        <td class="w100">{$v1.goods_price}</td>
+                                        <td class="w80">{$v1.goods_total}</td>
+                                    </tr>
+                                </foreach>
+                            </table>
+                        </div>
+
+                        <div class="contact-info">
+                            <h4>发货信息</h4>
+                            <dl class="row">
+                                <dt class="tit">
+                                    <label for="note">发货单备注</label>
+                                </dt>
+                                <dd class="opt" style="margin-left:10px">
+                                    <textarea id="note" name="note" style="width:600px" rows="6"  maxlength="200" placeholder="请输入操作备注" class="tarea"></textarea>
+                                </dd>
+                            </dl>
+                            <dl class="row">
+                                <dt class="tit">
+                                    <label for="note">可执行操作</label>
+                                </dt>
+                                <dd class="opt" style="margin-left:10px">
+
+                                    <a class="ncap-btn-big ncap-btn-green" id="toDelivery">确认发货</a>
+                                </dd>
+                            </dl>
+                        </div>
+                        <div class="goods-info">
+                            <h4>操作记录</h4>
+                            <table>
+                                <thead>
+                                <tr>
+                                    <th>操作者</th>
+                                    <th>操作时间</th>
+                                    <th>订单状态</th>
+                                    <th>付款状态</th>
+                                    <th>发货状态</th>
+                                    <th>描述</th>
+                                    <th>备注</th>
+                                </tr>
+                                </thead>
+                                <tbody id="order_action">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(function () {
+            getOrderAction()
+        })
+        //获取订单的操作日志
+        function getOrderAction(){
+            var order_id = "{$order.id}";
+            $.ajax({
+                type : "get",
+                url  : "{:url('Admin/order/getOrderAction')}",
+                data : {order_id:order_id},
+                dataType: 'json',
+                error: function(request) {
+                    layer.msg("服务器繁忙, 请联系管理员!", {icon: 1, time: 2000});
+                },
+                success: function(data) {
+                    // 验证成功提交表单
+                    if(data.status == 1)
+                    {
+                        var html = '';
+                        for (var i=0; i<data.data.length;i++){
+                            html +='<tr><td class="text-center">'+data.data[i].user_name+'</td>' +
+                                '<td class="text-center">'+data.data[i].log_time+'</td>' +
+                                '<td class="text-center">'+data.data[i].order_status+'</td>' +
+                                '<td class="text-center">'+data.data[i].pay_status+'</td>' +
+                                '<td class="text-center">'+data.data[i].shipping_status+'</td>' +
+                                '<td class="text-center">'+data.data[i].status_desc+'</td>' +
+                                '<td class="text-center">'+data.data[i].action_note+'</td></tr>'
+                        }
+                        $('#order_action').html(html);
+                    }else{
+                        layer.msg(data.msg, {icon: 2, time: 2000});
+                    }
+                }
+            });
+        }
+
+        //选择物流公司
+        $('#shippingtype').change(function () {
+            var $this = $(this);
+            var shippingtype = $this.val();
+            $("input[name='shippingtype']").val(shippingtype);
+        })
+        //选择发货方式
+        $('#shippingcode').change(function () {
+            var $this = $(this);
+            var shippingcode = $this.val();
+            $("input[name='shippingcode']").val(shippingcode);
+            if (shippingcode==1){
+                $('#setcode1').css('display','none');
+                $('#setcode2').css('display','none');
+                $('#setcode3').css('display','none');
+                $("input[name='code']").val('');
+            } else {
+                $('#setcode1').css('display','inline-block');
+                $('#setcode2').css('display','inline-block');
+                $('#setcode3').css('display','inline-block');
+
+            }
+
+        })
+
+        //去发货
+        $(document).on('click','#toDelivery',function () {
+
+            var order_id =$("input[name='order_id']").val();
+            var shippingtype =$("input[name='shippingtype']").val();
+            var shippingcode =$("input[name='shippingcode']").val();
+            var note =$("#note").val();
+            var code =$("input[name='code']").val();
+            if ($("input[name='shippingcode']").val() == 0 && $("input[name='code']").val() == '') {
+                layer.alert('请输入配送单号', {icon: 2});
+                return;
+            }
+            if ($("input[name='shippingtype']").val() == 0) {
+                layer.alert('请选择物流', {icon: 2});
+                return;
+            }
+            $.ajax({
+                type:"get",
+                async:false,
+                dataType:'json',
+                data:{order_id:order_id,shippingtype:shippingtype,shippingcode:shippingcode,code:code,note:note},
+                url:"{:url('Admin/order/toDelivery')}",
+                success: function(data) {
+                    if (data.status==1){
+                        layer.msg(data.msg,{icon: 1,time:3000},function () {
+                            window.location.replace("/Admin/order/index");
+                        })
+                    } else {
+                        layer.alert(data.msg, {icon: 2});
+                    }
+                    getOrderAction();
+                }
+            })
+        })
+    </script>
+</block>
+

@@ -43,13 +43,21 @@ class UserLogic extends My_Logic
 
     }
 
+    //检查用户名是否存在
+    public function checkusername($username){
+        $data['user_name'] = $username;
 
+        $reg = Db::name('user')->where('user_name',$data['user_name'])->find();
+        if ($reg){
+            return ['status'=>0,'msg'=>'账号重复了'];
+        }
+    }
 
     //注册
     public function reg($username,$password,$phone){
            $data['user_name'] = $username;
            $data['user_pwd'] = $password;
-
+           $data['user_regtime'] = time();
            $reg = Db::name('user')->where('user_name',$data['user_name'])->find();
            if ($reg){
                return ['status'=>0,'msg'=>'账号重复了'];
@@ -64,9 +72,11 @@ class UserLogic extends My_Logic
              return true;
           }
     }
+
+    //注册后登录记录日志
     public function handleReg($user,$data,$phone){
 
-        $nickname = $user['user_name'].time();
+        $nickname = $user['user_name'];
         $lastlogin = time();
         if (empty($user['user_count'])){
             $count = 1;
@@ -91,6 +101,11 @@ class UserLogic extends My_Logic
         }
             return false;
 
+    }
+
+    //所有会员列表
+    public function get_all_user(){
+        $res=$this->get_all(array(),$field = '*',$table,$order='');
     }
 
 }
