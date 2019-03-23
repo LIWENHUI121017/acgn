@@ -8,6 +8,7 @@
     <link rel="stylesheet" type="text/css" href="__PUBLIC__/static/css/order/buyConfirm.css" />
     <link rel="stylesheet" type="text/css" href="__PUBLIC__/static/css/order/base.css"/>
     <script src="__PUBLIC__/static/js/jquery/jquery.min.js" type="text/javascript"></script>
+    <script src="__PUBLIC__/static/js/layer/layer.js" type="text/javascript"></script>
     <link rel="stylesheet" href="__PUBLIC__/static/css/base.css" type="text/css">
 </head>
 
@@ -24,6 +25,7 @@
     <form  id="pay-form" method="post">
         <input type="hidden" name="orderid" value="{$order.id}"/>
         <input type="hidden" name="order_status" value="{$order.order_status}"/>
+        <input type="hidden" name="pay_status" value="{$order.pay_status}"/>
             <div class="order-info">
                 <div class="msg">
                     <h3>您的订单已提交成功！请您尽快付款！</h3>
@@ -141,9 +143,9 @@
 <script type="text/javascript">
     $(function () {
         var orderid = $("input[name='orderid']").val();
-        var order_status = $("input[name='order_status']").val();
+        var pay_status = $("input[name='pay_status']").val();
         var url = "/index/order/paysuccess/order_id/"+orderid;
-        if(order_status==1){
+        if(pay_status==1){
             window.location.href=url ;
         }
     })
@@ -275,8 +277,10 @@
                             $('.modal-body').css('display','block')
                         }
                         if(data.status == 300){
-                            alert( data.msg);
-                            window.location.href=data.url;
+                            layer.msg( data.msg,{icon:1,time:2000},function () {
+                                window.location.href=data.url;
+                            });
+
                         }
 
 

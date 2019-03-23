@@ -43,7 +43,8 @@ class Order extends Base {
         $logic = new OrderLogic();
         $cartlist = $logic->get_order_list($where,$field);
         if (!$cartlist){
-            return json(['status'=>0,'msg'=>'你还没有选中要结算的商品！']);
+//            return json(['status'=>0,'msg'=>'你还没有选中要结算的商品！']);
+            $this->error('你还没有选中要结算的商品',url('index/cart/index'));
         }
         //计算总金额
         $totalprice=0;
@@ -254,7 +255,7 @@ class Order extends Base {
         $logic = new OrderLogic();
         $where = ['id'=>$orderid];
         $order = $logic->get_one($where,'*','Order');
-        if ($order['order_status']!=1){
+        if ($order['pay_status']!=1){
           $this->redirect('index/order/orderpay',array('order_id'=>$orderid));
         }
         $this->assign('order',$order);

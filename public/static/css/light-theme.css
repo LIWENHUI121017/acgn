@@ -1878,6 +1878,7 @@ body {
   margin-left: 251px;
   background: #fbfbfb;
   min-width: 276px;
+  min-height: 700px;
   background: #fff;
   padding-bottom: 20px; }
   @media (max-width: 768px) {

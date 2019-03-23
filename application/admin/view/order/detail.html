@@ -251,24 +251,31 @@
                                     <label for="note">可执行操作</label>
                                 </dt>
                                 <dd class="opt" style="margin-left:10px">
-                                    <!--订单已确认-->
-                                    <if condition="$order.order_status eq 1">
+                                    <!--订单还没付款-->
+                                    <if condition="$order.pay_status eq 0">
+                                        <div>订单还未付款</div>
+                                        <else/>
+                                        <!--订单已确认-->
+                                        <if condition="$order.order_status eq 1">
 
-                                        <!--订单未发货-->
-                                        <if condition="$order.shipping_status eq 0">
-                                            <a class="ncap-btn-big ncap-btn-green" id="confirm" data-status="2">取消确认</a>
-                                            <a class="ncap-btn-big ncap-btn-green" href="{:url('Admin/order/delivery',array('orderid'=>$order.id))}" >去发货</a>
+                                            <!--订单未发货-->
+                                            <if condition="$order.shipping_status eq 0">
+                                                <a class="ncap-btn-big ncap-btn-green" id="confirm" data-status="2">取消确认</a>
+                                                <a class="ncap-btn-big ncap-btn-green" href="{:url('Admin/order/delivery',array('orderid'=>$order.id))}" >去发货</a>
+                                            </if>
+                                            <elseif condition="$order.order_status eq 0"/>
+                                            <a class="ncap-btn-big ncap-btn-green" id="confirm" data-status="1">确认</a>
                                         </if>
-                                        <elseif condition="$order.order_status eq 0"/>
-                                        <a class="ncap-btn-big ncap-btn-green" id="confirm" data-status="1">确认</a>
+
+                                        <in name="$order.order_status" value="2,5">
+                                            <a class="ncap-btn-big ncap-btn-green" id="confirm" data-status="3">移除</a>
+                                        </in>
+                                        <if condition="$order.order_status neq 5">
+                                            <a class="ncap-btn-big ncap-btn-green" id="confirm" data-status="5">无效</a>
+                                        </if>
+
                                     </if>
 
-                                    <in name="$order.order_status" value="2,5">
-                                        <a class="ncap-btn-big ncap-btn-green" id="confirm" data-status="3">移除</a>
-                                    </in>
-                                    <if condition="$order.order_status neq 5">
-                                        <a class="ncap-btn-big ncap-btn-green" id="confirm" data-status="5">无效</a>
-                                    </if>
 
                                 </dd>
                             </dl>

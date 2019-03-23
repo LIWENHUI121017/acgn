@@ -64,8 +64,13 @@ class My_Logic{
         return $res;
     }
     //删除一条数据
-    public function del($where=array()){
-        $res = Db::name($this->table)->where($where)->delete();
+    public function del($where=array(),$table=''){
+        if ($table){
+            $res = Db::name($table)->where($where)->delete();
+        }else{
+            $res = Db::name($this->table)->where($where)->delete();
+        }
+
         return $res;
     }
 

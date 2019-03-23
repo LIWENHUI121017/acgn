@@ -239,7 +239,28 @@ class OrderLogic extends My_Logic
         return $order;
     }
 
-    //订单日志
+    //获取全部订单日志
+    public function get_all_order_action(){
+        $orderaction=array();
+        $table = 'OrderAction';
+        $res = $this->get_all(array(),'*',$table,'log_time desc');
+        foreach ($res as $k=>$v) {
+            if ($v['action_user']==0){
+                $user = Db::name('order')->alias('a')->join('user s','s.id=a.user_id')
+                    ->where('a.id',$v['order_id'])
+                    ->field('s.user_name')
+                    ->find();
+//                dump($user);
+                $res[$k]['action_user']='用户：'.$user['user_name'];
+            }else{
+                $res[$k]['action_user']='管理员：'.$this->get_one(['id'=>$v['action_user']],'*','Admin')['admin_name'];
+
+            }
+        }
+        return $res;
+    }
+
+    //获取对应订单的订单日志
     public function get_order_action($order_id){
         $where = ['order_id'=>$order_id];
         $filed = '*';
@@ -328,9 +349,10 @@ class OrderLogic extends My_Logic
             $res = $this->edit($where,$data);
             return $res;
     }
-    //移除或删除订单
-    public function deleteorder($orderid){
-        $where=['id'=>$orderid];
-        return $this->del($where);
+    //移除或删除订单或者日志
+    public function deleteorderOraction($where,$table){
+
+        return $this->del($where,$table);
     }
+
 }

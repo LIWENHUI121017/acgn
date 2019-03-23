@@ -1,5 +1,5 @@
 <extend name="Public/layout"/>
-<block name="head"><title>订单列表</title>
+<block name="head"><title>订单日志</title>
     <include file="public/style"/>
 
 </block>
@@ -9,7 +9,6 @@
     <div class='page-header' style="margin:5px 0px 0px 0px;background-color:#e7f2f8;height: 30px ">
 
         <div class='pull-left' >
-
             <ul class='breadcrumb'>
                 <i class='icon-home' style="color: #000000;"></i>
                 <li class='' style="margin-left: 5px;"><a href="{:url('/Admin/Index/index')}" style="color: #4c8fbd">首页</a></li>
@@ -28,51 +27,36 @@
                 <li class='separator'>
                     <i class='icon-angle-right'></i>
                 </li>
-                <li class='active'>订单列表</li>
+                <li class='active'>订单日志</li>
 
             </ul>
         </div>
     </div>
 
+    <div class="span10"style="height: 40px;">
 
-        <div class="mDiv">
-            <ul class="ftitle">
-                <li class="pull-left">
-                    <span>订单列表</span>
-                    <span>(共4条记录)</span>
-                </li>
-            </ul>
-
-            <ul class='sDiv' id="canshu">
-
-                <li>
-                    <select>
-                        <option value="0">D--戴尔</option>
-                    </select>
-                </li>
-                <li>
-                    <select >
-                        <option value="0">D--戴尔</option>
-                    </select>
-                </li>
-                <li>
-                    <select>
+        <div class='controls '>
+            <div class='input-append pull-right'>
+                <select class="span3">
+                    <option>所有分类</option>
+                </select>
+                <select class="span3">
+                    <option>D--戴尔</option>
+                </select>
+                <select class="span2">
                     <option>全部</option>
                 </select>
-                </li>
-                <li>
-                    <select>
+                <select class="span2">
                     <option>全部</option>
                 </select>
-                </li>
-                <li> <input id='search' type='text' placeholder="搜索相关数据..."/></li>
-                <li>
-                    <div class="sDiv2" style="margin-bottom: 10px;font-size: 10px; ">
-                        <a id="see" class="green btn" href="/Admin/order/detail/orderid/29.html">  <i class='icon-search'></i></a>
-                    </div>
-                </li>
-            </ul>
+                <input class='span3' id='appendedInputButtons1' type='text' />
+                <button class='btn' type='button'>
+                    <i class='icon-search'></i>
+                </button>
+            </div>
         </div>
+
+    </div>
 
     <div class='row-fluid' style="margin-top: 0px">
 
@@ -100,63 +84,39 @@
                                 <th>
                                     <input type="checkbox" value="">
                                 </th>
-                                <th>订单编号</th>
-                                <th>收货人</th>
-                                <th>总金额</th>
-                                <th>应付金额</th>
-                                <th>订单状态</th>
-                                <th>支付状态</th>
-                                <th>发货状态</th>
-                                <th>支付方式</th>
-                                <th>配送方式</th>
-                                <th>下单时间</th>
+                                <th>订单ID</th>
+                                <th>操作动作</th>
+                                <th>操作人</th>
+                                <th>操作备注</th>
+                                <th>操作时间</th>
                                 <th>操作</th>
                             </tr>
                         </thead>
                         <tbody>
 
-                        <foreach name="order" item="v1" key="k1">
+                        <foreach name="orderaction" item="v1" key="k1">
                         <tr>
                             <td>
                                 <input type="checkbox" value="">
                             </td>
-                            <td>{$v1.order_sn}</td>
-
-                            <td>{$v1.consignee}  </td>
-                            <td>
-                                {$v1.total_amount}
-                            </td>
-                            <td>
-                                {$v1.order_amount}
-                            </td>
-                            <td>
-                                {$order_status[$v1.order_status]}
-                            </td>
-                            <td>
-                                {$pay_status[$v1.pay_status]}
-                            </td>
-                            <td>
-                                {$shipping_status[$v1.shipping_status]}
-                            </td>
-                            <td>
-                                {$v1.pay_type_id}
-                            </td>
-                            <td>
-                                {$v1.shipping_id}
-                            </td>
-                            <td>
-                                {$v1.order_time}
-                            </td>
+                            <td>{$v1.order_id}</td>
 
 
-
+                            <td>{$v1.status_desc}  </td>
+                            <td>
+                                {$v1.action_user}
+                            </td>
+                            <td>  {$v1.action_note}
+                            </td>
+                            <td>
+                                {$v1.log_time|date='Y-m-d H:i:s',###}
+                            </td>
 
                             <td align="center">
                                 <div class="caozuo" style="text-align: center; width: 170px; max-width:170px;">
-                                    <a id="see" class="green btn" href="{:url('Admin/order/detail',array('orderid'=>$v1.id))}"><span class="icon-pencil"></span>&nbsp;查看</a>
-                                    <in name="$v1.order_status" value="2,5">
-                                        <a id="delete" data-orderid="{$v1.id}" class="red btn"><span class="icon-trash"></span>&nbsp;删除</a>
-                                    </in>
+                                    <a id="see" class="green btn" href="{:url('admin/order/detail',array('orderid'=>$v1.order_id))}"><span class="icon-pencil"></span>&nbsp;查看</a>
+                                    <a id="delete" data-actionid="{$v1.action_id}" class="red btn"><span class="icon-trash"></span>&nbsp;删除</a>
+
 
                                 </div>
                             </td>
@@ -182,13 +142,13 @@
 <script>
     //删除
     $(document).on("click",'#delete',function() {
-        var orderid = $(this).data('orderid');
-        layer.confirm('你确定要删除该订单吗？',{btn: ['确定', '取消']}, function () {
+        var actionid = $(this).data('actionid');
+        layer.confirm('你确定要删除该订单日志吗？',{btn: ['确定', '取消']}, function () {
             $.ajax({
                 type:'post',
                 async:false,
                 dataType:'json',
-                data:{orderid:orderid},
+                data:{actionid:actionid},
                 url:"{:url('Admin/Order/delete')}",
                 success: function(data) {
                     layer.msg(data.msg,{icon:1,time:2000},function () {

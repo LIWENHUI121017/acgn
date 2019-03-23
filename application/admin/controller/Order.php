@@ -50,8 +50,12 @@ class Order extends Base
     //订单详情
     public function detail(){
         $orderid=input('orderid');
-
         $logic = new OrderLogic();
+        //检查是否有此订单
+        $check=$logic->get_one(['id'=>$orderid]);
+        if (!$check){
+            $this->error('订单不存在或已经删除',url('admin/order/orderaction'));
+        }
         $where = ['a.id'=>$orderid];
         $order = $logic->get_one_order($where);
 //        dump($order);
@@ -196,17 +200,37 @@ class Order extends Base
         }
     }
 
-    //删除订单
+    //删除订单或者日志
     public function delete(){
         $orderid=input('orderid');
-//        dump($orderid);
+        $actionid=input('actionid');
+
+//        dump($actionid);
         $logic = new OrderLogic();
-        $res = $logic->deleteorder($orderid);
+        if ($orderid){
+            $where=['id'=>$orderid];
+            $res = $logic->deleteorderOraction($where);
+        }else if ($actionid){
+            $table = 'OrderAction';
+            $where=['action_id'=>$actionid];
+            $res = $logic->deleteorderOraction($where,$table);
+        }else{
+            return json(['status'=>0,'msg'=>'参数错误']);
+        }
         if ($res){
             return json(['status'=>1,'msg'=>'删除成功']);
         }else{
             return json(['status'=>0,'msg'=>'操作失败']);
         }
+    }
+
+    //订单日志页面
+    public function orderaction(){
+        $logic = new OrderLogic();
+        $orderaction = $logic->get_all_order_action();
+//        dump($orderaction);
+        $this->assign('orderaction',$orderaction);
+        return $this->fetch('orderaction');
     }
 
 }
