@@ -1,0 +1,14 @@
+@charset "utf-8";
+* { word-wrap: break-word; outline: none; }
+
+.onoff { font-size: 0; position: relative; overflow: hidden; display: block; }
+.onoff label { vertical-align: top; display: inline-block; *display: inline;
+ *zoom: 1;
+ cursor: pointer; }
+.onoff input[type="radio"] { position: absolute; top: 0; left: -999px; }
+.onoff .cb-enable,
+.onoff .cb-disable { color: #777; font-size: 12px; line-height: 20px; background-color: #ECF0F1; height: 20px; padding: 1px 9px; border-style: solid; border-color: #BEC3C7; }
+.onoff .cb-enable { border-width: 1px 0 1px 1px; border-radius: 4px 0 0 4px; }
+.onoff .cb-disable { border-width: 1px 1px 1px 0; border-radius: 0 4px 4px 0; }
+.onoff .cb-disable.selected { color: #FFF; background-color: #96A6A6; border-color: #808B8D; }
+.onoff .cb-enable.selected { color: #FFF; background-color: #1BBC9D; border-color: #16A086 }

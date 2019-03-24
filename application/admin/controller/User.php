@@ -20,9 +20,31 @@ class User extends Base
     public function index()
     {
         $logic = new UserLogic();
-        $user = $logic-
+        $user = $logic->get_all_user();
+//        dump($user);
+        $this->assign('user',$user);
         return $this->fetch();
     }
 
+    //用户信息详情页面
+    public function userinfo(){
+        $userid = input('id');
+        $logic = new UserLogic();
+        $where =['id'=>$userid];
+        $user = $logic->get_one_user($where);
+//        dump($user);
 
+        $this->assign('user',$user);
+        return $this->fetch();
+    }
+
+    //搜索
+    public function search(){
+        $data = input('search');
+        $where = ['user_nickname','like',"%".$data."%"];
+        $logic =new UserLogic();
+        $res = $logic->get_all($where);
+        $this->assign('user',$res);
+        return $this->fetch('search');
+    }
 }

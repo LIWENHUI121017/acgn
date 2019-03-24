@@ -45,30 +45,10 @@
 
             <ul class='sDiv' id="canshu">
 
-                <li>
-                    <select>
-                        <option value="0">D--戴尔</option>
-                    </select>
-                </li>
-                <li>
-                    <select >
-                        <option value="0">D--戴尔</option>
-                    </select>
-                </li>
-                <li>
-                    <select>
-                    <option>全部</option>
-                </select>
-                </li>
-                <li>
-                    <select>
-                    <option>全部</option>
-                </select>
-                </li>
                 <li> <input id='search' type='text' placeholder="搜索相关数据..."/></li>
                 <li>
                     <div class="sDiv2" style="margin-bottom: 10px;font-size: 10px; ">
-                        <a id="see" class="green btn" href="/Admin/order/detail/orderid/29.html">  <i class='icon-search'></i></a>
+                        <a id="searchclick" class="green btn" >  <i class='icon-search'></i></a>
                     </div>
                 </li>
             </ul>
@@ -76,7 +56,7 @@
 
     <div class='row-fluid' style="margin-top: 0px">
 
-        <div class='span12 box bordered-box green-border' style='margin-bottom:0;'>
+        <div id="userlist" class='span12 box bordered-box green-border' style='margin-bottom:0;'>
             <div class="tDiv">
                 <div class="tDiv2">
                     <div class="fbutton">
@@ -100,69 +80,49 @@
                                 <th>
                                     <input type="checkbox" value="">
                                 </th>
-
-
-
-
-
-
-                                
                                 <th>ID</th>
                                 <th>会员昵称</th>
-                                <th>会员等级</th>
-                                <th>累计消费</th>
                                 <th>邮件地址</th>
                                 <th>手机号码</th>
                                 <th>余额</th>
                                 <th>注册日期</th>
+                                <th>最后一次登录时间</th>
+                                <th>登录次数</th>
                                 <th>操作</th>
                             </tr>
                         </thead>
                         <tbody>
 
-                        <foreach name="order" item="v1" key="k1">
+                        <foreach name="user" item="v1" key="k1">
                         <tr>
                             <td>
                                 <input type="checkbox" value="">
                             </td>
-                            <td>{$v1.order_sn}</td>
+                            <td>{$v1.id}</td>
 
-                            <td>{$v1.consignee}  </td>
+                            <td>{$v1.user_nickname}  </td>
                             <td>
-                                {$v1.total_amount}
+                                {$v1.user_name}
                             </td>
                             <td>
-                                {$v1.order_amount}
+                                {$v1.user_phone}
                             </td>
                             <td>
-                                {$order_status[$v1.order_status]}
+                                {$v1.user_money}
                             </td>
                             <td>
-                                {$pay_status[$v1.pay_status]}
+                                {$v1.user_regtime|date="Y-m-d H:i",###}
                             </td>
                             <td>
-                                {$shipping_status[$v1.shipping_status]}
+                                {$v1.user_lastlogin|date="Y-m-d H:i",###}
                             </td>
                             <td>
-                                {$v1.pay_type_id}
+                                {$v1.user_count}
                             </td>
-                            <td>
-                                {$v1.shipping_id}
-                            </td>
-                            <td>
-                                {$v1.order_time}
-                            </td>
-
-
-
-
                             <td align="center">
                                 <div class="caozuo" style="text-align: center; width: 170px; max-width:170px;">
-                                    <a id="see" class="green btn" href="{:url('Admin/order/detail',array('orderid'=>$v1.id))}"><span class="icon-pencil"></span>&nbsp;查看</a>
-                                    <in name="$v1.order_status" value="2,5">
-                                        <a id="delete" data-orderid="{$v1.id}" class="red btn"><span class="icon-trash"></span>&nbsp;删除</a>
-                                    </in>
-
+                                    <a id="see" class="green btn" href="{:url('Admin/User/userinfo',array('id'=>$v1.id))}"><span class="icon-pencil"></span>&nbsp;查看</a>
+                                    <a id="delete" data-orderid="{$v1.id}" class="red btn"><span class="icon-trash"></span>&nbsp;删除</a>
                                 </div>
                             </td>
                         </tr>
@@ -209,6 +169,20 @@
 
 
 
+    })
+
+    $(document).on('click','#searchclick',function () {
+        var search = $('#search').val();
+        $.ajax({
+            type:'get',
+            async:false,
+            dataType:'json',
+            data:{search:search},
+            url:"{:url('Admin/User/ser')}",
+            success: function(data) {
+                $('#userlist').html(data);
+            }
+        })
     })
 
 

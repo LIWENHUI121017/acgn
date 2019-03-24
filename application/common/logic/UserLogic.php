@@ -12,7 +12,7 @@ class UserLogic extends My_Logic
     }
     public function login($username,$password){
         $data['user_name'] = $username;
-        $data['user_pwd'] = $password;
+        $data['user_pwd'] = md5(md5($password));
         $user = Db::name('user')->where($data)->find();
         if (!$user){
             return json(['status'=>0,'msg'=>'输入的账号密码不正确']);
@@ -56,7 +56,7 @@ class UserLogic extends My_Logic
     //注册
     public function reg($username,$password,$phone){
            $data['user_name'] = $username;
-           $data['user_pwd'] = $password;
+           $data['user_pwd'] = md5(md5($password));
            $data['user_regtime'] = time();
            $reg = Db::name('user')->where('user_name',$data['user_name'])->find();
            if ($reg){
@@ -85,11 +85,17 @@ class UserLogic extends My_Logic
         }
             Db::name('user')->where('user_name',$data['user_name'])->update(['user_nickname'=>$nickname,'user_count'=>$count,'user_lastlogin'=>$lastlogin,'user_phone'=>$phone]);
             $reg = Db::name('user')->where('user_name',$data['user_name'])->find();
+
+
+        session('user',$reg);
         session('username',$reg['user_name']);
-        session('id',$reg['id']);
+        session('user_id',$reg['id']);
         session('nickname',$reg['user_nickname']);
         session('lastlogin',$reg['user_lastlogin']);
 
+        setcookie('user_id',$reg['id'],null,'/');
+        setcookie('nickname',$reg['user_nickname'],null,'/');
+        setcookie('cn',0,time()-3600,'/');
 
     }
 
@@ -105,7 +111,14 @@ class UserLogic extends My_Logic
 
     //所有会员列表
     public function get_all_user(){
-        $res=$this->get_all(array(),$field = '*',$table,$order='');
+        $res=$this->get_all();
+        return $res;
+    }
+
+    //获取一个会员
+    public function get_one_user($where,$field='*'){
+        $res = $this->get_one($where,$field);
+        return $res;
     }
 
 }
