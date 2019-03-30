@@ -5,6 +5,7 @@ use app\common\logic\CartLogic;
 use app\common\logic\GoodsLogic;
 use app\common\logic\OrderLogic;
 use app\common\logic\UserLogic;
+use app\common\model\SpecGoodsPrice;
 use phpDocumentor\Reflection\Types\Object_;
 use think\Db;
 use think\Loader;
@@ -71,6 +72,8 @@ class Order extends Base {
             exit(json_encode(array('status' => -100, 'msg' => "登录超时请重新登录!")));
         }
         $data = input('Checkout/a');
+//        dump($data);
+//        die;
         $cartidlist = $data['cart_id'];//订单中的商品
         $validate = Loader::validate('Order');
         if (!$validate->check($data)){
@@ -212,19 +215,27 @@ class Order extends Base {
                    $data=['user_money'=>$money];
                    $useres = $userlogic->edit($where,$data,'User');
 
-                   //商品库存
+                   //商品库存减少
                    $where=['order_id'=>$orderid];
                    $field = 'goods_id,spec_key,goods_num';
                    $ordergoodsres = $orderlogic->get_all($where,$field,'OrderGoods');
+                   $goodslogic = new GoodsLogic();
                    foreach ($ordergoodsres as $k=>$v) {
-                       if ($v['spec_key']==0){
-                           $goodslogic = new GoodsLogic();
+                       if ($v['spec_key']==0){//没有商品规格
                            $where=['id'=>$v['goods_id']];
                            $field = 'goods_inventory';
                            $goods = $goodslogic->get_one($where,$field,'Goods');
                            $data=['goods_inventory'=>$goods['goods_inventory']-$v['goods_num']];
                            $res = $goodslogic->edit($where,$data);
-//                           dump($res);
+                       }else{//有商品规格
+                            $where=[
+                                'goods_id'=>$v['goods_id'],
+                                'key'=>$v['spec_key'],
+                                ];
+                           $field = 'store_count';
+                           $goods = $goodslogic->get_one($where,$field,'SpecGoodsPrice');
+                           $data=['store_count'=>$goods['store_count']-$v['goods_num']];
+                           $res = $goodslogic->edit($where,$data,'SpecGoodsPrice');
                        }
                    }
 
@@ -261,5 +272,13 @@ class Order extends Base {
         $this->assign('order',$order);
         $this->assign('user',$this->user);
         return $this->fetch();
+    }
+
+    //取消订单
+    public function cancel_order(){
+        $id = input('id/d');
+        $logic = new OrderLogic();
+        $data = $logic->cancel_order($this->user_id,$id);
+        return json($data);
     }
 }

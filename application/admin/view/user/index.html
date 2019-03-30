@@ -22,13 +22,13 @@
             <ul class='breadcrumb'>
 
 
-                <li class='active'><h3>订单</h3></li>
+                <li class='active'><h3>会员管理</h3></li>
 
 
                 <li class='separator'>
                     <i class='icon-angle-right'></i>
                 </li>
-                <li class='active'>订单列表</li>
+                <li class='active'>会员列表</li>
 
             </ul>
         </div>
@@ -60,7 +60,7 @@
             <div class="tDiv">
                 <div class="tDiv2">
                     <div class="fbutton">
-                        <a href="" onfocus="this.blur();">
+                        <a href="{:url('User/add')}" >
                                         <span>
                                             <i class="icon-plus"></i>
                                            添加会员
@@ -122,8 +122,7 @@
                             <td align="center">
                                 <div class="caozuo" style="text-align: center; width: 170px; max-width:170px;">
                                     <a id="see" class="green btn" href="{:url('Admin/User/userinfo',array('id'=>$v1.id))}"><span class="icon-pencil"></span>&nbsp;查看</a>
-                                    <a id="delete" data-orderid="{$v1.id}" class="red btn"><span class="icon-trash"></span>&nbsp;删除</a>
-                                </div>
+                                     </div>
                             </td>
                         </tr>
 
@@ -178,7 +177,7 @@
             async:false,
             dataType:'json',
             data:{search:search},
-            url:"{:url('Admin/User/ser')}",
+            url:"{:url('Admin/User/search')}",
             success: function(data) {
                 $('#userlist').html(data);
             }

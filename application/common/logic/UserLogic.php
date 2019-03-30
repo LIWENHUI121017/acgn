@@ -121,4 +121,33 @@ class UserLogic extends My_Logic
         return $res;
     }
 
+    /**
+     * 新增或修改会员
+     * @param  int $id 用户id
+     * @param  array $data 修改或者新增的参数
+     */
+    public function addEditUser($id,$data){
+        if ($id){
+            //修改
+            $list = [
+                'id'=>$data['id'],
+                'user_name'=>$data['user_name'],
+                'user_phone'=>$data['user_phone'],
+                'user_qq'=>$data['user_qq'],
+                'user_regtime'=>strtotime($data['user_regtime']),
+                'is_disable'=>$data['is_disable'],
+            ];
+            if (!empty($data['user_pwd'])){
+                     $list['user_pwd']=md5(md5($data['user_pwd']));
+            }
+            $where = ['id'=>$id];
+            $res = $this->edit($where,$list);
+            return $res;
+        }else{
+            //新增
+            $data['user_regtime'] = time();
+            $res = $this->add($data);
+            return $res;
+        }
+    }
 }

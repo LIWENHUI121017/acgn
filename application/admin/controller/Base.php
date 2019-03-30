@@ -11,7 +11,7 @@ class Base extends Controller{
     protected $rules;//权限验证规则
 
     public function _initialize(){
-
+        header("Cache-control: private");  // history.back返回后输入框值丢失问题
         if(!session('admin_id')){
             $this->redirect('/Admin/login');
             $this->error('请登录','/Admin/login','',1);

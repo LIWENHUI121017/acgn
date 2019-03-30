@@ -42,6 +42,11 @@
         color: red;
         font-size: 12px;
     }
+    #sex span{
+        vertical-align:text-top;
+        margin-left:2px;
+        margin-bottom:-2px
+    }
 </style>
 </block>
 
@@ -56,9 +61,9 @@
                 <i class='icon-home' style="color: #000000;"></i>
                 <li class='' style="margin-left: 5px;"><a href="{:url('/Admin/Goods/index')}" style="color: #4c8fbd">首页</a></li>
                 <li class='' style="margin-left: 5px;"><i class='icon-angle-left'></i></li>
-                <li class='' style="margin-left: 5px;"><a href="{:url('/Admin/Goods/index')}" style="color: #4c8fbd">会员列表</a></li>
+                <li class='' style="margin-left: 5px;"><a href="{:url('/Admin/User/index')}" style="color: #4c8fbd">会员列表</a></li>
                 <li class='' style="margin-left: 5px;"><i class='icon-angle-left'></i></li>
-                <li class='' style="margin-left: 5px;">添加商品</li>
+                <li class='' style="margin-left: 5px;">会员详情</li>
             </ul>
         </div>
 
@@ -66,7 +71,7 @@
     <div class='page-header' style="margin:5px 0px 0px 0px;background-color:#ffffff;height: 40px ;border-bottom: solid 1px #e2e2e2">
         <div class='pull-left'>
             <ul class='breadcrumb'>
-                <li class='active'><h3>商品</h3></li>
+                <li class='active'><h3>会员管理</h3></li>
                 <li class='separator'>
                     <i class='icon-angle-right'></i>
                 </li>
@@ -78,16 +83,16 @@
 
     <div class='span12' style="margin-top: 10px">
 
-        <form accept-charset="UTF-8" action="{:url('/Admin/Goods/addEditgoods')}" class="form form-horizontal" method="post" style="margin-bottom: 0;" enctype="multipart/form-data"/>
+        <form accept-charset="UTF-8" action="{:url('/Admin/user/addEditUser')}" class="form form-horizontal" method="post" style="margin-bottom: 0;">
         <!--<form id="data" class="form form-horizontal" method="get" style="margin-bottom: 0;" enctype="multipart/form-data"/>-->
                 <input type="hidden" value="{$user.id}" name="id"/>
             <div class='box-content box1'>
 
 
                 <div class='control-group'>
-                    <label class='control-label' for='user_name'>会员昵称</label>
+                    <label class='control-label' for='user_nickname' >会员昵称</label>
                     <div class='controls'>
-                        <input name="user_name" id="user_name" type='text' value="{$user.user_name}"/>
+                        <input name="user_nickname" id="user_nickname" type='text' value="{$user.user_nickname}"  readonly="readonly"/>
                     </div>
                 </div>
 
@@ -102,13 +107,13 @@
                 <div class='control-group'>
                     <label class='control-label' for='user_name'>电子邮箱</label>
                     <div class='controls'>
-                        <input id='user_name' name="user_name" type='text' value="{$user.user_name}" style="border-radius: 50px;"/>
+                        <input id='user_name' name="user_name" type='text' value="{$user.user_name}" readonly="readonly" style="border-radius: 50px;"/>
                     </div>
                 </div>
                 <div class='control-group'>
                     <label class='control-label' for='user_phone'>手机号码</label>
                     <div class='controls'>
-                        <input id='user_phone' name="user_phone" type='text' value="{$user.user_phone}"/>
+                        <input id='user_phone' name="user_phone" type='text' value="{$user.user_phone}" readonly="readonly"/>
                     </div>
                 </div>
                 <hr class='hr-normal' />
@@ -116,55 +121,57 @@
                     <label class='control-label' for='password1'>新密码</label>
                     <div class='controls'>
                         <input id='password1' name="password1" type='text' />
+                        <p style="font-size: 12px;color:red;">留空表示不修改密码</p>
                     </div>
                 </div>
 
 
-                <!--分类-->
+                <!--确认密码-->
                 <div class='control-group'>
                     <label class='control-label' for='password2'>确认密码</label>
                     <div class='controls'>
                         <input id='password2' name="password2" type='text' />
+                        <p style="font-size: 12px;color:red;">留空表示不修改密码</p>
                     </div>
                 </div>
 
-                <!--图片-->
+                <!--性别-->
                 <div class='control-group'>
                     <label class='control-label' for='user_sex'>性别</label>
-                    <div class='controls'>
-                        <input name="user_sex" type='radio' value="1"/>男&nbsp
-                        <input  name="user_sex" type='radio' value="2"/>女
+                    <div class='controls' id="sex" style="font-size: 12px;">
+                        <input name="user_sex" type='radio' value="3" <if condition="$user.user_sex eq 3 or $user.user_sex eq ''">checked="checked"</if>/><span >保密</span>&nbsp
+                        <input name="user_sex" type='radio' value="1" <if condition="$user.user_sex eq 1">checked="checked"</if>/><span >男</span>&nbsp
+                        <input  name="user_sex" type='radio' value="2" <if condition="$user.user_sex eq 2">checked="checked"</if>/><span >女</span>
                     </div>
                 </div>
-                <!--简介-->
+                <!--QQ-->
                 <div class='control-group'>
                 <label class='control-label' for='user_qq'>QQ</label>
                 <div class='controls'>
                     <input id='user_qq' name="user_qq" type='text' value="{$user.user_qq}"/>
                 </div>
             </div>
-                <!--商品详情-->
+                <!--注册时间-->
                 <div class='control-group'>
                     <label class='control-label' for='user_regtime'>注册时间</label>
                     <div class='controls'>
-                        <input id='user_regtime' name="user_regtime" type='text'value='{$user.user_regtime|date="Y-m-d H:i",###}' />
+                        <input id='user_regtime' name="user_regtime" type='text' readonly="readonly" value='{$user.user_regtime|date="Y-m-d H:i",###}' />
                     </div>
                 </div>
                 <!--冻结会员-->
                 <div class='control-group'>
-                    <label class='control-label' for='is_disable'>冻结会员</label>
+                    <label class='control-label' >冻结会员</label>
                     <div class='controls onoff'>
                         <label for="is_disable1" class="cb-enable <if condition="$user['is_disable'] eq 1">selected</if>"><span>开启</span></label>
                         <label for="is_disable2" class="cb-disable <if condition="$user['is_disable'] eq 0">selected</if>"><span>关闭</span></label>
                         <input id="is_disable1" name="is_disable" value="1" type="radio" <if condition="$user['is_disable'] eq 1">checked</if>>
                         <input id="is_disable2" name="is_disable" value="0" type="radio" <if condition="$user['is_disable'] eq 0">checked</if>>
-
                     </div>
                 </div>
 
 
-                <!--<div class='form-actions' id="submit">-->
-                     <!--<div class='btn btn-primary'  >-->
+                <div class='form-actions' id="submit">
+                     <!--<div type="submit" class='btn btn-primary'  >-->
                         <!--<i class='icon-save'></i>-->
                         <!--确认提交-->
                     <!--</div>-->
@@ -178,144 +185,16 @@
 </div>
 </div>
     <script>
+        //点击切换冻结按钮
+        $(document).on('click','.onoff label',function () {
+            var id =  '#'+$(this).attr('for');
+            $(this).siblings('label').removeClass('selected');
+            $(this).addClass('selected');
+            $(id).siblings('input').attr('checked',false);
+            $(id).attr('checked',true);
 
-        $(function(){
-            //select #cate1变化时获取商品分类1 2 3级别
-            $(document).on("change",'#cate1',function(){
-                get_category($(this).val(),'cate2','0');
-                // console.log(get_category($(this).val(),'cate2','0'))
-                $('#cate3').empty().html("<option value='0'>请选择商品分类</option>");
-            })
-
-
-        })
-       //将商品分类输出到select
-        function get_category(id,next,select_id){
-            console.log(id)
-            $.ajax({
-                type: 'GET',
-                dataType: 'json',
-                data: {cate: id},
-                url: "{:url('Admin/Goods/changelevelcate')}",
-                success: function(data) {
-
-                    var html = "<option value='0'>请选择商品分类</option>";
-                    if(data.status == 1){
-                        for (var i=0 ;i<data.result.length;i++){
-                            html+= "<option value='"+data.result[i].id+"'>"+data.result[i].name+"</option>";
-                        }
-                    }
-                    $('#'+next).empty().html(html);
-                    (select_id > 0) && $('#'+next).val(select_id);//默认选中
-                }
-            });
-        }
-
-        //点击提交商品
-        $(document).on("click",'#submit',function(){
-            var data = {};
-            var t = $('#data').serializeArray();
-            $.each(t, function() {
-                data[this.name] = this.value;
-            });
-            $.ajax({
-                type:'get',
-                async:false,
-                dataType:'json',
-                data:{data:data},
-                url:"{:url('Admin/Goods/addgoods')}",
-                success: function(data) {
-                    alert(data.msg)
-                }
-            })
 
         })
-
-        function initmodel(){
-            $('.box1').css('display','block');
-            $('.box2').css('display','none');
-            $('.box3').css('display','none');
-        }
-        initmodel();
-
-        //点击切换模式
-        $(document).on("click",'.subject a',function(){
-          var index = parseInt($(this).attr('data-index'));
-            switch(index)
-            {
-                case 1:
-                    $(this).parents('li').siblings().children('a').removeClass('current');
-                    $(this).addClass('current');
-                    $('.box1').css('display','block');
-                    $('.box2').css('display','none');
-                    $('.box3').css('display','none');
-                    break;
-                case 2:
-                    $(this).parents('li').siblings().children('a').removeClass('current');
-                    $(this).addClass('current');
-                    $('.box1').css('display','none');
-                    $('.box2').css('display','block');
-                    $('.box3').css('display','none');
-                    break;
-                case 3:
-                    $(this).parents('li').siblings().children('a').removeClass('current');
-                    $(this).addClass('current');
-                    $('.box1').css('display','none');
-                    $('.box2').css('display','none');
-                    $('.box3').css('display','block');
-                    break;
-            }
-        })
-
-        // 商品模型切换时 ajax 调用  返回不同的属性输入框
-        $(document).on("change",'#tpye_id',function(){
-            var goods_id = $("input[name='goods_id']").val();
-            var typeid = $(this).val();
-            $.ajax({
-                type:'GET',
-                dataType:'json',
-                data:{goods_id: goods_id,id:typeid},
-                url:"{:url('Admin/Goods/getspecitem')}",
-                success: function (data) {
-                    $("#ajax_spec_data").html('').append(data);
-                    ajaxGetSpecInput();	// 触发完  马上触发 规格输入框
-                }
-            });
-            //商品类型切换时 ajax 调用  返回不同的属性输入框
-            $.ajax({
-                type: 'GET',
-                data: {goods_id: goods_id, id: typeid},
-                url: "{:url('Admin/Goods/getattr')}",
-                success: function (data) {
-                    $("#goods_attr_table tr:gt(0)").remove();
-                    $("#goods_attr_table").append(data);
-                }
-            });
-
-        });
-
-        //规格批量填充
-        $(function () {
-            $(document).on("click", '#item_fill', function () {
-                var item_price_fill = $("#item_price").val();
-                var item_store_count_fill = $("#item_store_count").val();
-                console.log(item_price_fill,item_store_count_fill);
-                $("input[name$='[price]']").val(item_price_fill);
-                $("input[name$='[store_count]']").val(item_store_count_fill);
-            })
-        })
-
-        // 属性输入框的加减事件
-        function addAttr(a) {
-            var attr = $(a).parent().parent().prop("outerHTML");
-            attr = attr.replace('addAttr', 'delAttr').replace('+', '-');
-            $(a).parent().parent().after(attr);
-        }
-        // 属性输入框的加减事件
-        function delAttr(a) {
-            $(a).parent().parent().remove();
-        }
-            
 
     </script>
 </block>

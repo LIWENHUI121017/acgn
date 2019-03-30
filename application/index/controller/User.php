@@ -2,6 +2,7 @@
 namespace app\index\controller;
 
 use app\common\logic\CartLogic;
+use app\common\logic\OrderLogic;
 use app\common\logic\UserLogic;
 use think\Cache;
 use think\cache\driver\Redis;
@@ -28,12 +29,48 @@ class User extends Base
             $this->assign('user',$user); //存储用户信息
             $this->assign('user_id',$this->user_id);
         }
+        $this->order_status = config('ORDER_STATUS');
+        $this->pay_status = config('PAY_STATUS');
+        $this->shipping_status = config('SHIPPING_STATUS');
+        // 订单 支付 发货状态
+        $this->assign('order_status',$this->order_status);
+        $this->assign('pay_status',$this->pay_status);
+        $this->assign('shipping_status',$this->shipping_status);
 
     }
 
     public function index(){
-        return $this->fetch();
+        $user_id =$this->user_id;
+        if ($user_id>0){
+            $user=$this->user;
+            $user['user_phone']=hidtel($user['user_phone']);
+            $orderlogic = new OrderLogic();
+            $orderlogic->setUserId($user_id);
+            $order = $orderlogic->user_get_all_order();
+            $goods = $orderlogic->get_order_goods($order[0]['id']);
+            $where=[
+                'a.user_id'=>$user_id,
+            ];
+            $collect = model('GoodsCollect')
+                ->alias('a')
+                ->join('goods s','a.goods_id=s.id')
+                ->where($where)
+                ->limit(3)
+                ->select()
+                ->toArray();
+
+
+            $this->assign('goods',$goods);
+            $this->assign('collect',$collect);
+            $this->assign('order',$order);
+            $this->assign('user',$user);
+            return $this->fetch();
+        }else{
+            $this->error('你还没登录呢！',url('User/login'));
+        }
+
     }
+
     public function login()
     {
         if($this->user_id > 0){
@@ -119,7 +156,8 @@ class User extends Base
         $phone = input('phone');
         $userlogic = new UserLogic();
 
-        if(!preg_match('/((?=.*[0-9])(?=.*[A-z]))|((?=.*[A-z])(?=.*[^A-z0-9]))|((?=.*[0-9])(?=.*[^A-z0-9]))^.{6,16}$/',$password)) {
+//        if(!preg_match('/((?=.*[0-9])(?=.*[A-z]))|((?=.*[A-z])(?=.*[^A-z0-9]))|((?=.*[0-9])(?=.*[^A-z0-9]))^.{6,16}$/',$password)) {
+        if(!preg_match('/^[a-zA-Z0-9_*-+.]{6,16}$/',$password)) {
             return json(['status'=> 0,'msg'=>'6-16位大小写英文字母、数字或符号的组合！']);
         }
         if (empty($username)){
@@ -231,6 +269,7 @@ class User extends Base
             return json(['status'=> 1,'code'=>$code]);
 
     }
+
 
 
 }

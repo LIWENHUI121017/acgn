@@ -38,7 +38,7 @@
                                         <foreach name="address" item="v2" key="k1">
 
                                             <dl class="item <if condition="$v2.is_default eq 1">selected</if>" >
-                                            <!--<dt style="display: none;">{$v2.address_id}</dt>-->
+                                            <input type="hidden" id="addressid" value="{$v2.address_id}"/>
                                                 <dt>
                                                     <strong class="itemConsignee">{$v2.consignee}</strong>
                                                     <!--<span class="itemTag tag">家</span>-->
@@ -49,12 +49,9 @@
                                                     <p class="itemStreet">{$v2.address}</p>
                                                     <span class="edit-btn J_editAddr">编辑</span>
                                                 </dd>
-                                                <dd style="display:none">
-                                                    <!--<input type="radio" name="Checkout[address]" class="addressId"  value="10140916720030323">-->
-                                                    <input type="hidden" name="Checkout[addressid]" <if condition="$v2.is_default eq 1">checked="checked"</if> class="addressId" value="{$v2.address_id}"/>
-                                                </dd>
                                             </dl>
                                         </foreach>
+                                        <input type="hidden"  class="addressId" value="" name="Checkout[addressid]"/>
 
                                         <div class="item use-new-addr"  id="J_useNewAddr" data-state="off">
                                             <span class="iconfont icon-add"><img src="__PUBLIC__/static/images/order/images/add_cart.png" /></span>
@@ -331,9 +328,7 @@
                                         <a href="#" class="btn btn-disabled J_chooseProBtn">加入购物车</a>
                                     </div>
                                 </div>
-                                <!--E 加价购 产品选择弹框 -->
 
-                                <!--S 保障计划 产品选择弹框 -->
 
 
                             </div>
@@ -468,9 +463,10 @@
         $(this).siblings('dl').find('.addressId').removeAttr('checked');
 
         $(this).addClass('selected');
-        $(this).find('.addressId').attr('checked','true');
+       var a = $(this).find('#addressid').val();
+        $('.addressId').val(a);
 
-        // console.log(address)
+        // console.log(a)
     })
 
     //用户备注输入

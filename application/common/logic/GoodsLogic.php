@@ -42,7 +42,8 @@ class GoodsLogic extends My_Logic{
     }
 
     //商品展示
-    public function goodslist($id){
+    public function
+    goodslist($id){
         $goods = Db::name('goods')->where(['id'=>$id])->select();
         return $goods;
     }

@@ -43,6 +43,7 @@ class Order extends Base
 
 //        $this->assign('page',$page);
 //        dump($order);
+//        die;
         $this->assign('order',$order);
         return $this->fetch();
     }
@@ -154,6 +155,7 @@ class Order extends Base
     public function ChangeOrderstatus(){
         $admin_id=$this->admin_id;
         $orderid = input('order_id');
+
         $note = input('note');
         $status = input('status');
         $logic = new OrderLogic();
@@ -163,7 +165,8 @@ class Order extends Base
         }elseif ($status==5){
             $status_desc='作废订单';
         }elseif ($status==3){
-            $del = $logic->deleteorder($orderid);
+            $where=['id'=>$orderid];
+            $del = $logic->deleteorderOraction($where);
             if ($del){
                 return json(['status'=>3,'msg'=>'移除订单成功']);
             }else{
@@ -206,11 +209,11 @@ class Order extends Base
         $orderid=input('orderid');
         $actionid=input('actionid');
 
-//        dump($actionid);
         $logic = new OrderLogic();
         if ($orderid){
             $where=['id'=>$orderid];
-            $res = $logic->deleteorderOraction($where);
+            $table='Order';
+            $res = $logic->deleteorderOraction($where,$table);
         }else if ($actionid){
             $table = 'OrderAction';
             $where=['action_id'=>$actionid];

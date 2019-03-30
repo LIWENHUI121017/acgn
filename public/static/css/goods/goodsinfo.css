@@ -250,6 +250,7 @@ body, html {
     width: 240px;
     height: 50px;
     margin-left: 17px;
+    cursor: pointer;
 }
 .whole-detail-info-wrapper .product-buy-wrapper .want-wrapper .want-content {
     position: relative;
@@ -260,7 +261,16 @@ body, html {
     color: #212121;
     cursor: default;
 }
+.whole-detail-info-wrapper .product-buy-wrapper .want-wrapper i {
+    margin: 11px 5px 14px 0;
 
+}
+.whole-detail-info-wrapper .product-buy-wrapper .want-wrapper .collect{
+    vertical-align: -70%;
+}
+.whole-detail-info-wrapper .product-buy-wrapper .want-wrapper .collect:hover{
+    color: #ff6a9c;
+}
 .ticket-system-container {
     width: 1160px;
     margin: 0 auto;

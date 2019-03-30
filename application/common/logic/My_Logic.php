@@ -11,14 +11,14 @@ class My_Logic{
 
 
     //查询一条数据
-    public function get_one($where = array(),$field = '*',$table=''){
+    public function get_one($where = array(),$field = '*',$table='',$order=''){
         if ($table){
-            $res = model($table)->field($field)->where($where)->find();
+            $res = model($table)->field($field)->where($where)->order($order)->find();
             if (!empty($res)){
                 $res = $res->toArray();
             }
         }else{
-            $res = model($this->table)->field($field)->where($where)->find();
+            $res = model($this->table)->field($field)->where($where)->order($order)->find();
             if (!empty($res)){
                 $res = $res->toArray();
             }
@@ -27,14 +27,14 @@ class My_Logic{
     }
 
     //查询多条数据
-    public function get_all($where = array(),$field = '*',$table='',$order=''){
+    public function get_all($where = array(),$field = '*',$table='',$order='',$offset=50){
         if ($table){
-            $res = model($table)->field($field)->where($where)->order($order)->select();
+            $res = model($table)->field($field)->where($where)->order($order)->limit($offset)->select();
             if (!empty($res)){
                 $res = $res->toArray();
             }
         }else{
-            $res = model($this->table)->field($field)->where($where)->order($order)->select();
+            $res = model($this->table)->field($field)->where($where)->order($order)->limit($offset)->select();
             if (!empty($res)){
                 $res = $res->toArray();
             }
@@ -87,8 +87,15 @@ class My_Logic{
     }
 
     //查询总数
-    public function get_count($w=array()){
-        $res = Db::name($this->table)->where($w)->count();
+    public function get_count($w=array(),$table=''){
+        if ($table){
+            $res = Db::name($table)->where($w)->count();
+            return $res;
+        }else{
+            $res = Db::name($this->table)->where($w)->count();
+            return $res;
+        }
+
         return $res;
     }
 

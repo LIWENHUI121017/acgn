@@ -35,10 +35,7 @@ class OrderLogic extends My_Logic
         $this->userId = $user_id;
     }
 
-    /**
-     * 生成订单界面
-     * @return array
-     */
+    //生成订单界面
     public function get_order_list($where = array(), $field = '*')
     {
         $cartlist = Db::name('cart')
@@ -57,7 +54,6 @@ class OrderLogic extends My_Logic
 
 
     //获取的我的收获地址
-
     public function get_MyAddress($where = array(), $field = '*')
     {
         $addresslist = $this->get_all($where, $field, 'address');
@@ -69,21 +65,15 @@ class OrderLogic extends My_Logic
         return $addresslist;
     }
 
-    /**
-     * 生成订单
-     * @param array
-     */
+    //生成订单
+
     public function set_order($data)
     {
         $list = $this->setlist($data);
         return $this->add($list, 'order');
     }
 
-    /**
-     * 处理提交数据返回插入订单的数据
-     * @param array
-     * @return  array
-     */
+    // 处理提交数据返回插入订单的数据
     public function setlist($data)
     {
 //        dump($data);
@@ -100,10 +90,7 @@ class OrderLogic extends My_Logic
         return $list;
     }
 
-    /**
-     * 删除订单中对应购物车的商品
-     * @param array
-     */
+    //删除订单中对应购物车的商品
     public function delcartgoods($cartidlist)
     {
         $id = implode(',', $cartidlist);
@@ -112,10 +99,7 @@ class OrderLogic extends My_Logic
         return $res;
     }
 
-    /**
-     * 把商品记录进订单中的商品表
-     * @param array
-     */
+    //把商品记录进订单中的商品表
     public function setordergoods($cartidlist, $field, $orderid)
     {
         foreach ($cartidlist as $key => $value) {
@@ -161,10 +145,68 @@ class OrderLogic extends My_Logic
 
     }
 
-    /**
-     * 后台获取所有订单信息
-     * @return array
-     */
+    //前端个人中心我的订单
+    public function user_get_all_order(){
+        $where = ['user_id'=>$this->userId];
+        $res = $this->get_all($where,'*','Order','order_time desc',1);
+        return $res;
+    }
+
+    //取消订单
+    public function cancel_order($user_id,$order_id,$action_note='您取消了订单'){
+        $where=[
+            'id'=>$order_id,
+            'user_id'=>$user_id
+        ];
+        $order = $this->get_one($where);
+        if(empty($order))
+            return ['status'=>0,'msg'=>'订单不存在','result'=>''];
+        if($order['order_status'] == 2){
+            return ['status'=>0,'msg'=>'该订单已取消','result'=>''];
+        }
+        //检查是否未支付的订单
+        if($order['pay_status'] > 0 || $order['order_status'] > 0){
+            return ['status'=>0,'msg'=>'支付状态或订单状态不允许','result'=>''];
+        }
+        //改变订单状态
+        $data = [
+            'order_status'=>2
+        ];
+        $res = $this->edit($where,$data);
+        if (!$res){
+            return ['status'=>0,'msg'=>'订单取消失败了','result'=>''];
+        }
+        $order = $this->get_one($where);
+        //记录订单日志
+        $data=[
+            'order_id'=>$order_id,
+            'action_user'=>0,
+            'order_status'=>$order['order_status'],
+            'shipping_status'=>$order['shipping_status'],
+            'pay_status'=>$order['pay_status'],
+            'action_note'=>'订单取消付款',
+            'log_time'=>time(),
+            'status_desc'=>'取消订单',
+        ];
+        $res1 = $this->add_order_action($data,'OrderAction');
+        if (!$res1){
+            return ['status'=>0,'msg'=>'订单日志写入失败','result'=>''];
+        }
+        return ['status'=>1,'msg'=>'操作成功','result'=>''];
+    }
+    //根据订单id获取订单中的商品
+    public function get_order_goods($orderid){
+        $where=['a.order_id'=>$orderid];
+        $ordergoods = model('OrderGoods')
+                    ->alias('a')
+                    ->join('goods s','a.goods_id=s.id')
+                    ->where($where)
+                    ->select()
+                    ->toArray();
+        return $ordergoods;
+    }
+
+    //后台获取所有订单信息
     public function get_all_order()
     {
         $res = Db::name('order')
@@ -328,6 +370,21 @@ class OrderLogic extends My_Logic
       return $res;
     }
 
+    //写入消费日志
+    public function userLog($user_id, $user_money = 0, $desc = '',$order_id = 0 ,$order_sn = ''){
+        $user_log = array(
+            'user_id'       => $user_id,
+            'user_money'    => $user_money,
+            'change_time'   => time(),
+            'desc'   => $desc,
+            'order_id' => $order_id,
+            'order_sn' => $order_sn
+        );
+            M('account_log')->add($user_log);
+            return true;
+
+    }
+
     //发货后订单参数改变
     public function edit_order($data,$order){
         $where = ['id'=>$data['order_id']];
@@ -349,8 +406,9 @@ class OrderLogic extends My_Logic
             $res = $this->edit($where,$data);
             return $res;
     }
+
     //移除或删除订单或者日志
-    public function deleteorderOraction($where,$table){
+    public function deleteorderOraction($where,$table=''){
 
         return $this->del($where,$table);
     }

@@ -1,0 +1,222 @@
+<extend name="Public/layout"/>
+<block name="head">
+    <title>会员列表</title>
+    <link href='__PUBLIC__/static/css/goods/addgoods.css' media='all' rel='stylesheet' type='text/css' />
+    <link href='__PUBLIC__/static/css/adminuser/adminuser.css' media='all' rel='stylesheet' type='text/css' />
+    <style>
+        .control-label{font-size: 13px;
+            color: #6B6B6B;}
+        .controls input{width: 300px;}
+
+        table.acgntable {
+            clear: both;
+            width: 100%;
+            margin-bottom: 0px;
+            max-width: none !important;
+            border-collapse:collapse;
+        }
+        .table-bordered .btn1 {
+            display: inline-block;
+            padding: 6px 2px;
+            margin-top: 2px;
+            margin-bottom: 0;
+            font-size: 13px;
+            font-weight: 400;
+            line-height: 1.42857143;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: middle;
+            -ms-touch-action: manipulation;
+            touch-action: manipulation;
+            cursor: pointer;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            background-image: none;
+            border: 1px solid transparent;
+            border-radius: 5px;
+
+        }
+        .red{
+            color: red;
+            font-size: 12px;
+        }
+        #sex span{
+            vertical-align:text-top;
+            margin-left:2px;
+            margin-bottom:-2px
+        }
+    </style>
+</block>
+
+
+<block name="main">
+    <div class="row-fluid">
+        <div class='page-header' style="margin:5px 0px 0px 0px;background-color:#e7f2f8;height: 30px ">
+
+            <div class='pull-left' >
+
+                <ul class='breadcrumb'>
+                    <i class='icon-home' style="color: #000000;"></i>
+                    <li class='' style="margin-left: 5px;"><a href="{:url('/Admin/Goods/index')}" style="color: #4c8fbd">首页</a></li>
+                    <li class='' style="margin-left: 5px;"><i class='icon-angle-left'></i></li>
+                    <li class='' style="margin-left: 5px;"><a href="{:url('/Admin/User/index')}" style="color: #4c8fbd">会员列表</a></li>
+                    <li class='' style="margin-left: 5px;"><i class='icon-angle-left'></i></li>
+                    <li class='' style="margin-left: 5px;">会员详情</li>
+                </ul>
+            </div>
+
+        </div>
+        <div class='page-header' style="margin:5px 0px 0px 0px;background-color:#ffffff;height: 40px ;border-bottom: solid 1px #e2e2e2">
+            <div class='pull-left'>
+                <ul class='breadcrumb'>
+                    <li class='active'><h3>会员管理</h3></li>
+                    <li class='separator'>
+                        <i class='icon-angle-right'></i>
+                    </li>
+                    <li >会员详情</li>
+                    <li class='active' style="font-size: 12px;">-网站系统会员管理会员信息</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class='span12' style="margin-top: 10px">
+
+            <form accept-charset="UTF-8" action="{:url('/Admin/user/addEditUser')}" class="form form-horizontal" method="post" style="margin-bottom: 0;">
+                <!--<form id="data" class="form form-horizontal" method="get" style="margin-bottom: 0;" enctype="multipart/form-data"/>-->
+                <div class='box-content box1'>
+                    <div class='control-group'>
+                        <label class='control-label' for='user_nickname' >会员昵称</label>
+                        <div class='controls'>
+                            <input name="user_nickname" id="user_nickname" type='text' value=""  />
+                        </div>
+                    </div>
+
+
+
+                    <div class='control-group'>
+                        <label class='control-label' for='user_name'>电子邮箱</label>
+                        <div class='controls'>
+                            <input id='user_name' name="user_name" type='email' value="" />
+                            <p style="font-size: 12px;color:red;">用来登录的账号，手机邮箱选其中一项也可</p>
+                        </div>
+                    </div>
+                    <div class='control-group'>
+                        <label class='control-label' for='user_phone' >手机号码</label>
+                        <div class='controls'>
+                            <input id='user_phone' name="user_phone" type='text' value="" maxlength="11" oninput = "value=value.replace(/[^\d]/g,'')"/>
+                            <p style="font-size: 12px;color:red;">用来登录的账号，手机邮箱选其中一项也可</p>
+                        </div>
+                    </div>
+                    <hr class='hr-normal' />
+                    <div class='control-group'>
+                        <label class='control-label' for='user_pwd'>登录密码</label>
+                        <div class='controls'>
+                            <input id='user_pwd' name="user_pwd" type='password' maxlength="16" />
+                            <p style="font-size: 12px;color:red;"  > 请输入6-16位大小写英文字母、数字或符号的组合"</p>
+                        </div>
+                    </div>
+
+                    <!--性别-->
+                    <div class='control-group'>
+                        <label class='control-label' for='user_sex'>性别</label>
+                        <div class='controls' id="sex" style="font-size: 12px;">
+                            <input name="user_sex" type='radio' value="3" checked="checked"/><span >保密</span>&nbsp
+                            <input name="user_sex" type='radio' value="1" /><span >男</span>&nbsp
+                            <input  name="user_sex" type='radio' value="2" /><span >女</span>
+                        </div>
+                    </div>
+                    <!--QQ-->
+                    <div class='control-group'>
+                        <label class='control-label' for='user_qq'>QQ</label>
+                        <div class='controls'>
+                            <input id='user_qq' name="user_qq" type='text' value=""/>
+                        </div>
+                    </div>
+
+                    <div class='form-actions' >
+                        <div type="submit" class='btn btn-primary'  id="submit" >
+                        <i class='icon-save'></i>
+                        确认提交
+                        </div>
+
+                        <input class='btn btn-primary submit' type="submit" style="display: none" value="确认提交"></input>
+
+                    </div>
+
+            </form>
+        </div>
+    </div>
+    </div>
+    <script>
+        //点击切换冻结按钮
+        $(document).on('click','#submit',function () {
+            var nickname=$('#user_nickname').val();
+            var name=$('#user_name').val();
+            var phone=$('#user_phone').val();
+            var pwd=$('#user_pwd').val();
+            // layer.msg(phone)
+            var email = /^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@([A-Za-z\d]+[-.])+[A-Za-z\d]{2,4}$ /;
+            var pwdzz = /^[a-zA-Z0-9_*-+.]{6,16}$/
+       if (nickname==''){
+           layer.alert('昵称不能为空', {
+               icon: 5,
+               title: "提示"
+           });
+       }else if (name==''&&phone=='') {
+           layer.alert('手机和邮箱请至少填一项', {
+               icon: 5,
+               title: "提示"
+           });
+       }else if (pwd=='') {
+                layer.alert('密码不能为空', {
+                    icon: 5,
+                    title: "提示"
+                });
+       }else if (!pwdzz.test(pwd)){
+           layer.alert('密码格式不正确', {
+               icon: 5,
+               title: "提示"
+           });
+       }else {
+           if (name!='' || phone!=''){
+               $.ajax({
+                   type: "POST",
+                   url: "/Admin/User/checkEmailPhone",
+                   data: {
+                       'name':name,
+                       'phone':phone
+                   },
+                   async: false,
+                   dataType:'json',
+                   success: function(data){
+                       if (data.status == 0){
+                           layer.alert(data.msg, {
+                               icon: 5,
+                               title: "提示"
+                           });
+                       }
+                       if(data.status == 1){
+                           // alert('成功了')
+                           $('.submit').trigger("click");
+                       }
+
+                   },
+                   error : function(XMLHttpRequest, textStatus, errorThrown) {
+                       alert("网络失败，请刷新页面后重试!");
+                   }
+               });
+           }
+
+
+
+       }
+
+
+
+        })
+
+
+    </script>
+</block>
