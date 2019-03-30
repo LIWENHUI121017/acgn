@@ -166,11 +166,22 @@ class CartLogic extends Model
             $cartwhere['selected'] = 1;
         }
         $cart = new Cart();
-
-
         $cartList = $cart->where($cartwhere)->select();// 获取购物车商品
-
+//        dump($cartList);
+//        die;
         $cartchecklist = $this->checkcartlist($cartList);
+        $logic = new My_Logic();
+        foreach ($cartchecklist as $k=>$v){
+            if ($v['spec_key']==0){
+                $where=['id'=>$v['goods_id']];
+                $cartchecklist[$k]['store_count']= $logic->get_one($where,'*','Goods')['goods_inventory'];
+            }else{
+                $where=['goods_id'=>$v['goods_id'],'key'=>$v['spec_key']];
+                $cartchecklist[$k]['store_count']= $logic->get_one($where,'*','SpecGoodsPrice')['store_count'];
+            }
+            $cartchecklist[$k]['goodstotal']=number_format($v['goods_num']*$v['goods_price'], 2);
+
+        }
         return $cartchecklist;
     }
 
@@ -178,7 +189,7 @@ class CartLogic extends Model
     {
         foreach ($cartList as $cartKey => $cart) {
             //商品不存在或者已经下架
-            if (empty($cart['goods']) || $cart['goods']['is_on_sale'] != 1 || $cart['goods_num'] == 0) {
+            if (empty($cart['goods']) || $cart['goods']['is_on_sale'] != 1) {
                 $cart->delete();
                 unset($cartList[$cartKey]);
                 continue;

@@ -189,6 +189,7 @@
 <include file="public/footer"/>
 </body>
 <script>
+    var spec_goods_price = {$spec_goods_price |default= 'null'};//规格库存价格
     //收藏
     $(document).on('click','.collect',function () {
             var goodsid =$('input[name="goods_id"]').val();
@@ -228,8 +229,7 @@
         $('#number').val(num);
 
     }
-    var spec_goods_price = {$spec_goods_price |default= 'null'};//规格库存价格
-    // console.log(spec_goods_price);
+
 
     //默认让每种规格第一个选中
     function initFirstSpec() {
@@ -383,10 +383,11 @@
                 url: "{:url('Index/Cart/addCart')}",
                 success: function (data) {
                     if (data.status == 1) {
-                        alert(data.msg);
+                        layer.msg(data.msg,{icon:1,time:2000});
+
                         // console.log(data.result);
                     }else {
-                        alert(data.msg);
+                        layer.msg(data.msg,{icon:2,time:2000});
                     }
 
                 }

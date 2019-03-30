@@ -37,9 +37,6 @@ class Cart extends Base {
         $cartLogic = new CartLogic();
         $cartLogic->setUserId($this->user_id);
         $cartList = $cartLogic->getCartList();//用户购物车
-//        $userCartGoodsTypeNum = $cartLogic->getUserCartGoodsTypeNum();//获取用户购物车商品总数
-//        $this->assign('userCartGoodsTypeNum', $userCartGoodsTypeNum);
-//        dump($cartList[0]['goods']);
         $this->assign('cartList', $cartList);//普通购物车列表
 //         dump($cartList);
         return $this->fetch();

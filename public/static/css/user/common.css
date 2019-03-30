@@ -21,7 +21,7 @@ sup, sub { line-height:0}
 abbr, acronym { border-bottom:1px dotted #666}
 pre { white-space:pre;}
 pre, code, tt { font:12px 'andale mono', 'lucida console', monospace; line-height:1.5 }
-body, div, dl, dt, dd, ul, ol, li, pre, form, fieldset, input, textarea, blockquote, th, td { font-family:microsoft yahei,"宋体",Arial, Helvetica; font-size: 12px; color: #333; line-height: 1.5 }
+body, div, dl, dt, dd, ul, ol, li, pre, form, fieldset, input, textarea, blockquote, th, td { font-family:microsoft yahei,"宋体",Arial, Helvetica; font-size: 12px; color: #333;}
 p { padding: 0 0 10px 0; line-height: 1.5;}
 a { color:#333; text-decoration:none;}
 a:hover { color:#FF6561; text-decoration:none;}

@@ -106,6 +106,7 @@ function getfirstchar($s0) {
     return null;
 }
 
+
  //将数据库中查出的列表以指定的 id 作为数组的键名 数组指定列为元素 的一个数组
 function get_id_val($arr, $key_name,$key_name2){
     $arr2 = array();

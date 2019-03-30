@@ -39,14 +39,16 @@ class User extends Base
 
     }
 
+    //个人中心
     public function index(){
+        self::isLogin();
         $user_id =$this->user_id;
         if ($user_id>0){
             $user=$this->user;
             $user['user_phone']=hidtel($user['user_phone']);
             $orderlogic = new OrderLogic();
             $orderlogic->setUserId($user_id);
-            $order = $orderlogic->user_get_all_order();
+            $order = $orderlogic->user_get_all_order(1);
             $goods = $orderlogic->get_order_goods($order[0]['id']);
             $where=[
                 'a.user_id'=>$user_id,
@@ -65,8 +67,6 @@ class User extends Base
             $this->assign('order',$order);
             $this->assign('user',$user);
             return $this->fetch();
-        }else{
-            $this->error('你还没登录呢！',url('User/login'));
         }
 
     }
@@ -145,10 +145,11 @@ class User extends Base
 
     }
 
-//注册
+    //注册页面
     public  function reg(){
         return $this->fetch('reg');
     }
+    //点击注册
     public function userreg(){
         $username = input('username');
         $password = input('password');
@@ -260,6 +261,7 @@ class User extends Base
 
     }
 
+    //模拟发送短信
     public function test(){
         $code = mt_rand(1000,9999);
         cookie('code',$code,300);
@@ -271,6 +273,32 @@ class User extends Base
     }
 
 
+    //我的订单
+    public function myorder(){
+        self::isLogin();
+        $user_id =$this->user_id;
+        if ($user_id>0){
+            $orderlogic = new OrderLogic();
+            $orderlogic->setUserId($user_id);
+            $order = $orderlogic->user_get_all_order();
+            foreach ($order as $key=>$value){
+                $order[$key]['goodsinfo'] = $orderlogic->get_order_goods($value['id']);
+            }
+//            dump($order);
+//            die;
+//            $this->assign('goods',$goods);
+            $this->assign('order',$order);
+            return $this->fetch();
+        }
+    }
+
+
+    //判断是否登录
+    public function isLogin(){
+        if(!session('user')){
+            $this->error('你还没登录呢！',url('User/login'));
+        }
+    }
 
 }
 

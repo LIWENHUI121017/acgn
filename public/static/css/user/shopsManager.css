@@ -1,14 +1,14 @@
 *{padding:0;margin:0;}
 
-.shop_wrap{background: #138fd1; height: 80px;}
-.shop_wrap .shop_logo a{color:#fff;font-size: 24px;line-height: 50px;}
+.shop_wrap{background: #138fd1; height: 80px;line-height: 80px;}
+.shop_wrap .shop_logo a{color:#fff;font-size: 24px;line-height: 80px;}
 .shop_wrap .shop_logo img{display: inline-block;}
 .shop_wrap .midMag{color:#fff369!important;font-size: 16px!important; font-family: "microsoft yahei"; font-weight: normal!important; border-left: 1px solid #fff; padding-left: 15px;margin-left: 10px;}
 .shop_wrap .nav li>a{line-height: 55px; font-size: 18px;}
 .shop_wrap .nav ul li{margin-right: 25px;float: left;}
 .shop_wrap .nav ul li a{font-size: 16px;color: #fff;padding: 0 27px;display: inline-block;text-decoration: none;}
 .shop_wrap .nav ul li a.on {background: #42aef3;}
-.shop_wrap .act_nav{margin-left:80px;}
+.shop_wrap .act_nav{margin-left:80px;margin-top:6px}
 
 /*start*/
 .wrap{background: #f0f1f5; padding:28px 0 54px 0;}
@@ -201,6 +201,93 @@
     color: white;
 }
 /*订单简要end*/
+
+/*全部订单start*/
+.navitems2 {
+    position: relative;
+    height: 40px;
+}
+.navitems2 li {
+    float: left;
+    margin: 0 8px;
+}
+.navitems2 li a {
+    display: inline-block;
+    padding: 0 8px;
+    font-size: 16px;
+    line-height: 38px;
+    color: #333;
+    border-bottom: 2px solid transparent;
+}
+.navitems2 li .selected {
+    color: #e23435;
+    border-bottom-color: #e23435;
+}
+.menu_search {
+    margin-top: 20px;
+}
+.menu_search .sea_ol {
+    width: 250px;
+    height: 30px;
+    outline: none;
+    padding: 0 6px;
+    border: 1px solid #ccc;
+    vertical-align: middle;
+}
+.menu_search .sea_et {
+    width: 50px;
+    height: 32px;
+    padding: 0 10px;
+    background: #f9f9f9;
+    border: 1px solid #ccc;
+    outline: none;
+    vertical-align: middle;
+}
+.orderbook-list {
+    position: relative;
+}
+.book-tit {
+    margin-top: 20px;
+    display: block;
+    overflow: hidden;
+    width: 100%;
+    background: #f5f5f5;
+    height: 38px;
+    font-size: 14px;
+    line-height: 38px;
+
+}
+.book-tit ul li {
+    float: left;
+    text-align: center;
+    position: relative;
+    font-size: 14px;
+    color: #666666;
+}
+.hid-derei {
+    /*display: none;*/
+    opacity: 1;
+    overflow: hidden;
+    clear:both;
+    right: 118px;
+    /*top: 150px;*/
+    /*position: absolute;*/
+    border: 1px solid #ccc;
+    border-top: 0;
+    width: 119px;
+    background: white;
+    clear: both;
+    z-index: 999;
+}
+.hid-derei ul li {
+    padding: 4px 0;
+    font-size: 14px;
+}
+.sx5 {
+    cursor: pointer;
+}
+
+/*全部订单end*/
 
 /*我的收藏start*/
 .collect{

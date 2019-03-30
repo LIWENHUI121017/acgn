@@ -146,9 +146,9 @@ class OrderLogic extends My_Logic
     }
 
     //前端个人中心我的订单
-    public function user_get_all_order(){
+    public function user_get_all_order($offset=50){
         $where = ['user_id'=>$this->userId];
-        $res = $this->get_all($where,'*','Order','order_time desc',1);
+        $res = $this->get_all($where,'*','Order','order_time desc',$offset);
         return $res;
     }
 
