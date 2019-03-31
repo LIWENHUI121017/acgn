@@ -43,6 +43,13 @@ class Order extends Base {
         $field = 'a.id as car_id,a.goods_name,a.goods_num,s.original_img,a.goods_price';
         $logic = new OrderLogic();
         $cartlist = $logic->get_order_list($where,$field);
+//        dump($cartlist);
+        //检查是否有库存不足的商品，商品数量为0
+        foreach ($cartlist as $k=>$v) {
+            if ($v['goods_num']==0&&$v['selected']==1){
+                return json(['status'=>0,'msg'=>$v['goods_name'].'商品数量必须大于0']);
+            }
+        }
         if (!$cartlist){
 //            return json(['status'=>0,'msg'=>'你还没有选中要结算的商品！']);
             $this->error('你还没有选中要结算的商品',url('index/cart/index'));

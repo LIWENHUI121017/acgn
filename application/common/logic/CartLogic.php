@@ -154,6 +154,18 @@ class CartLogic extends Model
         return $res;
     }
 
+    //检查是否有goods_num为0的商品
+    public function checknum($data){
+        $logic = new My_Logic();
+        foreach ($data as $k=>$v) {
+            if ($v['selected']==1&&$v['goods_num']==0){
+                $where = ['id'=>intval($v['id'])];
+                $goodsname =$logic->get_one($where,'*','Cart');
+                return ['status'=>0,'msg'=>$goodsname['goods_name'].'数量不能为0'];
+            }
+
+        }
+    }
     //获取购物车信息
     public function getCartList($selected = 0)
     {
@@ -167,9 +179,10 @@ class CartLogic extends Model
         }
         $cart = new Cart();
         $cartList = $cart->where($cartwhere)->select();// 获取购物车商品
-//        dump($cartList);
-//        die;
         $cartchecklist = $this->checkcartlist($cartList);
+        if (!$cartchecklist){
+            return false;
+        }
         $logic = new My_Logic();
         foreach ($cartchecklist as $k=>$v){
             if ($v['spec_key']==0){

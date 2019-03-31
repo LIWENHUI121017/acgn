@@ -67,7 +67,6 @@
                         </ul>
                     </div>
                     <!--商品列表信息-->
-
                     <ul class="cart-item-list">
                         <foreach name="cartList" key="k1" item="v1">
                             <li>
@@ -80,7 +79,6 @@
                                     </div>
                                     <!--图片-->
                                     <div class="cart-item-pic">
-
                                         <img src="{$v1.goods.original_img}" >
                                         <!--<img src="{{item.productImage}}" alt=""> 会在浏览器加载时 vue实例没有渲染完是，把它当作图片路径来加载-->
                                     </div>
@@ -215,7 +213,7 @@
             }
         })
 
-        getOrderlist();
+        getOrderlist(1);
     });
     //全选或者取消全选
     function checkAll(i){
@@ -289,6 +287,7 @@
         var goodstotal = number * goodsprice;
         $(this).parents('li').find('#goodstotal').html(toDecimal2(goodstotal));
     })
+
     //购买数量加减
     function altergoodsnum(n,num,maxnum) {
         if (!num){
@@ -308,6 +307,7 @@
     $(document).on('click','.next-btn-wrap .btn',function () {
         console.log($(".cart-tab-1 input[id='goods_id']").val());
     });
+
     //点击按钮变成选中状态
     $(document).on('click','.item-check-btn',function (){
         if ($(this).hasClass('check')){
@@ -320,27 +320,29 @@
         getOrderlist();
         // setTotalPrice();
     });
+
     //根据用户select计算总金额
     function setTotalPrice(){
 
         var totalprice=$(this).val();
         console.log(totalprice)
     }
+
     //购物车对象
     function CartItem(id, goods_num,selected) {
         this.id = id;
         this.goods_num = goods_num;
         this.selected = selected;
     }
+
     //生成订单数组
-    function  getOrderlist() {
+    function  getOrderlist(n) {
         var cart = new Array();
         var carlist = $("input[name^='car']");
         carlist.each(function(i,o){
             var id = $(this).attr("value");
             var goods_num = $(this).parents('li').find('#goods_num').val();
-
-            if ($(this).hasClass('check')&&goods_num>0) {
+            if ($(this).hasClass('check')) {
                 var cartItem = new CartItem(id,goods_num,1);
                 cart.push(cartItem);
             }else{
@@ -358,10 +360,13 @@
                    // console.log(data.data.totalprice)
                     $('.total-price').html(toDecimal2(data.data.totalprice)+' 元')
                     $('.choosed').html(data.data.count)
+                }else {
+                    layer.msg(data.msg,{icon:2,time:2000})
                 }
             }
         })
     }
+
     //  保留两位小数函数
     function toDecimal2(x) {
         var f = parseFloat(x);
@@ -380,6 +385,7 @@
         }
         return s;
     }
+
     //点击去支付，生成订单
     $(document).on('click','#buy',function () {
         getOrderlist();
@@ -388,7 +394,7 @@
             dataType:'json',
             url:"{:url('index/order/index')}",
             success:function (res) {
-                if (res.status==1){
+                if (res.status==0){
                     layer.msg(res.msg,{icon:2,time:2000});
                 }else {
                     // $("html").empty().html(res);

@@ -60,7 +60,7 @@ class OrderLogic extends My_Logic
         foreach ($addresslist as $k => $v) {
             $addresslist[$k]['province'] = $this->get_one(array('id' => $v['province']), 'name', 'region')['name'];
             $addresslist[$k]['city'] = $this->get_one(array('id' => $v['city']), 'name', 'region')['name'];
-            $addresslist[$k]['county'] = $this->get_one(array('id' => $v['county']), 'name', 'region')['name'];
+            $addresslist[$k]['county'] = $this->get_one(array('id' => $v['district']), 'name', 'region')['name'];
         }
         return $addresslist;
     }

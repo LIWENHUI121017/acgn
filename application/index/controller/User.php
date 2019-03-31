@@ -4,12 +4,15 @@ namespace app\index\controller;
 use app\common\logic\CartLogic;
 use app\common\logic\OrderLogic;
 use app\common\logic\UserLogic;
+use app\common\model\Address;
+use app\common\validate\UserAddress;
 use think\Cache;
 use think\cache\driver\Redis;
 use think\Config;
 use think\Controller;
 use think\Db;
 use alisms\SendSms;
+use think\Loader;
 use think\Session;
 
 class User extends Base
@@ -299,6 +302,82 @@ class User extends Base
             $this->error('你还没登录呢！',url('User/login'));
         }
     }
+
+    //用户地址
+    public function address()
+    {
+        $address_id = input('address_id/d',0);
+        $logic = new UserLogic();
+        $where = ['address_id'=>$address_id,'user_id'=> $this->user_id];
+        $userAddress = $logic->get_one($where,'*','Address');
+//        dump($userAddress);
+//        die;
+        if(empty($userAddress)){
+           return json(['status' => 0, 'msg' => '参数错误']);
+        }
+        $province_list = Db::name('region')->where('parent_id',0)->select();
+        $city_list = Db::name('region')->where('parent_id',$userAddress['province'])->select();
+        $district_list = Db::name('region')->where('parent_id',$userAddress['city'])->select();
+        $town_list = Db::name('region')->where('parent_id',$userAddress['district'])->select();
+        return json(['status' => 1, 'msg' => '获取成功','result'=>['user_address'=>$userAddress,'province_list'=>$province_list,'city_list'=>$city_list,'district_list'=>$district_list,'twon_list'=>$town_list]]);
+    }
+
+    //地址选择器
+    public function region(){
+        $parent_id = input('parent_id');
+        $selected = input('selected',0);
+        $where=[
+            'parent_id'=>$parent_id,
+        ];
+        $logic = new UserLogic();
+        $data = $logic->get_all($where,'*','Region');$html = '';
+        if ($data) {
+            foreach ($data as $h) {
+                if ($h['id'] == $selected) {
+                    $html .= "<option value='{$h['id']}' selected>{$h['name']}</option>";
+                }
+                $html .= "<option value='{$h['id']}'>{$h['name']}</option>";
+            }
+        }
+        echo $html;
+    }
+
+    //新增或编辑地址
+    public function addressSave(){
+        $address_id = input('address_id/d',0);
+        $data = input('post.');
+//        dump($data);
+//        die;
+
+        $logic = new UserLogic();
+        $userAddressValidate = Loader::validate('UserAddress');
+        if (!$userAddressValidate->batch()->check($data)) {
+            return json(['status' => 0, 'msg' => '操作失败', 'result' => $userAddressValidate->getError()]);
+        }
+        if ($address_id>0) {
+            //编辑
+            $Address = Address::get(['address_id'=>$address_id,'user_id'=> $this->user_id]);
+            if(empty($Address)){
+               return json(['status' => 0, 'msg' => '参数错误']);
+            }
+        } else {
+            //新增
+            $Address = new Address();
+            $user_address_count = Db::name('address')->where("user_id", $this->user_id)->count();
+            if ($user_address_count >= 20) {
+                return json(['status' => 0, 'msg' => '最多只能添加20个收货地址']);
+            }
+            $data['user_id'] = $this->user_id;
+        }
+        $Address->data($data, true);
+        $row = $Address->allowField(true)->save();
+        if ($row !== false) {
+            return json(['status' => 1, 'msg' => '操作成功']);
+        } else {
+            return json(['status' => 0, 'msg' => '操作失败']);
+        }
+    }
+
 
 }
 

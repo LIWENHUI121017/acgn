@@ -8,6 +8,7 @@
     <link rel="stylesheet" type="text/css" href="__PUBLIC__/static/css/order/checkOut.css" />
     <link rel="stylesheet" href="__PUBLIC__/static/css/base.css" type="text/css">
     <script src="__PUBLIC__/static/js/jquery/jquery.min.js" type="text/javascript"></script>
+    <script src="__PUBLIC__/static/js/layer/layer.js" type="text/javascript"></script>
 
 <style>
     .checkout-count-extend textarea{
@@ -47,65 +48,20 @@
                                                     <p class="tel itemTel">{$v2.phone}</p>
                                                     <p class="itemRegion">{$v2.province}&nbsp{$v2.city}&nbsp{$v2.county}</p>
                                                     <p class="itemStreet">{$v2.address}</p>
-                                                    <span class="edit-btn J_editAddr">编辑</span>
-                                                </dd>
+                                                    <span class="edit-btn J_editAddr" id="addEditAddr" data-address_id="{$v2.address_id}">编辑</span>
+                                                    <span class="edit-btn J_delAddr" id="delAddr" data-address_id="{$v2.address_id}">删除</span>
+                                            </dd>
                                             </dl>
                                         </foreach>
                                         <input type="hidden"  class="addressId" value="" name="Checkout[addressid]"/>
 
-                                        <div class="item use-new-addr"  id="J_useNewAddr" data-state="off">
+                                        <div class="item use-new-addr"  id="addEditAddr" data-address_id="0">
                                             <span class="iconfont icon-add"><img src="__PUBLIC__/static/images/order/images/add_cart.png" /></span>
                                             使用新地址
                                         </div>
                                     </div>
-                                    <!--点击弹出新增/收货地址界面start-->
-                                    <div class="xm-edit-addr-box" id="J_editAddrBox">
-                                        <div class="bd">
-                                            <div class="item">
-                                                <label>收货人姓名<span>*</span></label>
-                                                <input type="text" name="userAddress[consignee]" id="Consignee" class="input" placeholder="收货人姓名" maxlength="15" autocomplete='off'>
-                                                <p class="tip-msg tipMsg"></p>
-                                            </div>
-                                            <div class="item">
-                                                <label>联系电话<span>*</span></label>
-                                                <input type="text" name="userAddress[tel]" class="input" id="Telephone" placeholder="11位手机号" autocomplete='off'>
-                                                <p class="tel-modify-tip" id="telModifyTip"></p>
-                                                <p class="tip-msg tipMsg"></p>
-                                            </div>
-                                            <div class="item">
-                                                <label>地址<span>*</span></label>
-                                                <select name="userAddress[province]" id="Provinces" class="select-1">
-                                                    <option>省份/自治区</option>
-                                                </select>
-                                                <select name="userAddress[city]"  id="Citys" class="select-2" disabled>
-                                                    <option>城市/地区/自治州</option>
-                                                </select>
-                                                <select name="userAddress[county]"  id="Countys" class="select-3" disabled>
-                                                    <option>区/县</option>
-                                                </select>
-                                                <textarea   name="userAddress[street]" class="input-area" id="Street" placeholder="路名或街道地址，门牌号"></textarea>
-                                                <p class="tip-msg tipMsg"></p>
-                                            </div>
-                                            <div class="item">
-                                                <label>邮政编码<span>*</span></label>
-                                                <input type="text" name="userAddress[zipcode]" id="Zipcode" class="input" placeholder="邮政编码"  autocomplete='off'>
-                                                <p class="zipcode-tip" id="zipcodeTip"></p>
-                                                <p class="tip-msg tipMsg"></p>
-                                            </div>
-                                            <div class="item">
-                                                <label>地址标签<span>*</span></label>
-                                                <input type="text" name="userAddress[tag]" id="Tag" class="input" placeholder='地址标签：如"家"、"公司"。限5个字内'  >
-                                                <p class="tip-msg tipMsg"></p>
-                                            </div>
-                                        </div>
-                                        <div class="ft clearfix">
-                                            <button  type="button"  class="btn btn-lineDake btn-small " id="J_editAddrCancel">取消</button>
-                                            <button type="button" class="btn btn-primary  btn-small " id="J_editAddrOk">保存</button>
-                                        </div>
-                                    </div>
-                                    <!--点击弹出新增/收货地址界面end-->
-                                    <div class="xm-edit-addr-backdrop" id="J_editAddrBackdrop"></div>
-                                </div>                </div>
+                                </div>
+                            </div>
                             <!-- 收货地址 END-->
                             <div id="checkoutPayment">
                                 <!-- 支付方式 -->
@@ -156,85 +112,16 @@
                                         </li>
                                         <li class="item ">
                                             <input type="radio"  name="Checkout[best_time]" value="2">
-                                            <p>工作日送货<span>周一至周五</span></p>
+                                            <p>其他送货时间<span>请在备注中备注</span></p>
                                         </li>
-                                        <li class="item ">
-                                            <input type="radio"  name="Checkout[best_time]" value="3">
-                                            <p>双休日、假日送货<span>周六至周日</span></p>
-                                        </li>
+                                        <!--<li class="item ">-->
+                                            <!--<input type="radio"  name="Checkout[best_time]" value="3">-->
+                                            <!--<p>双休日、假日送货<span>周六至周日</span></p>-->
+                                        <!--</li>-->
                                     </ul>
                                 </div>
                             </div>
                             <!-- 送货时间 END-->
-                            <!-- 发票信息 -->
-                            <div id="checkoutInvoice">
-                                <div class="xm-box">
-                                    <div class="box-hd">
-                                        <h2 class="title">发票信息</h2>
-                                    </div>
-                                    <div class="box-bd">
-                                        <ul class="checkout-option-list checkout-option-invoice clearfix J_optionList J_optionInvoice">
-                                            <li class="hide">
-                                                电子个人发票4
-                                            </li>
-                                            <li class="item selected">
-                                                <!--<label><input type="radio"  class="needInvoice" value="0" name="Checkout[invoice]">不开发票</label>-->
-                                                <!--<input type="radio"    checked="checked"  value="4" name="Checkout[invoice]">-->
-                                                <p>电子发票（非纸质）</p>
-                                            </li>
-                                            <li class="item ">
-                                                <!--<input type="radio"   value="1" name="Checkout[invoice]">-->
-                                                <p>普通发票（纸质）</p>
-                                            </li>
-                                        </ul>
-                                        <p id="eInvoiceTip" class="e-invoice-tip ">
-                                            电子发票是税务局认可的有效凭证，可作为售后维权凭据，不随商品寄送。开票后不可更换纸质发票，如需报销请选择普通发票。<a href="http://bbs.xiaomi.cn/thread-9285999-1-1.html" target="_blank">什么是电子发票？</a>
-                                        </p>
-                                        <div class="invoice-info nvoice-info-1" id="checkoutInvoiceElectronic" style="display:none;">
-
-                                            <p class="tip">电子发票目前仅对个人用户开具，不可用于单位报销 ，不随商品寄送</p>
-                                            <p>发票内容：购买商品明细</p>
-                                            <p>发票抬头：个人</p>
-                                            <p>
-                                                <span class="hide">
-                                                    <!--<input type="radio" value="4" name="Checkout[invoice_type]"   checked="checked"   id="electronicPersonal" class="invoiceType">-->
-                                                </span>
-                                            <dl>
-                                                <dt>什么是电子发票?</dt>
-                                                <dd>&#903; 电子发票是纸质发票的映像，是税务局认可的有效凭证，与传统纸质发票具有同等法律效力，可作为售后维权凭据。</dd>
-                                                <dd>&#903; 开具电子服务于个人，开票后不可更换纸质发票，不可用于单位报销。</dd>
-                                                <dd>&#903; 您在订单详情的"发票信息"栏可查看、下载您的电子发票。<a href="http://bbs.xiaomi.cn/thread-9285999-1-1.html" target="_blank">什么是电子发票？</a></dd>
-                                            </dl>
-                                            </p>
-                                        </div>
-                                        <div class="invoice-info invoice-info-2" id="checkoutInvoiceDetail"  style="display:none;" >
-                                            <p>发票内容：购买商品明细</p>
-                                            <p>
-                                                发票抬头：请确认单位名称正确,以免因名称错误耽搁您的报销。注：合约机话费仅能开个人发票
-                                            </p>
-                                            <ul class="type clearfix J_invoiceType">
-                                                <li class="hide">
-                                                    <!--<input type="radio" value="0" name="Checkout[invoice_type]" id="noNeedInvoice" >-->
-                                                </li>
-                                                <li class="">
-                                                    <!--<input  class="invoiceType" type="radio" id="commonPersonal" name="Checkout[invoice_type]" value="1" >-->
-                                                    个人
-                                                </li>
-                                                <li class="">
-                                                    <!--<input  class="invoiceType" type="radio" name="Checkout[invoice_type]" value="2" >-->
-                                                    单位
-                                                </li>
-                                            </ul>
-                                            <div  id='CheckoutInvoiceTitle' class=" hide  invoice-title">
-                                                <label for="Checkout[invoice_title]">单位名称：</label>
-                                                <!--<input name="Checkout[invoice_title]" type="text" maxlength="49" value="" class="input"> <span class="tip-msg J_tipMsg"></span>-->
-                                            </div>
-
-                                        </div>
-
-                                    </div>
-                                </div>                </div>
-                            <!-- 发票信息 END-->
                         </div>
                         <div class="checkout-box-ft">
                             <!-- 商品清单 -->
@@ -276,7 +163,7 @@
                                         </dl>
                                         <div class="checkout-count clearfix">
                                             <div class="checkout-count-extend xm-add-buy">
-                                                <h3 class="title">会员留言</h3></br>
+                                                <h3 class="title">备注</h3></br>
                                                 <textarea type="text" id="user_note"></textarea>
                                                 <input type="hidden" name="Checkout[user_note]" id="user_text" value=""/>
                                             </div>
@@ -306,31 +193,6 @@
                                         </div>
                                     </div>
                                 </div>
-
-                                <!--S 加价购 产品选择弹框 -->
-                                <div class="modal hide modal-choose-pro" id="J_choosePro-664">
-                                    <div class="modal-header">
-                                        <span class="close" data-dismiss='modal'><i class="iconfont">&#xe617;</i></span>
-                                        <h3>选择产品</h3>
-                                        <div class="more">
-                                            <div class="xm-recommend-page clearfix">
-                                                <a class="page-btn-prev   J_carouselPrev iconfont" href="javascript: void(0);">&#xe604;</a><a class="page-btn-next  J_carouselNext iconfont" href="javascript: void(0);">&#xe605;</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="modal-body J_chooseProCarousel">
-                                        <div class="J_carouselWrap modal-choose-pro-list-wrap">
-                                            <ul class="clearfix J_carouselList">
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <a href="#" class="btn btn-disabled J_chooseProBtn">加入购物车</a>
-                                    </div>
-                                </div>
-
-
-
                             </div>
                             <!-- 商品清单 END -->
                             <!--<input type="hidden"  id="couponType" name="Checkout[couponsType]">-->
@@ -344,79 +206,93 @@
                     </form>
                 </div>
             </div>
-            <!-- 禮品卡提示 S-->
-            <div class="modal hide lipin-modal" id="lipinTip">
-                <div class="modal-header">
-                    <h2 class="title">温馨提示</h2>
-                    <p> 为保障您的利益与安全，下单后礼品卡将会被使用，<br>
-                        且订单信息将不可修改。请确认收货信息：</p>
-                </div>
-                <div class="modal-body">
-                    <ul>
-                        <li><strong>收&nbsp;&nbsp;货&nbsp;&nbsp;人：</strong><span id="lipin-uname"></span></li>
-                        <li><strong>联系电话：</strong><span id="lipin-uphone"></span></li>
-                        <li><strong>收货地址：</strong><span id="lipin-uaddr"></span></li>
-                    </ul>
-                </div>
-                <div class="modal-footer">
-                    <span class="btn btn-primary" id="useGiftCard">确认下单</span><span class="btn btn-dakeLight" id="closeGiftCard">返回修改</span>
-                </div>
-            </div>
-            <!--  禮品卡提示 E-->
-            <!-- 预售提示 S-->
-            <div class="modal hide yushou-modal" id="yushouTip">
-                <div class="modal-body">
-                    <h2>请确认收货地址及发货时间</h2>
-                    <ul class="list">
-                        <li>
-                            <strong>请确认配送地址，提交后不可变更：</strong>
-                            <p id="yushouAddr"> </p>
-                            <span class="icon-common icon-1"></span>
-                        </li>
-                        <li>
-                            <strong>支付后发货</strong>
-                            <p>如您随预售商品一起购买的商品，将与预售商品一起发货</p>
-                            <span class="icon-common icon-2"></span>
-                        </li>
-                        <li>
-                            <strong>以支付价格为准</strong>
-                            <p>如预售产品发生调价，已支付订单价格将不受影响。</p>
-                            <span class="icon-common icon-3"></span>
-                        </li>
-                    </ul>
-                </div>
-                <div class="modal-footer">
-                    <p id="yushouOk" class="yushou-ok">
-                        <span class="icon-checkbox"><i class="iconfont">&#xe626;</i></span>
-                        我已确认收货地址正确，不再变更</p>
-                    <span class="btn btn-lineDakeLight" data-dismiss="modal">返回修改地址</span>
-                    <span class="btn btn-primary" id="yushouCheckout">继续下单</span>
+
+            <!--编辑地址弹窗-s--->
+            <div class="shadow">
+                <div class="ui-dialog infom-dia" id="address_dialog" style="width: 700px">
+
+                    <form id="address_form">
+                        <input name="address_id" type="hidden" value="0">
+                        <div class="close"></div>
+                        <div class="ui-dialog-title">
+                            <span>新增收货地址</span>
+                        </div>
+                        <div class="ui-dialog-content" style="height: 600px;width: 700px">
+                            <div class="invoice-dialog">
+                                <div class="zinvoice-tips">
+                                    <!--<span class="tip-cont">错误信息</span>-->
+                                </div>
+                                <div class="ui-switchable-panel">
+                                    <div class="invoice_title p">
+                                        <span class="label"><span class="red">*</span>收货人：</span>
+
+                                        <div class="fl">
+                                            <input class="invoice_tt" name="consignee" type="text" value="" maxlength="12"/>
+                                            <span class="err" id="err_consignee"></span>
+                                        </div>
+                                    </div>
+                                    <div class="invoice_title p">
+                                        <span class="label"><span class="red">*</span>手机：</span>
+
+                                        <div class="fl">
+                                            <input class="invoice_tt" name="phone" type="text" value=""
+                                                   placeholder="请输入11位的手机号"  maxlength="11" onkeyup="this.value=this.value.replace(/[^\d]/g,'')"/>
+                                            <span class="err" id="err_phone"></span>
+                                        </div>
+                                    </div>
+                                    <div class="invoice_title p">
+                                        <span class="label"><span class="red">*</span>收货地址：</span>
+                                        <span class="err" id="err_province"></span>
+                                        <span class="err" id="err_city"></span>
+                                        <span class="err" id="err_district"></span>
+                                        <select class="di-bl fl seauii" name="province" id="province" onChange="get_city(this)">
+                                            <option value="0">请选择</option>
+                                        </select>
+                                        <select class="di-bl fl seauii" name="city" id="city" onChange="get_area(this)">
+                                            <option value="0">请选择</option>
+                                        </select>
+
+                                        <select class="di-bl fl seauii" name="district" id="district" onChange="get_twon(this)">
+                                            <option value="0">请选择</option>
+                                        </select>
+
+                                        <select class="di-bl fl seauii" name="town" id="twon" style="display:none;">
+                                        </select>
+                                    </div>
+                                    <div class="invoice_title p">
+                                        <span class="label"><span class="red">*</span>详细地址：</span>
+                                        <span class="err" id="err_address"></span>
+
+                                        <div class="fl">
+                                            <input class="invoice_tt" name="address" type="text" placeholder="详细地址" maxlength="100"/>
+                                        </div>
+                                    </div>
+                                    <div class="invoice_title p">
+                                        <span class="label">邮编：</span>
+
+                                        <div class="fl">
+                                            <input class="invoice_tt" name="zipcode" type="text" value=""
+                                                   onKeyUp="this.value=this.value.replace(/[^\d]/g,'')" maxlength="6"/>
+                                        </div>
+                                    </div>
+                                    <div class="invoice_title p">
+                                        <span class="label">&nbsp;</span>
+
+                                        <div class="fl">
+                                            <div class="op-btns  invoice_sendwithgift">
+                                                <a id="address_submit" class="btn-1">保存</a>
+                                                <a onclick="$('.close').trigger('click');" class="btn-9">取消</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
 
                 </div>
             </div>
-            <!--  预售提示 E-->
-
-            <script id="newAddrTemplate" type="text/x-dot-template">
-                <dl class="item selected" data-isnew="true" data-consignee="{{=it.consignee}}" data-tel="{{=it.tel}}" data-province="{{=it.province}}" data-provincename="{{=it.provinceName}}" data-city="{{=it.city}}" data-cityname="{{=it.cityName}}" data-county="{{=it.county}}" data-countyname="{{=it.countyName}}" data-zipcode="{{=it.zipcode}}" data-street="{{=it.street}}" data-tag="{{=it.tag}}">
-                    <dt>
-                        <strong class="itemConsignee">{{=it.consignee}}</strong>
-                        {{? it.tag }}
-                        <span  class="itemTag tag">{{=it.tag}}</span>
-                        {{?}}
-                    </dt>
-                    <dd>
-                        <p class="tel itemTel">{{=it.tel}}</p>
-                        <p  class="itemRegion">{{=it.provinceName}} {{=it.cityName}} {{=it.countyName}}</p>
-                        <p  class="itemStreet">{{=it.street}} ({{=it.zipcode}})</p>
-                        <span class="edit-btn J_editAddr">编辑</span>
-                    </dd>
-                </dl>
-            </script>
-
-
-            <!-- 保险弹窗 -->
-            <!-- 保险弹窗 -->
-
+            <!--编辑地址弹窗-e--->
 
 
 
@@ -435,6 +311,7 @@
        var  totalprice =toDecimal2(total+prop+couponDesc+postageDesc);
        $("#order_amount").val(totalprice);
         $('#totalPrice').empty().html(totalprice);
+        get_province();
     })
     //  保留两位小数函数
     function toDecimal2(x) {
@@ -476,5 +353,208 @@
         console.log($('#user_text').val())
     })
 
+    //新增或者编辑地址
+    $(document).on('click','#addEditAddr',function () {
+
+        var dh = $(document).height();
+        var dw = $(document).width();
+        $('#shadow').height(dh).width(dw).show();
+        $('#address_dialog').css('display','block');
+        $('.shadow').css('display','block');
+        $('.close').css('display','block');
+        var address_id = $(this).data('address_id');
+        // console.log(address_id)
+        if (address_id > 0) {
+            $("input[name='address_id']").val(address_id);
+            $.ajax({
+                type: "POST",
+                url: "{:url('/Index/User/address')}",
+                data: {address_id: address_id},
+                dataType: 'json',
+                success: function (data) {
+                    if (data.status == 1) {
+                        $("input[name='consignee']").val(data.result.user_address.consignee);
+                        $("input[name='address']").val(data.result.user_address.address);
+                        $("input[name='phone']").val(data.result.user_address.phone);
+                        $("input[name='zipcode']").val(data.result.user_address.zipcode);
+                        var province_list_option_html = '<option value="0">请选择</option>';//省
+                        var city_list_option_html = '<option value="0">请选择</option>';//市
+                        var district_list_option_html = '<option value="0">请选择</option>';//区
+                        var twon_list_option_html = '<option value="0">请选择</option>';//街道
+
+                        $.each(data.result.province_list, function (n, value) {
+                            province_list_option_html += '<option value="' + value.id + '">' + value.name + '</option>';
+                        });
+                        $('#province').html(province_list_option_html).val(data.result.user_address.province);
+
+
+
+                        $.each(data.result.city_list, function (n, value) {
+                            city_list_option_html += '<option value="' + value.id + '">' + value.name + '</option>';
+                        });
+                        $('#city').html(city_list_option_html).val(data.result.user_address.city);
+
+                        $.each(data.result.district_list, function (n, value) {
+                            district_list_option_html += '<option value="' + value.id + '">' + value.name + '</option>';
+                        });
+                        $('#district').html(district_list_option_html).val(data.result.user_address.district);
+
+                        $.each(data.result.twon_list, function (n, value) {
+                            twon_list_option_html += '<option value="' + value.id + '">' + value.name + '</option>';
+                        });
+                        if (data.result.twon_list.length > 0) {
+                            $('#twon').html(twon_list_option_html).val(data.result.user_address.town).show();
+                        }
+
+                    } else {
+                        layer.open({icon: 2, content: data.msg, time: 1000});
+                    }
+                }
+            });
+        } else {
+            $("input[name='address_id']").val(0);
+            $("input[name='consignee']").val('');
+            $("input[name='address']").val('');
+            $("input[name='phone']").val('');
+            $("input[name='zipcode']").val('');
+            $("#province").val(0);
+            $("#city").empty().html('<option value="0">请选择</option>');
+            $("#district").empty().html('<option value="0">请选择</option>');
+            $("#twon").empty().html('<option value="0">请选择</option>').hide();
+        }
+    })
+
+    //点击close关闭弹窗
+    $(document).on('click','.close',function () {
+        $('.close').css('display','none');
+        $('#address_dialog').css('display','none');
+        $('.shadow').css('display','none');
+    })
+    //获取省份
+    function get_province(){
+
+        $.ajax({
+            type : "GET",
+            url  : '/index/user/region',
+            data:{parent_id:0},
+            error: function(request) {
+                alert("服务器繁忙, 请联系管理员!");
+                return;
+            },
+            success: function(v) {
+                v = '<option value="0">选择省份</option>'+ v;
+                $('#province').empty().html(v);
+            }
+        });
+    }
+    //获取城市
+    function get_city(t,city,district,twon){
+        var parent_id = $(t).val();
+        console.log(parent_id)
+        if(!parent_id > 0){
+            return;
+        }
+        var city_id = 'city';
+        if(typeof(city) != 'undefined' && city != ''){
+            city_id = city;
+        }
+        var district_id = 'district';
+        if(typeof(district) != 'undefined' && district != ''){
+            district_id = district;
+        }
+        var twon_id = 'twon';
+        if(typeof(twon) != 'undefined' && twon != ''){
+            twon_id = twon;
+        }
+        $('#'+district_id).empty().css('display','none');
+        $('#'+twon_id).empty().css('display','none');
+        $.ajax({
+            type : "GET",
+            url  : '/index/user/region',
+            data:{parent_id:parent_id},
+            error: function(request) {
+                alert("服务器繁忙, 请联系管理员!");
+                return;
+            },
+            success: function(v) {
+                v = '<option value="0">选择城市</option>'+ v;
+                $('#'+city_id).empty().html(v);
+            }
+        });
+    }
+    //获取地区
+    function get_area(t,district,twon){
+        var parent_id = $(t).val();
+        if(!parent_id > 0){
+            return;
+        }
+        var district_id = 'district';
+        if(typeof(district) != 'undefined' && district != ''){
+            district_id = district;
+        }
+        var twon_id = 'twon';
+        if(typeof(twon) != 'undefined' && twon != ''){
+            twon_id = twon;
+        }
+        $('#'+district_id).empty().css('display','inline');
+        $('#'+twon_id).empty().css('display','none');
+        $.ajax({
+            type : "GET",
+            url  : '/index/user/region',
+            data:{parent_id:parent_id},
+            error: function(request) {
+                alert("服务器繁忙, 请联系管理员!");
+                return;
+            },
+            success: function(v) {
+                v = '<option>选择区域</option>'+ v;
+                $('#'+district_id).empty().html(v);
+            }
+        });
+    }
+    // 获取最后一级乡镇
+    function get_twon(obj,twon){
+        var twon_id = 'twon';
+        if(typeof(twon) != 'undefined' && twon != ''){
+            twon_id = twon;
+        }
+        var parent_id = $(obj).val();
+
+        $.ajax({
+            type : "GET",
+            url  : '/index/user/region',
+            data:{parent_id:parent_id},
+            success: function(res) {
+                if(parseInt(res) == 0){
+                    $('#'+twon_id).empty().css('display','none');
+                }else{
+                    $('#'+twon_id).css('display','inline').empty().html(res);
+                }
+            }
+        });
+    }
+    //地址提交
+    $(document).on("click", '#address_submit', function (e) {
+        $.ajax({
+            type: "POST",
+            url: "{:url('/index/User/addressSave')}",
+            data: $('#address_form').serialize(),
+            dataType: 'json',
+            success: function (data) {
+                console.log(data);
+                if (data.status == 1) {
+                    window.location.reload();
+                } else {
+                    layer.open({
+                        icon: 2, content: data.msg, time: 1000, end: function () {
+                            $.each(data.result, function (index, item) {
+                                $('#err_' + index).text(item).show();
+                            });
+                        }
+                    });
+                }
+            }
+        });
+    })
 </script>
 </html>

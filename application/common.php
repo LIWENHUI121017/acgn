@@ -183,5 +183,14 @@ function hidtel($phone){
         return preg_replace('/(1[358]{1}[0-9])[0-9]{4}([0-9]{4})/i','$1****$2',$phone);
     }
 }
+/**
+ * 检查手机号码格式
+ * @param $mobile 手机号码
+ */
+function check_mobile($mobile){
+    if(preg_match('/1[34578]\d{9}$/',$mobile))
+        return true;
+    return false;
+}
 
 

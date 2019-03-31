@@ -76,6 +76,11 @@ class Cart extends Base {
         $data = input('cart/a',[]);
 //        dump($data);
         $cartLogic = new CartLogic();
+        //检查是否有goods_num为0的商品
+        $checknum = $cartLogic->checknum($data);
+        if ($checknum['status']===0){
+            return json($checknum);
+        }
         $cartLogic->setUserId($this->user_id);
         $cartLogic->updateCart($data);
         $carlist = $cartLogic->gettotalprice();

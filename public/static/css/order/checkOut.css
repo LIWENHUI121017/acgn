@@ -1,3 +1,9 @@
+html,body{
+	height:100%;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+}
 ul,li,p,dl,dd,h1,h2,h3,h4,h5,h6 {
 	padding:0;
 	margin:0
@@ -8,6 +14,167 @@ ul,li,ol {
 em {
 	font-style:normal
 }
+/* 编辑地址弹窗-s*/
+.infom-dia {
+	width: 620px;
+	margin-left: -310px;
+	margin-top: -310px;
+}
+.infom-dia {
+	width: 620px;
+	margin-left: -310px;
+	margin-top: -310px;
+}
+
+.ui-dialog {
+	display: none;
+	border: 4px solid rgba(0,0,0,0.1);
+	border: 4px solid #ccc\9;
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	width: 400px;
+	position: fixed;
+	z-index: 10000;
+	overflow: hidden;
+	top: 50%;
+	left: 50%;
+
+}
+.ui-dialog-title {
+	position: relative;
+	padding: 0 10px;
+	height: 31px;
+	line-height: 31px;
+	background: #f3f3f3;
+	font-size: 14px;
+	color: #666;
+	font-family: "Microsoft YaHei";
+}
+.ui-dialog-content {
+	height: 568px;
+	width: 600px;
+	overflow: hidden;
+	position: relative;
+	padding: 10px;
+	background: #fff;
+}
+.close {
+	cursor: pointer;
+	display: block;
+	z-index: 100000;
+	position: absolute;
+	top: 12px;
+	right: 12px;
+	height: 15px;
+	width: 15px;
+	background-image: url(../../images/Paytype/icon_close.png);
+	background-size: 15px 15px;
+	background-repeat: no-repeat;
+	font-size: 0;
+}
+.invoice-dialog {
+	margin-left: 20px;
+}
+.zinvoice-tips {
+	padding: 5px 0;
+	background-color: #fffdee;
+	color: #f60;
+	margin-bottom: 10px;
+	margin-top: 10px;
+}
+.ui-switchable-panel .invoice_title {
+	display: block;
+	margin-bottom: 32px;
+	line-height: 25px;
+}
+.ui-switchable-panel .invoice_title .label {
+	width: 120px;
+	line-height: 24px;
+	float: left;
+	height: 18px;
+	line-height: 18px;
+	padding: 8px 0;
+	text-align: right;
+	color: #666666;
+}
+input.invoice_tt {
+	border: 1px solid #ccc;
+}
+.invoice_tt {
+	width: 335px;
+	padding: 6px 5px;
+}
+.err {
+	color: red;
+}
+.seauii {
+	padding: 7px 10px;
+	margin-right: 10px;
+}
+.btn-1 {
+	font-family: arial,"Microsoft YaHei";
+	display: inline-block;
+	height: 25px;
+	line-height: 25px;
+	background-color: #e74649;
+	border-radius: 3px;
+	color: #fff;
+	font-size: 12px;
+	font-weight: 400;
+	padding: 0 10px;
+	vertical-align: middle;
+	cursor: pointer;
+	border: 0;
+	float: none;
+	background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiP…dpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JhZCkiIC8+PC9zdmc+IA==);
+	background-size: 100%;
+	background-image: -webkit-gradient(linear,50% 100%,50% 0%,color-stop(0%,#e74649),color-stop(100%,#df3134));
+	background-image: -moz-linear-gradient(bottom,#e74649 0%,#df3134 100%);
+	background-image: -webkit-linear-gradient(bottom,#e74649 0%,#df3134 100%);
+	background-image: linear-gradient(to top,#e74649 0%,#df3134 100%);
+	-webkit-transition: all .2s ease-out;
+	transition: all .2s ease-out;
+}
+.btn-9 {
+	font-family: arial,"Microsoft YaHei";
+	display: inline-block;
+	height: 23px;
+	line-height: 23px;
+	background-color: #f2f2f2;
+	border-radius: 3px;
+	color: #323333;
+	font-size: 12px;
+	font-weight: 400;
+	padding: 0 9px;
+	vertical-align: middle;
+	cursor: pointer;
+	float: none;
+	background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiP…dpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JhZCkiIC8+PC9zdmc+IA==);
+	background-size: 100%;
+	background-image: -webkit-gradient(linear,50% 100%,50% 0%,color-stop(0%,#f2f2f2),color-stop(100%,#f7f7f7));
+	background-image: -moz-linear-gradient(bottom,#f2f2f2 0%,#f7f7f7 100%);
+	background-image: -webkit-linear-gradient(bottom,#f2f2f2 0%,#f7f7f7 100%);
+	background-image: linear-gradient(to top,#f2f2f2 0%,#f7f7f7 100%);
+	-webkit-transition: all .2s ease-out;
+	transition: all .2s ease-out;
+	border: 1px solid #e1e1e1;
+	margin-left: 10px;
+}
+.shadow{
+	display: none;
+	position: absolute;
+	padding: 0px;
+	top: 0px;
+	left: 0px;
+	bottom: 0px;
+	right: 0px;
+	width: 100%;
+	height: 360%;
+	z-index: 200;
+	background: rgba(0,0,0,.5);
+}
+/* 编辑地址弹窗-e*/
 .icon-checkbox {
 	display:inline-block;
 	width:14px;
@@ -87,7 +254,7 @@ em {
 	height:160px;
 	padding:15px 18px;
 	position:relative;
-	border:1px solid #dfdfdf;
+	border:2px solid #FFFFFF;
 	border-radius: 5px;
 	margin:0 0 10px 10px;
 	cursor:pointer;
@@ -269,7 +436,7 @@ em {
 }
 @media (max-width:1200px) {
 	.xm-address-list .item {
-	width:265px
+	width:264px
 }
 }.xm-address-list .tip {
 	margin:0 0 10px 10px;
