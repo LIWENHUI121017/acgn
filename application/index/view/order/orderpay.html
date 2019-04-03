@@ -24,8 +24,10 @@
         <div class="container payment-con">
     <form  id="pay-form" method="post">
         <input type="hidden" name="orderid" value="{$order.id}"/>
+        <input type="hidden" name="order_sn" value="{$order.order_sn}"/>
         <input type="hidden" name="order_status" value="{$order.order_status}"/>
         <input type="hidden" name="pay_status" value="{$order.pay_status}"/>
+        <input type="hidden" name="order_amount" value="{$order.order_amount}"/>
             <div class="order-info">
                 <div class="msg">
                     <h3>您的订单已提交成功！请您尽快付款！</h3>
@@ -35,15 +37,6 @@
                 <div class="info">
                         <p>订单：{$order.order_sn}&nbsp&nbsp&nbsp|&nbsp&nbsp&nbsp付款金额（元）：<span class="pay-total">{$order.order_amount}元</span></p>
 
-                        <!--<p>配送：潘骏杰-->
-                            <!--<span class="line">/</span>159****6437-->
-                            <!--<span class="line">/</span>-->
-                            <!--江苏,无锡市,北塘区 民丰西苑82号202室-->
-                            <!--<span class="line">/</span>-->
-                            <!--不限送货时间-->
-                            <!--<span class="line">/</span>-->
-                            <!--个人电子发票-->
-                        <!--</p>-->
                 </div>
                 <div class="icon-box">
                     <i class="iconfont"><img src="__PUBLIC__/static/images/order/images/yes_ok.png"></i>
@@ -101,14 +94,27 @@
         <div class="modal-body" style="display: none;">
             <div class="close"></div>
             <if condition="$user.paypwd neq ''">
-                <h3>付款金额：<span class="num"><em id="useCashAccountPayLeft">{$order.order_amount}</em>元</span></h3>
-                <p id="checkCodeTip">您的账户余额：<span class="num"><em style="color: red;font-size: 14px;">{$user.user_money}</em>元</span></p>
-                <input type="hidden" name="status" value="1"/>
-                <input type="password" name="Newpaypwd[first]" maxlength="6" oninput = "value=value.replace(/[^\d]/g,'')" id="paypwd" class="input" placeholder="请输入支付密码">
-               <span class="send-again" id="forgetpwd">忘记支付密码<em></em></span>
-                <p><input type="button" value="确认支付" class="btn btn-primary" id="toPay">
-                <else/>
+                <h3>付款金额：<span class="num"><em id="orderamount">{$order.order_amount}</em>元</span></h3>
+                <p id="checkCodeTip">您的账户余额：<span class="num"><em style="color: red;font-size: 14px;" id="usermoney">{$user.user_money}</em>元</span></p>
 
+                <input type="password" name="Newpaypwd[first]" maxlength="6" oninput = "value=value.replace(/[^\d]/g,'')" id="paypwd" class="input" placeholder="请输入支付密码">
+                <span class="send-again" id="forgetpwd">忘记支付密码<em></em></span>
+                <p><input type="button" value="确认支付" class="btn btn-primary" id="toPay" data-status="1"></p>
+
+                    <div id="weixin" style="display: none">
+                        <p style="color: red">余额不足,请扫码充值</p>
+                        <img src="__PUBLIC__/static/images/Paytype/wxpay.png" width="100px" height="100px" title="微信" />
+                        <a style="cursor: pointer;" onclick="changeto(false)">切换支付宝</a>
+                        <a style="cursor: pointer;margin-left: 35px" onclick="getMoney(100000)">测试（充值100000元）</a>
+                     </div>
+                        <div id="zhifubao" style="display: none">
+                            <p style="color: red;">余额不足,请扫码充值</p>
+                            <img src="__PUBLIC__/static/images/Paytype/zfbpay.png" width="100px" height="100px" title="支付宝" />
+                            <a style="cursor: pointer;" onclick="changeto(true)">切换微信</a>
+                            <a style="cursor: pointer;margin-left: 35px" onclick="getMoney(100000)">测试（充值100000元）</a>
+                        </div>
+
+                <else/>
                <h4 style="margin-top: 5px;">你还没设置支付密码</h4>
                <input type="password" name="Newpaypwd[first]" maxlength="6" oninput = "value=value.replace(/[^\d]/g,'')" class="input" placeholder="请输入6位纯数字支付密码">
                <span class="red" style="font-size: 13px" id="paypwdfirstcheck"><em></em></span>
@@ -116,13 +122,18 @@
                <span class="red" style="font-size: 13px" id="paypwdcheck"><em></em></span>
                    <if condition="$user.user_phone eq ''">
                        <h4 style="margin-top: 5px;">你还没绑定手机号码</h4>
-                       <input type="hidden" name="status" value="2"/>
-                       <input type="text" name="phone" maxlength="11" oninput = "value=value.replace(/[^\d]/g,'')"  class="input" placeholder="请输入接收短信的手机号">
-                       <span class="send-again" id="sendmessage">发送手机验证码<em></em></span>
-                       <input type="text" name="code"  maxlength="4" oninput = "value=value.replace(/[^\d]/g,'')"  id="code" class="input" placeholder="请输入验证码">
 
+                       <input type="text" name="phone" maxlength="11" oninput = "value=value.replace(/[^\d]/g,'')"  class="input" placeholder="请输入接收短信的手机号">
+                       <span class="send-again" id="sendmessage"  data-status="1">发送手机验证码<em></em></span>
+                       <input type="text" name="code"  maxlength="4" oninput = "value=value.replace(/[^\d]/g,'')"  id="code" class="input" placeholder="请输入验证码">
+                       <p><input type="button" value="提交" class="btn btn-primary" id="toPay"  data-status="2"></p>
+                       <else/>
+                       <input type="text" name="code"  maxlength="4" oninput = "value=value.replace(/[^\d]/g,'')"  id="code" class="input" placeholder="请输入验证码">
+                       <span class="send-again" id="sendmessage" data-phone="{$user.user_phone}" data-status="2">发送手机验证码<em></em></span>
+                       <p><input type="button" value="提交" class="btn btn-primary" id="toPay"  data-status="3"></p>
                    </if>
-                <p><input type="button" value="提交" class="btn btn-primary" id="toPay">
+
+
            </if>
 
 
@@ -147,6 +158,11 @@
         var url = "/index/order/paysuccess/order_id/"+orderid;
         if(pay_status==1){
             window.location.href=url ;
+        }
+        var orderamount = parseFloat($('#orderamount').html());
+        var usermoney = parseFloat($('#usermoney').html());
+        if (orderamount>usermoney){
+            $('#zhifubao').css('display','block')
         }
     })
    //判断支付密码输入
@@ -203,12 +219,17 @@
     })
     //点击发送短信
     $(document).on('click','#sendmessage',function () {
-        var phone = $(this).siblings("input[name='phone']").val();
-        var status = $(this).siblings("input[name='status']").val();
+        var status = $(this).data('status');
+        if (status==1){
+            var phone = $(this).siblings("input[name='phone']").val();
+        } else {
+            var phone = $(this).data('phone');
+        }
         // console.log(status);
         $.ajax({
             type: "POST",
-            url: "/Index/User/test",
+            // url: "/Index/User/test",
+            url: "/Index/User/sendlogin",
             data: {
                 'phone':phone,
                 'status':status
@@ -217,13 +238,13 @@
             dataType:'json',
             success: function(data){
                 if (data.status == 0){
-                    alert( '短信发送次数已达上限，请明天再来！   ' );
+                    layer.alert('短信发送次数已达上限，请明天再来!',{icon:2});
                 }
                 if(data.status == 1){
-                    alert( '短信发送成功');
+                    layer.msg('短信发送成功!',{icon:1,time:2500});
                 }
                 if (data.status == 3){
-                    alert( data.msg );
+                    layer.alert(data.msg ,{icon:2});
                 }
 
             },
@@ -236,7 +257,7 @@
     //点击确认支付
     $(document).on('click','#toPay',function () {
         var phone = $("input[name='phone']").val();
-        var status = $("input[name='status']").val();
+        var status = $(this).data('status');
         var pwdfirst = $("input[name='Newpaypwd[first]']").val();
         var pwdsecond = $("input[name='Newpaypwd[second]']").val();
         var code = $("input[name='code']").val();
@@ -268,11 +289,17 @@
                     dataType:'json',
                     success: function(data){
                         if (data.status == -100){
-                            alert(data.msg);
+                            layer.alert(data.msg,{icon:2});
+                        }
+                        if (data.status == -500){
+                            layer.alert(data.msg,{icon:2});
+                            $('#zhifubao').css('display','block')
                         }
                         if(data.status == 200){
-                            alert( data.msg);
-                            location.reload();
+                            layer.alert(data.msg,{icon:2},function () {
+                                window.location.reload();
+                            });
+
                             $('#balancePay').removeClass('modal');
                             $('.modal-body').css('display','block')
                         }
@@ -294,5 +321,40 @@
 
     })
 
+    //点击切换充值方式
+    function changeto(n){
+        if (n){
+            $('#zhifubao').css('display','none');
+            $("#weixin").css('display','block');
+        }else {
+            $('#weixin').css('display','none');
+            $("#zhifubao").css('display','block');
+        }
+    }
+    
+    //测试点击充值
+    function getMoney(m) {
+        var orderid = $("input[name='orderid']").val();
+        var order_sn = $("input[name='order_sn']").val();
+        $.ajax({
+            type: "POST",
+            url: "/Index/User/getMoney",
+            data: {'money':m,'orderid':orderid,'order_sn':order_sn},
+            async: false,
+            dataType:'json',
+            success: function(data){
+                if (data.status==1){
+                    layer.msg(data.msg,{icon:1,time:2000},function () {
+                        window.location.reload();
+                    })
+                } else {
+                    layer.msg(data.msg,{icon:2,time:2000})
+                }
+            },
+            error : function(XMLHttpRequest, textStatus, errorThrown) {
+                alert("网络失败，请刷新页面后重试!");
+            }
+        });
+    }
 </script>
 </html>

@@ -121,7 +121,7 @@
                                         <if condition="$v1.store_count eq 0">
                                             库存不足
                                             <p>
-                                                <a href="javascript:;" ><span class="icon icon-del" style="color: red" id="del">删除</span></a>
+                                                <a href="javascript:;" ><span class="icon icon-del" style="color: red" data-cartid="{$v1.id}" id="del">删除</span></a>
                                             </p>
                                             <else/>有货
                                         </if>
@@ -129,25 +129,18 @@
                                         </div>
                                     </div>
                                 </div>
-                                <!--第四列-->
+                                <!--总金额-->
                                 <div class="cart-tab-4">
                                     <!-- 总金额是当前的单价乘以商品总数-->
                                     <div class="item-price-total" id="goodstotal">{$v1.goodstotal}</div>
 
                                 </div>
-                                <!--第五列-->
+                                <!--操作-->
                                 <div class="cart-tab-5">
                                     <p>
-                                        <a href="javascript:;" ><span class="icon icon-del" id="del">删除</span></a>
+                                        <a href="javascript:;" ><span class="icon icon-del" data-cartid="{$v1.id}" id="del">删除</span></a>
                                     </p>
-                                    <p>
-                                        <a href="javascript:;" ><span class="icon icon-del">加入收藏</span></a>
-                                    </p>
-                                    <!--<div class="cart-item-opration">-->
-                                        <!--<a href="javascript:;" class="item-edit-btn" @click="delConfirm(item)">-->
-                                            <!--<span class="icon icon-del">删除</span>-->
-                                        <!--</a>-->
-                                    <!--</div>-->
+
                                 </div>
 
                             </li>
@@ -215,6 +208,33 @@
 
         getOrderlist(1);
     });
+    //删除商品
+    $(document).on('click','#del',function () {
+       var cartid = $(this).data('cartid');
+        layer.confirm('确定移除该商品？',{btn:['确定','取消'],title:'提示'},function () {
+            $.ajax({
+                type:'get',
+                dataType:'json',
+                async:false,
+                url:'/index/cart/delcart',
+                data:{cartid:cartid},
+                success:function (data) {
+                    if(data.status==1){
+                        layer.msg(data.msg,{icon:1,time:2000},function () {
+                            window.location.reload();
+                        })
+                    }else {
+                        layer.msg(data.msg,{icon:2,time:2000},function () {
+                            window.location.reload();
+                        })
+                    }
+
+                }
+            })
+        })
+    })
+
+
     //全选或者取消全选
     function checkAll(i){
         var a = i;
@@ -404,6 +424,8 @@
         })
         // window.location.href="{:url('index/order/index')}";
     });
+
+
 
 </script>
 </html>

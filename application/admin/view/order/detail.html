@@ -160,7 +160,7 @@
                             </dl>
                             <dl>
                                 <dt>收货地址：</dt>
-                                <dd>{$order.province}&nbsp{$order.city}&nbsp{$order.county}&nbsp{$order.address}</dd>
+                                <dd>{$order.province}&nbsp{$order.city}&nbsp{$order.district}&nbsp{$order.town}&nbsp{$order.address}</dd>
                             </dl>
                             <dl>
                                 <dt>邮编：</dt>
@@ -251,10 +251,14 @@
                                     <label for="note">可执行操作</label>
                                 </dt>
                                 <dd class="opt" style="margin-left:10px">
-                                    <!--订单还没付款-->
-                                    <if condition="$order.pay_status eq 0">
-                                        <div>订单还未付款</div>
-                                        <else/>
+
+                                        <if condition="$order.order_status neq 2">
+                                            <!--订单还没付款-->
+                                            <if condition="$order.pay_status eq 0">
+                                            <div>订单还未付款</div>
+                                             </if>
+
+                                        </if>
                                         <!--订单已确认-->
                                         <if condition="$order.order_status eq 1">
 
@@ -274,7 +278,7 @@
                                             <a class="ncap-btn-big ncap-btn-green" id="confirm" data-status="5">无效</a>
                                         </if>
 
-                                    </if>
+
 
 
                                 </dd>

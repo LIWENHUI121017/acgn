@@ -114,6 +114,14 @@ class Order extends Base
                $shippingres = $shippinglogic->set_delivery($data,$shipping,$order);
                if ($shippingres){
                 $orderres = $orderlogic->edit_order($data,$order);
+                //修改订单中的商品的状态
+                   $w=['order_id'=>$data['order_id']];
+                   $d = ['is_send'=>1,'delivery_id'=>$data['shipping_code']];
+                    $ordergoodsres = $orderlogic->edit_ordergoods($w,$d);
+                    if (!$ordergoodsres){
+//                        dump($ordergoodsres);
+                        return json(['status'=>0,'msg'=>'变更订单中的商品参数失败！']);
+                    }
                 if ($orderres){
                     //记录订单日志
                     $data2=[

@@ -38,11 +38,12 @@
                                     <div class="clearfix xm-address-list " id="checkoutAddrList">
                                         <foreach name="address" item="v2" key="k1">
 
-                                            <dl class="item <if condition="$v2.is_default eq 1">selected</if>" >
-                                            <input type="hidden" id="addressid" value="{$v2.address_id}"/>
+                                            <dl  class="item <if condition="$v2.is_default eq 1">selected</if>" >
+                                                 <input type="hidden" id="addressid" value="{$v2.address_id}" data-status="<if condition="$v2.is_default eq 1">1</if>"/>
                                                 <dt>
                                                     <strong class="itemConsignee">{$v2.consignee}</strong>
                                                     <!--<span class="itemTag tag">家</span>-->
+                                                    <span class="edit-btn J_editAddr" id="addDefaultAddr" data-address_id="{$v2.address_id}" style="width: 100px">设置为默认地址</span>
                                                 </dt>
                                                 <dd>
                                                     <p class="tel itemTel">{$v2.phone}</p>
@@ -50,7 +51,8 @@
                                                     <p class="itemStreet">{$v2.address}</p>
                                                     <span class="edit-btn J_editAddr" id="addEditAddr" data-address_id="{$v2.address_id}">编辑</span>
                                                     <span class="edit-btn J_delAddr" id="delAddr" data-address_id="{$v2.address_id}">删除</span>
-                                            </dd>
+
+                                                </dd>
                                             </dl>
                                         </foreach>
                                         <input type="hidden"  class="addressId" value="" name="Checkout[addressid]"/>
@@ -110,10 +112,10 @@
                                             <input type="radio" checked="checked" name="Checkout[best_time]" value="1">
                                             <p>不限送货时间<span>周一至周日</span></p>
                                         </li>
-                                        <li class="item ">
-                                            <input type="radio"  name="Checkout[best_time]" value="2">
-                                            <p>其他送货时间<span>请在备注中备注</span></p>
-                                        </li>
+                                        <!--<li class="item ">-->
+                                            <!--<input type="radio"  name="Checkout[best_time]" value="2">-->
+                                            <!--<p>其他送货时间<span>请在备注中备注</span></p>-->
+                                        <!--</li>-->
                                         <!--<li class="item ">-->
                                             <!--<input type="radio"  name="Checkout[best_time]" value="3">-->
                                             <!--<p>双休日、假日送货<span>周六至周日</span></p>-->
@@ -312,7 +314,19 @@
        $("#order_amount").val(totalprice);
         $('#totalPrice').empty().html(totalprice);
         get_province();
+        //初始化地址id
+            var addr = $("input[id^='addressid']")
+        addr.each(function(i,o){
+            if($(this).data('status')==1){
+                var a = $(this).val();
+                $('.addressId').val(a)
+            }
+        })
+
+
+
     })
+
     //  保留两位小数函数
     function toDecimal2(x) {
         var f = parseFloat(x);
@@ -341,10 +355,12 @@
 
         $(this).addClass('selected');
        var a = $(this).find('#addressid').val();
+
         $('.addressId').val(a);
 
-        // console.log(a)
+        console.log(a)
     })
+
 
     //用户备注输入
     $('#user_note').change(function () {
@@ -423,6 +439,49 @@
             $("#twon").empty().html('<option value="0">请选择</option>').hide();
         }
     })
+
+    //删除地址
+    $(document).on('click','#delAddr',function () {
+        var address_id = $(this).data('address_id');
+        layer.confirm('确定删除地址？',{btn:['确定','取消'],title:'提示'},function () {
+            $.ajax({
+                type: "POST",
+                url: "{:url('/Index/User/deladdress')}",
+                data: {address_id: address_id},
+                dataType: 'json',
+                success: function (data) {
+                    if (data.status == 1) {
+                        layer.msg(data.msg,{icon:1,time:2000},function () {
+                            window.location.reload();
+                        })
+                    } else {
+                        layer.msg(data.msg,{icon:2,time:2000})
+                    }
+                }
+            });
+        })
+
+
+    })
+
+    //设置默认地址
+    $(document).on('click','#addDefaultAddr',function () {
+        var address_id = $(this).data('address_id');
+            $.ajax({
+                type: "POST",
+                url: "{:url('/Index/User/setdefaultaddress')}",
+                data: {address_id: address_id},
+                dataType: 'json',
+                success: function (data) {
+                    if (data.status == 1) {
+                        layer.msg(data.msg,{icon:1,time:2000})
+                    } else {
+                        layer.msg(data.msg,{icon:2,time:2000})
+                    }
+                }
+            });
+    })
+
 
     //点击close关闭弹窗
     $(document).on('click','.close',function () {

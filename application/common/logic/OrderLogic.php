@@ -52,6 +52,29 @@ class OrderLogic extends My_Logic
 
     }
 
+    //确认收货
+    public function confirm_order($id,$user_id = 0){
+        $where=['id' =>$id];
+        if($user_id){
+            $where['user_id'] = $user_id;
+        }
+        $order = $this->get_one($where);
+        if($order['order_status'] != 3){
+            return array('status'=>-1,'msg'=>'该订单不能收货确认');
+        }
+        if(empty($order['pay_time']) || $order['pay_status'] != 1){
+            return array('status'=>-1,'msg'=>'商家未确定付款，该订单暂不能确定收货');
+        }
+        $data['order_status'] = 4; // 已收货
+        $data['pay_status'] = 1; // 已付款
+        $data['confirm_time'] = time(); // 收货确认时间
+        $where=['id'=>$id];
+        $res = $this->edit($where,$data);
+        if(!$res){
+            return array('status'=>-3,'msg'=>'操作失败');
+        }
+        return array('status'=>1,'msg'=>'操作成功','url'=>url('Order/order_detail',['orderid'=>$id]));
+    }
 
     //获取的我的收获地址
     public function get_MyAddress($where = array(), $field = '*')
@@ -206,6 +229,24 @@ class OrderLogic extends My_Logic
         return $ordergoods;
     }
 
+    //获取订单详情信息
+    public function get_order_detail($orderid){
+        $where = ['a.id'=>$orderid];
+//        dump($orderid);
+//        die;
+        $res = Db::name('order')
+                ->alias('a')
+                ->join('address s','a.address_id=s.address_id')
+                ->where($where)
+                ->find();
+        $res['province']=$this->get_one(['id'=>$res['province']],'name','Region')['name'];
+        $res['city']=$this->get_one(['id'=>$res['city']],'name','Region')['name'];
+        $res['district']=$this->get_one(['id'=>$res['district']],'name','Region')['name'];
+        $res['town']=$this->get_one(['id'=>$res['town']],'name','Region')['name'];
+
+        return $res;
+
+    }
     //后台获取所有订单信息
     public function get_all_order()
     {
@@ -250,7 +291,8 @@ class OrderLogic extends My_Logic
 //        ["county"] => int(28308)
             $order['province']=$this->get_one(['id'=>$order['province']],'name','Region')['name'];
             $order['city']=$this->get_one(['id'=>$order['city']],'name','Region')['name'];
-            $order['county']=$this->get_one(['id'=>$order['county']],'name','Region')['name'];
+            $order['district']=$this->get_one(['id'=>$order['district']],'name','Region')['name'];
+            $order['town']=$this->get_one(['id'=>$order['town']],'name','Region')['name'];
         switch ($order['pay_type_id']) {
             case 1:
                 $order['pay_type_id'] = '钱包支付';
@@ -401,6 +443,11 @@ class OrderLogic extends My_Logic
         return $res;
     }
 
+    //订单中的商品参数改变
+    public function edit_ordergoods($where,$data){
+        $res = $this->edit($where,$data,'OrderGoods');
+        return $res;
+    }
     //改变订单状态
     public function editOrderStatus($where=array(),$data){
             $res = $this->edit($where,$data);

@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>我的订单</title>
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/static/css/order/tpshop.css" />
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/static/css/order/myaccount.css" />
+    <script src="__PUBLIC__/static/js/jquery/jquery.min.js" type="text/javascript"></script>
+    <include file="public/head"/>
+</head>
+<body class="bg-f5">
+<include file="public/publichead"/>
+
+<include file="user/user_title"/>
+<div >
+    <div class="w1224">
+        <div class="g-crumbs">
+            <i class="fa fa-angle-right fa-lg"><a href="{:url('User/index')}">&nbsp&nbsp我的商城&nbsp&nbsp&nbsp&nbsp</a></i>
+           <i class="fa fa-angle-right fa-lg"> <a href="{:url('Order/order_list')}">&nbsp&nbsp订单中心&nbsp&nbsp&nbsp&nbsp</a></i>
+            <span class="fa-lg"><b> 订单：{$order.order_sn}</b></span>
+        </div>
+        <div class="home-main">
+            <div class="com-topyue">
+                <div class="wacheng fl">
+                    <p class="ddn1"><span>订单号：</span><span>{$order.order_sn}</span></p>
+
+
+                    <if condition="$order.order_status eq 3 ">
+                        <a class="ddn3" style="margin-top:20px;" href="javascript:;" onclick="order_confirm({$order['id']})">确认收货</a>
+                    </if>
+
+                        <if condition="$order.pay_status eq 0">
+                            <if condition="$order.order_status eq 0">
+                                <h3 style="font: 700 24px/34px 'Microsoft YaHei';color: #e4393c; padding-top:20px;">等待付款</h3>
+                                <a class="ddn3" style="margin-top:20px;" href="{:url('/index/order/orderpay',array('order_id'=>$order.id))}">立即付款</a>
+                                <a class="ddn3" style="margin-top:10px;color:#666;" href="javascript:;" onclick="cancel_order({$order.id})">取消订单</a>
+                               <else/>
+                                <h1 class="ddn2">{$order_status[$order.order_status]}</h1>
+                            </if>
+                            <else/>
+                            <h1 class="ddn2">{$order_status[$order.order_status]}</h1>
+                        </if>
+
+
+
+                </div>
+                <div class="wacheng2 fr">
+                    <p class="dd2n">感谢您在商城购物，欢迎您对本次交易及所购商品进行评价。</p>
+                    <div class="liuchaar p">
+                        <ul>
+                            <li>
+                                <div class="aloinfe">
+                                    <i class="y-comp"></i>
+                                    <div class="ddfon">
+                                        <p>提交订单</p>
+                                        <p>{$order.order_time|date='Y-m-d H:i:s',###}</p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li><i class='y-comp91 <if condition="$order.pay_time eq 0">top322</if>'></i></li>
+                            <li>
+                                <div class="aloinfe fime1">
+                                    <i class='y-comp2 <if condition="$order.pay_time eq 0">lef64</if>'></i>
+                                    <div class="ddfon">
+                                        <p>付款成功</p>
+                                        <if condition="$order.pay_time gt 0">
+                                            <p>{$order.pay_time|date='Y-m-d H:i:s',###}</p>
+                                        </if>
+                                    </div>
+                                </div>
+                            </li>
+                            <li><i class='y-comp91 <if condition="$order.shipping_time eq 0">top322</if>'></i></li>
+                            <li>
+                                <div class="aloinfe fime2">
+                                    <i class='y-comp3 <if condition="$order.shipping_time eq 0">lef64</if>'></i>
+                                    <div class="ddfon">
+                                        <p>卖家发货</p>
+                                        <if condition="$order.shipping_time gt 0">
+                                            <p>{$order.shipping_time|date='Y-m-d',###}</p>
+                                            <p>{$order.shipping_time|date='H:i:s',###}</p>
+                                        </if>
+                                    </div>
+                                </div>
+                            </li>
+                            <li><i class='y-comp91 <if condition="$order.shipping_time eq 0">top322</if>'></i></li>
+                            <li>
+                                <div class="aloinfe fime3">
+                                    <i class='y-comp4 <if condition="$order.shipping_time eq 0">lef64</if>'></i>
+                                    <div class="ddfon">
+                                            <p>等待收货</p>
+                                        </div>
+                                </div>
+                                </li>
+                            <li><i class='y-comp91 <if condition="$order.confirm_time eq 0">top322</if>'></i></li>
+                            <li>
+                                <div class="aloinfe fime4">
+                                    <i class='y-comp5 <if condition="$order.confirm_time eq 0">lef64</if>'></i>
+                                    <div class="ddfon">
+                                        <p>完成</p>
+                                        <if condition="$order.confirm_time gt 0">
+                                            <p>{$order.confirm_time|date='Y-m-d H:i:s',###}</p>
+                                        </if>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="grouupanjf">
+                        <!--<if condition="$order.pay_status eq 0">-->
+                            <!--<a href="javascript:;">完成订单可能获得:<i class="y-comp7"></i>积分&nbsp;&nbsp;<i class="y-comp8"></i>会员成长值&nbsp;&nbsp;<i class="y-comp7"></i>优惠券</a>-->
+                            <!--<else/>-->
+                        <!--</if>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <if condition="$order['shipping_status'] eq 1 and !empty($order['shipping_code'])">
+            <foreach name="order['delivery_doc']" item="v">
+                <div class="home-main reseting ma-to-20">
+                    <div class="com-topyue">
+                        <div class="wacheng fl">
+                            <div class="shioeboixe">
+                                <div class="sohstyle p">
+                                    <div class="odjpyes">
+                                        <img src="__STATIC__/images/kuaidi.jpg"/>
+                                    </div>
+                                    <div class="osnhptek">
+                                        <p><span>送货方式：</span><span>{$v.shipping_name}</span></p>
+                                        <p><span>快递单号：</span><span>{$v.invoice_no}</span></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="wacheng2 fr">
+                            <div class="listchatu">
+                                <ul id="express_info_{$v['invoice_no']}">
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <script>
+                    $(function() {
+                        $.ajax({
+                            type : "GET",
+                            dataType: "json",
+                            url:"{:U('home/api/queryExpress')}?shipping_code={$v['shipping_code']}&invoice_no={$v['invoice_no']}",//+tab,
+                            success: function(data){
+                                var html = '';
+                                if(data.status == 200){
+                                    $.each(data.data, function(i,n){
+                                        if(i == 0){
+                                            html += "<li class='first'><i class='node-icon' style='margin-left:20px'></i><span class='time'>"+n.time+"</span><span class='txt'>"+n.context+"</span></li>";
+                                        }else{
+                                            html += "<li><i class='node-icon' style='margin-left:20px'></i><span class='time'>"+n.time+"</span><span class='txt'>"+n.context+"</span></li>";
+                                        }
+                                    });
+                                }else{
+                                    html += "<li class='first' style='margin-left:20px'><i class='node-icon'></i><span class='txt'>"+data.message+"</span></li>";
+                                }
+                                $("#express_info_{$v['invoice_no']}").html(html);
+                            }
+                        });
+                    });
+                </script>
+            </foreach>
+        </if>
+        <div class="home-main ma-to-20">
+            <div class="rshrinfmas">
+                <div class="spff spff-two">
+                    <h2>收货人信息</h2>
+                    <div class="psbaowq">
+                        <p><span class="fircl">收货人：</span><span class="lascl">{$order.consignee}</span></p>
+                        <p><span class="fircl">地址：</span>
+                            <span class="lascl">{$order.province}&nbsp{$order.city}&nbsp{$order.district}&nbsp{$order.town}&nbsp{$order.address}</span>
+                        </p>
+                        <p><span class="fircl">手机号码：</span><span class="lascl">{$order.phone}</span></p>
+                    </div>
+                </div>
+                <div class="spff spff-two">
+                    <h2>配送信息</h2>
+                    <div class="psbaowq">
+                        <p><span class="fircl">配送方式：</span><span class="lascl">快速配送（免邮费）</span></p>
+
+                        <p><span class="fircl">快递公司：</span>
+                            <if condition="$order.shipping_status eq 1">
+                                <span class="lascl">{$shipping[$order.shipping_id]['shipping_name']}</span>
+                                <else/>
+                                <span class="lascl">未发货</span>
+                            </if>
+
+                        </p>
+
+                        <p><span class="fircl">运费：</span><span class="lascl"><em>￥</em>{$order.shipping_price|default=0}</span></p>
+                        <p><span class="fircl">买家留言：</span><span class="lascl">{$order.user_note|default=''}</span></p>
+                    </div>
+                </div>
+                <div class="spff spff-two">
+                    <h2>付款信息</h2>
+                    <div class="psbaowq">
+                        <p><span class="fircl">付款方式：</span><span class="lascl">
+
+                                在线支付
+
+
+                        </span></p>
+                        <p><span class="fircl">付款时间：</span><span class="lascl"><if condition="$order.pay_status eq 1">{$order.pay_time|date='Y-m-d H:i:s',###}<else/>未支付</if></span></p>
+
+                            <p><span class="fircl">商品总额：</span><span class="lascl"><em>￥</em>{$order.order_amount}</span></p>
+                            <p><span class="fircl">运费金额：</span><span class="lascl"><em>￥</em>{$order.shipping_price}</span></p>
+                            <p><span class="fircl">优惠券：</span><span class="lascl"><em>￥</em>0</span></p>
+                            <p><span class="fircl">订单优惠：</span><span class="lascl"><em>￥</em>0</span></p>
+
+                        <if condition="$order.pay_status eq 1">
+                        <p><span class="fircl">余额支付：</span><span class="lascl"><em>￥</em>{$order.order_amount}</span></p>
+                        </if>
+                        <!-- 预售商品 start -->
+
+                            <!--<if condition="$order.pay_status eq 1">-->
+                                <!--<p><span class="fircl">已付尾款：</span><span class="lascl"><em>￥</em>{$order.order_amount}</span></p>-->
+                            <!--</if>-->
+                            <!--<tr>-->
+                                <!--<p><span class="fircl">已付订金：</span><span class="lascl"><em>￥</em>11111</span></p>-->
+                            <!--</tr>-->
+                            <!--<tr>-->
+                                <!--<p><span class="fircl">预售发货时间描述：</span><span class="lascl"><em></em>1111</span></p>-->
+                            <!--</tr>-->
+
+                        <!-- 预售商品 end -->
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="ordergoods">
+            <div class="beenovercom">
+
+                <div class="orderbook-list">
+                    <div class="book-tit">
+                        <ul>
+                            <li class="sx1">商品</li>
+                            <li class="sx2">商品编号</li>
+                            <li class="sx3">购买单价</li>
+
+                            <li class="sx5">商品数量</li>
+                            <li class="sx6">操作</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="order-alone-li">
+                    <volist name="order.order_goods" id="goods">
+                        <table width="100%" border="" cellspacing="" cellpadding="">
+                            <tr class="conten_or">
+                                <td class="sx1">
+                                    <div class="shop-if-dif">
+                                        <div class="shop-difimg">
+                                            <a href="{:url('Index/Goods/goodsInfo',array('id'=>$goods['goods_id']))}"><img src="{$goods.original_img}"></a>
+                                        </div>
+                                        <div class="cebigeze">
+                                            <div class="shop_name"><a href="{:url('index/Goods/goodsInfo',array('id'=>$goods['goods_id']))}">{$goods.goods_name}</a></div>
+                                            <p class="mayxl">{$goods.spec_key_name}</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="sx2">{$goods.goods_sn}</td>
+                                <td class="sx3"><span>￥</span><span>{$goods.goods_price}</span></td>
+                                <td class="sx5">
+                                    <span>{$goods.goods_num}</span>
+                                </td>
+                                <td class="sx6">
+                                    <div class="twrbac">
+                                        <if condition="$goods['is_comment'] eq 0 and $order.order_status eq 4">
+                                            <a href="{:url('index/Order/comment_list',array('order_id'=>$order['id']))}">评价</a>
+                                        </if>
+
+                                        <p>
+                                            <a class="songobuy" href="{:url('index/Goods/goodsInfo',array('id'=>$goods['goods_id']))}">再次购买</a>
+                                        </p>
+                                        <if condition="$goods.is_send eq 0 "><a>未发货</a></if>
+                                        <if condition="$goods.is_send eq 1"><a>已发货</a></if>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </volist>
+                </div>
+            </div>
+            <div class="numzjsehe">
+            <p><span class="sp_tutt">商品总额：</span><span class="smprice"><em>￥</em>{$order.total_amount}</span></p>
+            <p><span class="sp_tutt">返&nbsp;&nbsp;&nbsp;&nbsp;现：</span><span class="smprice"><em>￥</em>0.00</span></p>
+            <p><span class="sp_tutt">运&nbsp;&nbsp;&nbsp;&nbsp;费：</span><span class="smprice"><em>￥</em>{$order.shipping_price}</span></p>
+            <p><span class="sp_tutt">价格调整：</span><span class="smprice"><em>￥</em>
+
+                </span></p>
+            <p><span class="sp_tutt">应付总额：</span><span class="smprice red"><em>￥</em>{$order.order_amount}</span></p>
+        </div>
+        </div>
+    </div>
+</div>
+<!--footer-s-->
+
+<include file="public/footer" />
+
+<!--footer-e-->
+<script>
+    //取消订单
+    function cancel_order(id){
+        layer.confirm('确定取消订单?', {
+                btn: ['确定','取消'] //按钮
+            }, function(){
+                // 确定
+                $.ajax({
+                    type:'get',
+                    dataType:'json',
+                    url:"/index/order/cancel_order",
+                    data:{id:id},
+                    success:function (data) {
+                        if(data.status==0){
+                            layer.alert(data.msg,{icon:2,time:2000});
+                        }
+                        if(data.status==1){
+                            layer.alert(data.msg,{icon:1,time:2000},function () {
+                                window.location.reload();
+                            });
+                        }
+
+                    }
+                })
+            }, function(index){
+                layer.close(index);
+            }
+        );
+    }
+
+    //确定收货
+    function order_confirm(order_id){
+        layer.confirm("你确定收到货了吗?",{
+            btn:['确定','取消']
+        },function(){
+            $.ajax({
+                type : 'post',
+                url : '/index/Order/order_confirm',
+                data:{order_id:order_id},
+                dataType : 'json',
+                success : function(data){
+                    if(data.status == 1){
+                        layer.alert(data.msg, {icon: 1},function () {
+                            window.location.href = data.url;
+                        });
+                    }else{
+                        layer.alert(data.msg,{icon:2});
+                    }
+                },
+                error : function(XMLHttpRequest, textStatus, errorThrown) {
+                    showErrorMsg('网络失败，请刷新页面后重试');
+                }
+            })
+        }, function(index){
+            layer.close(index);
+        });
+    }
+</script>
+</body>
+</html>

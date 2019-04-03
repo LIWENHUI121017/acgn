@@ -2,6 +2,7 @@
 namespace app\index\controller;
 
 use app\common\logic\CartLogic;
+use app\common\logic\My_Logic;
 use app\common\logic\OrderLogic;
 use app\common\logic\UserLogic;
 use app\common\model\Address;
@@ -32,6 +33,7 @@ class User extends Base
             $this->assign('user',$user); //存储用户信息
             $this->assign('user_id',$this->user_id);
         }
+
         $this->order_status = config('ORDER_STATUS');
         $this->pay_status = config('PAY_STATUS');
         $this->shipping_status = config('SHIPPING_STATUS');
@@ -276,30 +278,11 @@ class User extends Base
     }
 
 
-    //我的订单
-    public function myorder(){
-        self::isLogin();
-        $user_id =$this->user_id;
-        if ($user_id>0){
-            $orderlogic = new OrderLogic();
-            $orderlogic->setUserId($user_id);
-            $order = $orderlogic->user_get_all_order();
-            foreach ($order as $key=>$value){
-                $order[$key]['goodsinfo'] = $orderlogic->get_order_goods($value['id']);
-            }
-//            dump($order);
-//            die;
-//            $this->assign('goods',$goods);
-            $this->assign('order',$order);
-            return $this->fetch();
-        }
-    }
-
-
     //判断是否登录
     public function isLogin(){
         if(!session('user')){
-            $this->error('你还没登录呢！',url('User/login'));
+            $this->redirect('User/login');
+//            $this->error('你还没登录呢！',url('User/login'));
         }
     }
 
@@ -378,6 +361,67 @@ class User extends Base
         }
     }
 
+    //删除地址
+    public function deladdress(){
+        $address_id = input('address_id/d',0);
+        $logic = new My_Logic();
+        $where = ['address_id'=>$address_id];
+        $res = $logic->del($where,'Address');
+        if (!$res){
+            return json(['status'=>0,'msg'=>'操作失败']);
+        }
+        return json(['status'=>1,'msg'=>'操作成功']);
+    }
+
+    //设置默认地址
+    public function setdefaultaddress(){
+        $address_id = input('address_id/d',0);
+        $logic = new My_Logic();
+        //先把所有默认变为0
+        $w=['user_id'=>$this->user_id];
+        $d = ['is_default'=>0];
+        $res1 = $logic->edit($w,$d,'Address');
+        if (!$res1){
+            return json(['status'=>0,'msg'=>'操作失败']);
+        }
+        $where = ['address_id'=>$address_id];
+        $data=['is_default'=>1];
+        $res = $logic->edit($where,$data,'Address');
+        if (!$res){
+            return json(['status'=>0,'msg'=>'操作失败']);
+        }
+        return json(['status'=>1,'msg'=>'操作成功']);
+    }
+
+    //测试充值
+    public function getMoney(){
+            $money = input('money');
+            $orderid = input('orderid');
+            $order_sn = input('order_sn');
+            $userid = $this->user_id;
+            $logic = new UserLogic();
+            $where=['id'=>$userid];
+            $data=['user_money'=>$money];
+            $res = $logic->edit($where,$data);
+            if (!$res){
+                return json(['status'=>0,'msg'=>'充值失败']);
+            }else{
+                //写入用户账户日志
+                $data=[
+                    'user_id'=>$this->user_id,
+                    'user_money'=>"+".$money,
+                    'change_time'=>time(),
+                    'desc'=>'充值金额',
+                    'order_sn'=>$order_sn,
+                    'order_id'=>$orderid,
+                    ];
+                $res1 = $logic->add($data,'UserLog');
+                if (!$res1){
+                    return json(['status'=>0,'msg'=>'写入日志失败']);
+                }
+            }
+             return json(['status'=>1,'msg'=>'充值成功,请重新点击支付']);
+    }
 
 }
 

@@ -56,6 +56,29 @@ a:hover { color:#FF6561; text-decoration:none;}
 	font: 12px 'Helvetica Neue', Helvetica, Arial, 'Microsoft Yahei', 'Hiragino Sans GB', 'Heiti SC', 'WenQuanYi Micro Hei', sans-serif;
 	background: #fff;
 }
+.search_usercenter_text {
+	width: 200px;
+	height: 34px;
+	border: 0;
+	display: inline-block;
+	background: #ffffff;
+	float: left;
+	outline: none;
+	padding: 0 10px;
+	margin-top: 20px;
+}
+.search_usercenter_btn {
+	height: 34px;
+	display: inline-block;
+	line-height: 34px;
+	width: 50px;
+	text-align: center;
+	background: white;
+	float: left;
+	color: #222222 !important;
+	font-size: 14px;
+	margin-top: 20px;
+}
 .top .nav-mask{
 	position: absolute;
 	top: 0;

@@ -3,6 +3,7 @@ namespace app\index\controller;
 
 
 use app\common\logic\CartLogic;
+use app\common\logic\My_Logic;
 use app\common\util\acgnException;
 use think\Controller;
 use think\cache\driver\Redis;
@@ -93,5 +94,19 @@ class Cart extends Base {
         }
 
     }
+
+    //删除购物车中的商品
+    public function delcart(){
+        $cartid = input('cartid');
+        $logic = new My_Logic();
+        $where = ['id'=>$cartid];
+        $res = $logic->del($where,'Cart');
+        if ($res){
+            return json(['status'=>1,'msg'=>'已经成功移除']);
+        }else{
+            return json(['status'=>0,'msg'=>'移除失败']);
+        }
+    }
+
 
 }

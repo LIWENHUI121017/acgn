@@ -3,7 +3,7 @@
     <dl>
         <dt>交易中心</dt>
         <dd>
-            <p class="<if condition="$Request.param.type eq 'myorder'">selected</if>"><a href="{:url('/index/user/myorder',array('type'=>'myorder'))}" >我的订单</a></p>
+            <p class="<if condition="$Request.param.type eq 'myorder'">selected</if>"><a href="{:url('/index/order/myorder',array('type'=>'myorder'))}" >我的订单</a></p>
             <p><a href="#" <if condition="$Request.param.type eq 'myorder'">selected</if>>我的评价</a></p>
         </dd>
     </dl>

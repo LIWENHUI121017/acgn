@@ -226,7 +226,7 @@ user-select:none;
     position: relative;
     z-index:11;
     height: 32px;
-    border: 1px solid #e3e4e5;
+    /*border: 1px solid #e3e4e5;*/
 }
 .u-g-cart .c-n {
     position: relative;
@@ -239,6 +239,7 @@ user-select:none;
     text-align: center;
     font-size: 12px;
     cursor: pointer;
+    margin-top: 20px;
 }
 .u-g-cart:hover{
     border-color: #ccc;

@@ -9,10 +9,26 @@
 		</div>
 		<div class="fl nav act_nav">
 			<ul>
-				<li class="index-page-link hide"><a href="#" class="on">个人中心</a></li>
 				<li><a href="{:url('/index/user/index')}">我的商城</a></li>
-				<li><a class="" href="{:url('/index/user/myorder')}">我的订单</a></li>
+				<li><a class="" href="{:url('/index/order/myorder',array('type'=>'myorder'))}">我的订单</a></li>
 				<li><a class="" href="{:url('/index/user/mycollect')}">我的收藏</a></li>
+				<li><form id="sourch_form" method="post" action="/index.php/Home/Goods/search.html">
+					<input class="search_usercenter_text" name="q" id="q" type="text" value="">
+					<a class="search_usercenter_btn" style="font-size: 12px;padding: 0" href="javascript:;" onclick="if($.trim($('#q').val()) != '') $('#sourch_form').submit();">搜索</a>
+				</form></li>
+				<li>
+					<div class="u-g-cart fr" id="hd-my-cart">
+						<a href="/Index/Cart/index">
+							<div class="c-n fl">
+								<i class="share-shopcar-index"></i>
+								<span>我的购物车</span>
+								<!--<em class="shop-nums" id="cart_quantity">80</em>-->
+							</div>
+						</a>
+
+					</div>
+
+				</li>
 			</ul>
 		</div>
 	</div>

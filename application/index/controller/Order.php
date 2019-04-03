@@ -11,7 +11,6 @@ use think\Db;
 use think\Loader;
 
 class Order extends Base {
-    public $cartLogic;//购物车模型
     public $user_id = 0;
     public $user = array();
 
@@ -28,6 +27,13 @@ class Order extends Base {
             $this->assign('user',$user); //存储用户信息
             $this->assign('user_id',$this->user_id);
         }
+        $this->order_status = config('ORDER_STATUS');
+        $this->pay_status = config('PAY_STATUS');
+        $this->shipping_status = config('SHIPPING_STATUS');
+        // 订单 支付 发货状态
+        $this->assign('order_status',$this->order_status);
+        $this->assign('pay_status',$this->pay_status);
+        $this->assign('shipping_status',$this->shipping_status);
 
     }
 
@@ -157,10 +163,11 @@ class Order extends Base {
         $user = $this->user;
         $orderid = input('orderid');
 //        dump($orderid);
+
         $status = input('status');
         $paypwd = input('pwdfirst');
         $userlogic = new UserLogic();
-        if ($status==2){
+        if ($status==2||$status==3){//新建支付密码同时绑定手机号码
             $paypwdsecond = input('pwdsecond');
             $code = input('code');
             $cookiecode = cookie('code');
@@ -168,18 +175,27 @@ class Order extends Base {
             if ($paypwd!=$paypwdsecond){
                 return json(['status'=>-100,'msg'=>'输入的两次密码不一样！']);
             }
-            if (!$phone){
-                return json(['status'=>-100,'msg'=>'请输入手机号码！']);
-            }
+
             if ($code!=$cookiecode){
                 return json(['status'=>-100,'msg'=>'验证码错误！']);
             }
             if ($status==2) {//执行新建支付密码和绑定手机号码
-
+                if (!$phone){
+                    return json(['status'=>-100,'msg'=>'请输入手机号码！']);
+                }
                 $where = ['id' => $userid];
                 $data = [
-                    'paypwd' => $paypwd,
+                    'paypwd' => md5(md5($paypwd)),
                     'user_phone' => $phone,
+                ];
+                $res = $userlogic->edit($where, $data);
+                if ($res) {
+                    return json(['status'=>200,'msg'=>'新建支付密码成功！请重新点击下一步进行支付！']);
+                }
+            }else{
+                $where = ['id' => $userid];
+                $data = [
+                    'paypwd' => md5(md5($paypwd)),
                 ];
                 $res = $userlogic->edit($where, $data);
                 if ($res) {
@@ -188,7 +204,7 @@ class Order extends Base {
             }
 
         }else{
-            $where=['id'=>$userid,'paypwd'=>$paypwd];
+            $where=['id'=>$userid,'paypwd'=>md5(md5($paypwd))];
 //            dump($paypwd);
            $res = $userlogic->get_one($where);
            if ($res){
@@ -216,11 +232,29 @@ class Order extends Base {
                    $orderactionres = $orderlogic->add_order_action($data,$table);
 
                    //扣除账号金额
+                   //判断余额是否足够扣除
+                   if ($user['user_money']<$order['order_amount']){
+                       return json(['status'=>-500,'msg'=>'余额不足，请充值后使用！']);
+                   }
                    $where=['id'=>$userid];
                    $money = $user['user_money']-$order['order_amount'];
 //                   dump($money);
                    $data=['user_money'=>$money];
                    $useres = $userlogic->edit($where,$data,'User');
+
+                   //写入用户账户日志
+                   $data=[
+                       'user_id'=>$this->user_id,
+                       'user_money'=>"-".$order['order_amount'],
+                       'change_time'=>time(),
+                       'desc'=>'充值金额',
+                       'order_sn'=>$order['order_sn'],
+                       'order_id'=>$orderid,
+                   ];
+                   $res1 = $userlogic->add($data,'UserLog');
+                   if (!$res1){
+                       return json(['status'=>0,'msg'=>'写入日志失败']);
+                   }
 
                    //商品库存减少
                    $where=['order_id'=>$orderid];
@@ -288,4 +322,57 @@ class Order extends Base {
         $data = $logic->cancel_order($this->user_id,$id);
         return json($data);
     }
+    //我的订单
+    public function myorder(){
+        self::isLogin();
+        $user_id =$this->user_id;
+        if ($user_id>0){
+            $orderlogic = new OrderLogic();
+            $orderlogic->setUserId($user_id);
+            $order = $orderlogic->user_get_all_order();
+            foreach ($order as $key=>$value){
+                $order[$key]['goodsinfo'] = $orderlogic->get_order_goods($value['id']);
+            }
+//            dump($order);
+//            die;
+//            $this->assign('goods',$goods);
+            $this->assign('order',$order);
+            return $this->fetch();
+        }
+    }
+
+    //判断是否登录
+    public function isLogin(){
+        if(!session('user')){
+            $this->redirect('User/login');
+//            $this->error('你还没登录呢！',url('User/login'));
+        }
+    }
+
+    //订单详情页面
+    public function order_detail(){
+        $orderid = input('orderid');
+        $logic = new OrderLogic();
+        $order=$logic->get_order_detail($orderid);
+        $order['order_goods']=$logic->get_order_goods($orderid);
+        //获取收获地址信息
+//        dump($order);
+//        die;
+        $shipping = Db::name('shipping')->column("id,shipping_name,shipping_money");
+
+//        dump($shipping);
+//        die;
+        $this->assign('shipping',$shipping);
+        $this->assign('order',$order);
+        return $this->fetch();
+    }
+
+    //确认收货
+    public function order_confirm(){
+        $id = input('order_id/d', 0);
+        $logic = new OrderLogic();
+        $data = $logic->confirm_order($id, $this->user_id);
+        return $data;
+    }
+
 }

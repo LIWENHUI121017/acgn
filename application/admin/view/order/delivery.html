@@ -65,13 +65,13 @@
                                 <dd>
                                     <select style="width:150px;" id="shippingcode">
                                         <option value="0">手填物流单号</option>
-                                        <option value="1">无需物流</option>
+
                                     </select>
                                     <input type="hidden" name="shippingcode" value="0"/>
                                 </dd>
                                 <dt id="setcode1">配送单号：</dt>
                                 <dd id="setcode2">
-                                    <input type="text"  name="code" style="width: 100px" value="" onkeyup="this.value=this.value.replace(/\D/g,'')"/>
+                                    <input type="text" maxlength="11"  name="code" style="width: 100px" value="" onkeyup="this.value=this.value.replace(/\D/g,'')"/>
                                 </dd>
                             </dl>
                         </div>
@@ -85,7 +85,7 @@
                             </dl>
                             <dl>
                                 <dt>收货地址：</dt>
-                                <dd>{$order.province}&nbsp{$order.city}&nbsp{$order.county}&nbsp{$order.address}</dd>
+                                <dd>{$order.province}&nbsp{$order.city}&nbsp{$order.district}&nbsp{$order.town}&nbsp{$order.address}</dd>
                             </dl>
                             <dl>
                                 <dt>邮编：</dt>
@@ -237,20 +237,22 @@
 
         //去发货
         $(document).on('click','#toDelivery',function () {
-
             var order_id =$("input[name='order_id']").val();
             var shippingtype =$("input[name='shippingtype']").val();
             var shippingcode =$("input[name='shippingcode']").val();
             var note =$("#note").val();
             var code =$("input[name='code']").val();
-            if ($("input[name='shippingcode']").val() == 0 && $("input[name='code']").val() == '') {
+            if (shippingcode == 0 && code == '') {
                 layer.alert('请输入配送单号', {icon: 2});
                 return;
             }
-            if ($("input[name='shippingtype']").val() == 0) {
-                layer.alert('请选择物流', {icon: 2});
-                return;
+            if (shippingcode==0) {
+                if ($("input[name='shippingtype']").val() == 0) {
+                    layer.alert('请选择物流公司', {icon: 2});
+                    return;
+                }
             }
+
             $.ajax({
                 type:"get",
                 async:false,
