@@ -45,7 +45,7 @@ class OrderLogic extends My_Logic
             ->field($field)
             ->select();
         foreach ($cartlist as $k => $v) {
-            $cartlist[$k]['goodstotalprice'] = number_format(floatval($v['goods_price']) * $v['goods_num'], 2);
+            $cartlist[$k]['goodstotalprice'] = floatval($v['goods_price']) * $v['goods_num'];
 
         }
         return $cartlist;
@@ -74,6 +74,52 @@ class OrderLogic extends My_Logic
             return array('status'=>-3,'msg'=>'操作失败');
         }
         return array('status'=>1,'msg'=>'操作成功','url'=>url('Order/order_detail',['orderid'=>$id]));
+    }
+
+    //评价商品
+    public function add_comment($data,$user){
+        if(!$data['order_id'] || !$data['goods_id'])
+            return array('status'=>0,'msg'=>'参数错误','result'=>'');
+        //检查订单是否已完成
+        $where = ['id'=>$data['order_id']];
+        $order = $this->get_one($where);
+        if($order['order_status'] == 3){
+            return array('status'=>0,'msg'=>'该笔订单还未确认收货','result'=>'');
+        }
+        //检查是否已评论过
+        $where= ['order_id'=>$data['order_id'],'goods_id'=>$data['goods_id'],'user_id'=>$user['id']];
+        $check = $this->get_one($where,'*','Comment');
+        if ($check){
+            return json(['status'=>0,'msg'=>'你已经评价过了']);
+        }
+
+            $row = $this->add($data,'Comment');
+
+            if($row){
+                $w=['id'=>$data['rec_id']];
+                $d = ['is_comment'=>1];
+                $res = $this->edit($w,$d,'OrderGoods');
+                if (!$res){
+                    return json(['status'=>0,'msg'=>'评价失败']);
+                }
+
+                //更新订单商品表状态
+                model('goods')->where(array('id'=>$data['goods_id']))->setInc('comment_count',1); // 评论数加一
+                // 查看这个订单是否全部已经评论,如果全部评论了 修改整个订单评论状态
+                $where=["order_id"=>$data['order_id'],'is_comment'=>0];
+                $comment_count  = $this->get_count($where,'OrderGoods');
+                if($comment_count == 0) // 如果所有的商品都已经评价了 订单状态改成已评价
+                {
+                    $where=["id"=>$data['order_id']];
+                    $this->edit($where,['order_status'=>6],'Order');
+                }
+
+                return array('status'=>1,'msg'=>'评论成功');
+            }
+            return array('status'=>0,'msg'=>'评论失败');
+
+
+
     }
 
     //获取的我的收获地址
@@ -220,10 +266,13 @@ class OrderLogic extends My_Logic
     //根据订单id获取订单中的商品
     public function get_order_goods($orderid){
         $where=['a.order_id'=>$orderid];
+        $field='a.id,a.order_id,a.goods_id,a.goods_name,a.goods_sn,a.goods_num,a.spec_key_name,a.is_comment,a.is_send,s.original_img,m.price as goods_price';
         $ordergoods = model('OrderGoods')
                     ->alias('a')
                     ->join('goods s','a.goods_id=s.id')
+                    ->join('spec_goods_price m','a.spec_key=m.key and a.goods_id=m.goods_id')
                     ->where($where)
+                    ->field($field)
                     ->select()
                     ->toArray();
         return $ordergoods;
@@ -458,6 +507,23 @@ class OrderLogic extends My_Logic
     public function deleteorderOraction($where,$table=''){
 
         return $this->del($where,$table);
+    }
+
+    //获得评价商品信息
+    public function get_commit_list($id){
+        $where = ['a.id'=>intval($id)];
+        $field='a.id,a.order_id,a.goods_id,a.goods_name,a.goods_sn,a.goods_num,a.spec_key_name,a.spec_key,a.is_comment,a.is_send,o.order_sn,o.order_time,g.original_img,m.price as goods_price';
+        $res = model('OrderGoods')
+            ->alias('a')
+            ->join('order o','a.order_id=o.id')
+            ->join('spec_goods_price m','a.spec_key=m.key and a.goods_id=m.goods_id')
+            ->join('goods g','a.goods_id=g.id')
+            ->where($where)
+            ->field($field)
+            ->find()
+            ->toArray();
+
+        return $res;
     }
 
 }

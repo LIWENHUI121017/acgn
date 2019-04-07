@@ -305,6 +305,7 @@
         //计算该商品的总金额
         var goodsprice = parseFloat($(this).parents('li').find('#goodsprice').html());//商品的单价
         var goodstotal = number * goodsprice;
+        console.log(toDecimal2(goodstotal));
         $(this).parents('li').find('#goodstotal').html(toDecimal2(goodstotal));
     })
 

@@ -229,7 +229,7 @@
         $.ajax({
             type: "POST",
             // url: "/Index/User/test",
-            url: "/Index/User/sendlogin",
+            url: "/Index/User/sendreg",
             data: {
                 'phone':phone,
                 'status':status
@@ -296,7 +296,7 @@
                             $('#zhifubao').css('display','block')
                         }
                         if(data.status == 200){
-                            layer.alert(data.msg,{icon:2},function () {
+                            layer.alert(data.msg,{icon:1},function () {
                                 window.location.reload();
                             });
 

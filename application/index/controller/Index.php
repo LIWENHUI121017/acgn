@@ -17,14 +17,8 @@ class Index extends Base
     }
 
     public function showgoods(){
-        $goodsloginc = new GoodsLogic();
-
-
-        $catelist= $goodsloginc->getlist();
-
-        $img= $goodsloginc->getimage();
-//        dump($catelist);
-
+        $goodslogic = new GoodsLogic();
+        $catelist= $goodslogic->getlist();
         $this->assign('catelist',$catelist);
     }
 }

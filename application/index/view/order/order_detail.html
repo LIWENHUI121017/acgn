@@ -270,7 +270,7 @@
                                 <td class="sx6">
                                     <div class="twrbac">
                                         <if condition="$goods['is_comment'] eq 0 and $order.order_status eq 4">
-                                            <a href="{:url('index/Order/comment_list',array('order_id'=>$order['id']))}">评价</a>
+                                            <a href="{:url('index/Order/comment_list',array('id'=>$goods.id))}">评价</a>
                                         </if>
 
                                         <p>

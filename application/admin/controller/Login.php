@@ -20,19 +20,16 @@ class login extends Controller
         $vertify = input('vertify');
         $username = input('username');
         $password = input('password');
-
         if(!captcha_check($vertify)){
            return json(['status'=>0,'msg'=>'验证码输入错误']);
         };
-        $adminlogic = new AdminLogic();
-        $res = $adminlogic->login($username,$password);
-        return json($res);
-//        $this->success($res,'Admin/index/index');
-
         if (session('?admin_id')&&session('admin_id')>0){
             $this->error('您已经登录','Admin/index/index');
         }
-        return $this->fetch();
+        $adminlogic = new AdminLogic();
+        $res = $adminlogic->login($username,$password);
+        return json($res);
+
     }
 
 

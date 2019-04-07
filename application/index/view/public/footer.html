@@ -190,13 +190,3 @@
         background-position: 0 -217px;
     }
 </style>
-<script>
-    // 延时加载二维码图片
-    jQuery(function($) {
-        $('img[img-url]').each(function() {
-            var _this = $(this),
-                    url = _this.attr('img-url');
-            _this.attr('src',url);
-        });
-    });
-</script>

@@ -192,9 +192,10 @@ class CartLogic extends Model
                 $where=['goods_id'=>$v['goods_id'],'key'=>$v['spec_key']];
                 $cartchecklist[$k]['store_count']= $logic->get_one($where,'*','SpecGoodsPrice')['store_count'];
             }
-            $cartchecklist[$k]['goodstotal']=number_format($v['goods_num']*$v['goods_price'], 2);
+            $cartchecklist[$k]['goodstotal']=floatval($v['goods_num'])*floatval($v['goods_price']);
 
         }
+
         return $cartchecklist;
     }
 

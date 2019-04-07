@@ -63,30 +63,26 @@ class Order extends Base {
         //计算总金额
         $totalprice=0;
         foreach ($cartlist as $k=>$v) {
-            $totalprice += $cartlist[$k]['goodstotalprice'];
+            $totalprice += floatval($cartlist[$k]['goodstotalprice']);
         }
         //收获地址
         $where = ['user_id'=>$this->user_id];
         $address = $logic->get_MyAddress($where);
 
         $this->assign('goodslist',$cartlist);
-//        dump($address);
+//            dump($totalprice);
+//            die;
         $this->assign('address',$address);
-        $this->assign('totalprice',number_format($totalprice,2));
+        $this->assign('totalprice',$totalprice);
         return $this->fetch();
     }
 
-    /**
-     * 生成订单
-     * @param array
-     */
+    //生成订单
     public function setorder(){
         if ($this->user_id == 0) {
             exit(json_encode(array('status' => -100, 'msg' => "登录超时请重新登录!")));
         }
         $data = input('Checkout/a');
-//        dump($data);
-//        die;
         $cartidlist = $data['cart_id'];//订单中的商品
         $validate = Loader::validate('Order');
         if (!$validate->check($data)){
@@ -101,7 +97,6 @@ class Order extends Base {
             if (!$orderid){
                 $this->error('生成订单失败',url('cart/index'));
             }
-
             $data=[
                 'order_sn'=>date('YmdHis').$orderid
             ];
@@ -135,9 +130,7 @@ class Order extends Base {
 
     }
 
-    /**
-     * 提交订单成功后的页面
-     */
+    //提交订单成功后的页面
     public function orderpay(){
         $orderid = input('order_id');
         $logic = new OrderLogic();
@@ -149,21 +142,11 @@ class Order extends Base {
         return $this->fetch();
     }
 
-    /**
-     * 付款
-     * @param int $paypwd 支付密码
-     * @param int $paypwdsecond 再次输入的支付密码
-     * @param int $status 判断执行不同操作的状态码
-     * @param int $phone 手机号码
-     * @param int $code 用户输入的验证码
-     * @return array
-     */
+    //付款
     public function toPay(){
         $userid=$this->user_id;
         $user = $this->user;
         $orderid = input('orderid');
-//        dump($orderid);
-
         $status = input('status');
         $paypwd = input('pwdfirst');
         $userlogic = new UserLogic();
@@ -299,9 +282,7 @@ class Order extends Base {
 
     }
 
-    /**
-     * 订单支付成功
-     */
+    //订单支付成功
     public function paysuccess(){
         $orderid = input('order_id');
         $logic = new OrderLogic();
@@ -375,4 +356,57 @@ class Order extends Base {
         return $data;
     }
 
+    //订单评价
+    public function comment_list(){
+        self::isLogin();
+        $id = input('id');
+        $logic = new OrderLogic();
+
+        $ordergoods = $logic->get_commit_list($id);
+//        dump($ordergoods);
+//        die;
+        $this->assign('order_info',$ordergoods);
+        return $this->fetch();
+    }
+
+    //评价操作
+    public function add_comment(){
+        $user = $this->user;
+//        dump($user);
+//        die;
+        $data['rec_id'] = input('rec_id/d');
+        $data['goods_id'] = input('goods_id/d');
+        $hide_username = input('is_anonymous');
+        if ($hide_username==0) {
+            $data['username'] = $user['user_nickname'];
+        }
+        $data['is_anonymous'] = $hide_username;  //是否匿名评价:0不是\1是
+        $data['order_id'] = input('order_id/d');
+        $data['service_rank'] = input('service_rank');
+        $data['deliver_rank'] = input('deliver_rank');
+        $data['goods_rank'] = input('goods_rank');
+        $data['is_show'] = 1; //默认显示
+        $data['content'] = input('content');
+        $data['add_time'] = time();
+        $data['user_id'] = $this->user_id;
+//        dump($data);
+//        die;
+        $logic = new OrderLogic();
+        Db::startTrans();
+        try{
+            $res = $logic->add_comment($data,$user);//写入评价表
+            if ($res){
+                Db::commit();
+                return $res;
+            }
+        }catch (\PDOException $e){
+            Db::rollback();
+        }
+
+
+
+
+    }
+
 }
+

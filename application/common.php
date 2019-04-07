@@ -19,13 +19,11 @@ function get_goods_category_tree(){
                 $tree[] = $val;
             }
         }
-
         foreach ($arr as $k=>$v){
             foreach ($v as $kk=>$vv){
                 $arr[$k][$kk]['sub_menu'] = empty($crr[$vv['id']]) ? array() : $crr[$vv['id']];
             }
         }
-
         foreach ($tree as $val){
             $val['tmenu'] = empty($arr[$val['id']]) ? array() : $arr[$val['id']];
             $result[$val['id']] = $val;

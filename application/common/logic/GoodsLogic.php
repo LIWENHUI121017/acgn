@@ -19,13 +19,13 @@ class GoodsLogic extends My_Logic{
         as b on a.goods_type_id=b.id  where a.is_hot=1 and a.is_on_sale=1  ;
         ";
         $index_hot_goods = Db::query($sql);
+
         if ($index_hot_goods){
             foreach ($index_hot_goods as $val) {
                 $path = explode('_',$val['pid_path']);
                 $hot_goods[$path[1]][]=$val;
             }
         }
-
         $catetree = get_goods_category_tree();
         foreach ($catetree as $k=>$v){
             if($v['is_hot']==1){
@@ -35,10 +35,7 @@ class GoodsLogic extends My_Logic{
                 $goods_category_tree[] = $v;
             }
         }
-
         return $cateList;
-
-
     }
 
     //商品展示

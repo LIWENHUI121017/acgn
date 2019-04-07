@@ -39,11 +39,6 @@ class Order extends Base
     public function index(){
         $logic = new OrderLogic();
         $order = $logic->get_all_order();
-//        $page = $order->render();//分页页码
-
-//        $this->assign('page',$page);
-//        dump($order);
-//        die;
         $this->assign('order',$order);
         return $this->fetch();
     }

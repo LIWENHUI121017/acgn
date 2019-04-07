@@ -40,9 +40,8 @@ class Goods extends Base
         $this->assign('goodslist',$goodslist);
         $this->assign('page',$page);
         return $this->fetch();
-
-
     }
+
     //添加商品页面
     public function add()
     {
