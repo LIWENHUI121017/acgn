@@ -14,15 +14,15 @@
 
 <include file="public/indexhead"/>
 
-    <div >
-
+<div class="nav"></div>
+    <div>
     <foreach name="catelist" key="k" item="v">
         <div class="floor floor{$k+1} w1224">
         <div class="floor-top">
             <h3 class="floor-title">{$v['name']}</h3>
             <div class="floor-nav-list clearfix">
             <foreach name="$v['tmenu']" key="kk" item="vv">
-                <a class="floor-nav-item" href="#">{$vv['name']}</a>
+                <a class="floor-nav-item" href="{:url('index/Goods/goodslist',array('id'=>$vv.id))}">{$vv['name']}</a>
             </foreach>
 
 

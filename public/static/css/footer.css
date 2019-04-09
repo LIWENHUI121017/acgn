@@ -1,0 +1,137 @@
+#bottom-links .title{
+    font-weight: normal;
+    height: 30px;
+    line-height: 30px;
+    font-size: 18px;
+    color: #333;
+}
+#bottom-links .phone{
+    display: block;
+    height: 40px;
+    line-height: 40px;
+    font-size: 18px;
+    color: #e30000;
+}
+#bottom-links .tips{
+    margin-bottom: 18px;
+    line-height: 20px;
+    color: #999;
+    font-size: 12px;
+}
+#bottom-links{
+    width:100%;
+    text-align: center;background-color:#f5f5f5;
+}
+#bottom-links .cols{
+    margin: 0px auto;
+    width:1200px;
+    padding:10px 0px;
+
+}
+#bottom-links .ccol{
+    float: left ;;
+    padding: 0 60px;
+    margin-top: 15px;
+
+}
+#bottom-links .cols .bottom-links-items{
+    margin-top: 18px;
+    text-align: left;
+}
+#bottom-links .cols .bottom-links-items img{
+    margin-right:10px;
+}
+#bottom-links .cols .bottom-links-items li{
+    padding: 3px 0;
+}
+#bottom-links .cols .bottom-links-items a{
+    color: #666;
+    text-decoration: none;
+    font-family: "Microsoft YaHei";
+}
+#bottom-links .cols .bottom-links-items a:hover{
+    color: red;
+    text-decoration: underline;
+    cursor: pointer;
+}
+.body-bottom-container {
+    color: #767676;
+    font-size: 12px;
+    clear: both;
+}
+.body-bottom-container .fix-width {
+    background: inherit;
+}
+.body-bottom-container>div {
+    border-top: 1px solid #ddd;
+    padding: 63px 0;
+    height: 326px;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.fix-width {
+    width: 1090px;
+    margin: auto;
+    position: relative;
+}
+.body-bottom-container>div .section.section-left {
+    width: 31%;
+    text-align: center;
+}
+.body-bottom-container>div .section {
+    display: inline-block;
+    height: 200px;
+    padding-top: 20px;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    float: left;
+}
+.body-bottom-container>div .section.section-left .section-title {
+    margin-bottom: 45px;
+}
+.body-bottom-container>div .section p.section-title {
+    text-align: center;
+    font-size: 14px;
+}
+.body-bottom-container>div .section.section-left .client-service {
+    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABsAAAAcCAYAAACQ0cTtAAAB8UlEQ…3lOqkuf7qP4CduC7fyu7zGRWGddFZ4J37o5lQWbE4Py/EbdVBg86vZGuUAAAAASUVORK5CYII=) no-repeat top;
+    background-size: auto 28px;
+    padding-top: 35px;
+    margin-right: 54px;
+    cursor: pointer;
+}
+.body-bottom-container>div .section.section-left .client-feedback {
+    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAdCAYAAAC5UQwxAAABAklEQ…osfhP2TPb2CPe5shThAw7xNA8Z8RwOsDdPWUx4hQMLODG+AEn1LzAEQwcmAAAAAElFTkSuQmCC) no-repeat top;
+    background-size: auto 28px;
+    padding-top: 35px;
+    cursor: pointer;
+}
+.body-bottom-container>div .section.section-mid {
+    width: 35%;
+    padding-left: 60px;
+    padding-right: 60px;
+    border-left: 1px solid #e7e7e7;
+    border-right: 1px solid #e7e7e7;
+    position: relative;
+}
+.body-bottom-container>div .section.section-right {
+    width: 34%;
+    position: relative;
+}
+.body-bottom-container>div .section.section-right .net-ease {
+    height: 80px;
+    font-size: 30px;
+    position: absolute;
+    top: 60px;
+    left: 220px;
+}
+.body-bottom-container>div .section.section-right img {
+    cursor: pointer;
+}
+.body-bottom-container>div .section.section-right .acgn {
+    height: 150px;
+    width: 250px;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+}

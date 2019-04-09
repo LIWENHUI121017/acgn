@@ -47,13 +47,14 @@
                             <div class="product-info-time" style="font-size: 22px;color: #e23435" data-goodsprice="{$v.goods_price}" id="goods_price" >￥{$v.goods_price}</div>
                         </div>
                         <div class="vuene-wrapper">
-                            <div class="title">市 场 价：</div>
+                            <div class="title">商 品 销 量：</div>
                             <div class="vuene-info-content">
-                                <div class="title" style="text-decoration:line-through;"> ￥300</div>
-                                <div class="address-name"></div>
-
+                                <!--<div class="title" style="text-decoration:line-through;"> ￥300</div>-->
+                                <div class="title" style=""> {$v.goods_sales}人付款</div>
+                                <div class="address-name">快递：免运费</div>
                             </div>
                         </div>
+
                         <div class="login-show-wrapper">
                             <foreach name="spec" key="k2" item="v2">
                             <div class="spec-item">

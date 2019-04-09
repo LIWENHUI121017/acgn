@@ -261,6 +261,12 @@ class Order extends Base {
                            $data=['store_count'=>$goods['store_count']-$v['goods_num']];
                            $res = $goodslogic->edit($where,$data,'SpecGoodsPrice');
                        }
+                       //每个商品销量加1
+                       $where = ['id'=>$v['goods_id']];
+                       $sales = Db::name('goods')->where($where)->setInc('goods_sales', 1);
+                        if (!$sales){
+                            return json(['status'=>-100,'msg'=>'销量增加失败！']);
+                        }
                    }
 
                    if ($orderres&&$orderactionres&&$useres&&$res){

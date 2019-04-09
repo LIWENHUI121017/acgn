@@ -19,6 +19,7 @@ class Index extends Base
     public function showgoods(){
         $goodslogic = new GoodsLogic();
         $catelist= $goodslogic->getlist();
+//        dump($catelist);die;
         $this->assign('catelist',$catelist);
     }
 }

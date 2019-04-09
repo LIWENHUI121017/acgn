@@ -38,13 +38,47 @@ class GoodsLogic extends My_Logic{
         return $cateList;
     }
 
+    //商品列表
+    public function getgoodslistBycateid($cateid,$level,$order){
+        if ($cateid==0){
+            $id = $this->get_all(['pid'=>$cateid,'is_show'=>1],'id','GoodsCategory');
+            foreach ($id as $k=>$v) {
+                $cate[]=$this->get_all(['pid'=>$v['id']],'id','GoodsCategory');
+            }
+            $str='';
+            foreach ($cate as $kk=>$vv) {
+                $str .= implode(',',array_column($vv, 'id')).",";
+           }
+
+            $res=Db::name('goods')->whereIn('goods_type_id',$str)->order($order)->paginate('16');
+
+           return $res;
+        }else{
+            if ($level==2){
+                $where = ['goods_type_id'=>$cateid];
+                $res = Db::name('Goods')->where($where)->order($order)->paginate('16');
+            }
+            if ($level==1){
+                $cate = $this->get_all(['pid'=>$cateid,'is_show'=>1],'id','GoodsCategory');
+                $str = implode(',',array_column($cate, 'id'));
+                $res=Db::name('goods')->whereIn('goods_type_id',$str)->order($order)->paginate('16');
+            }
+            return $res;
+        }
+
+    }
+
     //商品展示
-    public function
-    goodslist($id){
+    public function goodslist($id){
         $goods = Db::name('goods')->where(['id'=>$id])->select();
         return $goods;
     }
 
+    //获取家族图谱数组
+    public function getcatepath($cateid){
+        $res = $this->get_one(['id'=>$cateid],'pid_path,level','GoodsCategory');
+        return $res;
+    }
     //获取编辑商品信息
     public function getgoodsinfo($id){
         $goods = Db::name('goods')->where(['id'=>$id])->select();

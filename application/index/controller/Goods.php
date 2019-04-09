@@ -29,6 +29,63 @@ class Goods extends Base{
 
     }
 
+    //商品列表
+    public function goodslist(){
+        $cateid = input('id',0);
+
+        $order = input('order','goods_time desc');//排序
+        $this->assign('order',$order);
+        $ec = input('ec','desc');
+        $order.=" ".$ec;
+
+
+
+//        dump($order);
+//        die;
+        $logic = new GoodsLogic();
+        //获取一级分类
+        $where = ['is_show' => 1,'level'=>1];
+        $catetree1 = $logic->get_all($where,'*','GoodsCategory','sort_order');
+        if ($cateid>0){
+            //获取族谱变成','字符串
+            $res = $logic->getcatepath($cateid);
+//            $catestring = strtr($res['pid_path'],'_',',');
+            $arr = explode('_',$res['pid_path']);
+            //该分类下的商品
+            $goodslist = $logic->getgoodslistBycateid($cateid,$res['level'],$order);
+
+            $page = $goodslist->render();//分页页码
+            //获取二级分类
+            $where = ['is_show' => 1,'level'=>2,'pid'=>$arr[1]];
+            $catetree2 = $logic->get_all($where,'*','GoodsCategory','sort_order');
+            if ($catetree2){
+                $this->assign('cate2',$catetree2);
+            }
+            $this->assign('level',$res['level']);
+            $this->assign('arr',$arr);
+            $this->assign('page',$page);
+            $this->assign('cate1',$catetree1);
+            $this->assign('cateid',$cateid);
+        }else{
+            $goodslist = $logic->getgoodslistBycateid($cateid,0,$order);
+            $page = $goodslist->render();//分页页码
+            $this->assign('cate2','');
+            $this->assign('cate1',$catetree1);
+            $this->assign('arr',[0]);
+            $this->assign('level',0);
+            $this->assign('cateid',$cateid);
+        }
+
+
+
+        $this->assign('ec',$ec);
+        $this->assign('page',$page);
+        $this->assign('goodslist',$goodslist);
+
+
+
+        return $this->fetch();
+    }
     //商品详情
     public function goodsInfo(){
         $id = input('id');
