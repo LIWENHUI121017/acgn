@@ -70,7 +70,10 @@ class Goods extends Base
 //            $goodsinfo[$key]['cate3']=$path[3]?$get->getCateByid($path[3]):'';
         }
 
-//        dump($goodsinfo);
+
+        //获取商品相册
+        $where=['goods_id'=>$id];
+        $img = $get->get_all($where,'*','GoodsPicture');
         if ($goodsinfo[0]['cate1']&&$goodsinfo[0]['cate2']){
             $cate2 = $get->getCateBypid($goodsinfo[0]['cate1']['id']);
             $this->assign('cate2',$cate2);
@@ -86,6 +89,7 @@ class Goods extends Base
         $this->assign('goodsmodel',$goodsmodel);
         $this->assign('goodstypeid',$goodstypeid);
         $this->assign('goods',$id);
+        $this->assign('img',$img);
         return $this->fetch();
     }
 
@@ -145,46 +149,56 @@ class Goods extends Base
         exit($str);
     }
 
+    //处理图片返回路径
+    public function img(){
+        $file =request()->file('file');
+//        dump($file);
+//        die;
+        if($file){
+            $info = $file->move(ROOT_PATH . 'public' . DS . 'uploads');
+            if($info){
+                // 成功上传后 获取上传信息
+                $filePathname = $info->getSaveName();
+                $path = $this->path.str_replace('\\', '/', $filePathname);
+                return json(['status'=>1,'path'=>$path]);
+            }else{
+                // 上传失败获取错误信息
+                echo $file->getError();
+            }
+        }
+        return json(['status'=>0]);
+    }
     //添加修改商品
     public function addEditgoods(){
-        $data = input('post.');
+        $data = input('get.');
        //获取商品属性值
+        $imgdata='';
+        if ($data['imagelist']){
+            $imgdata=explode('&',$data['imagelist']);
+        }
+
+//
         $goodsid=$data['goods_id'];
         foreach($data as $key=>$val ){
             if(preg_match('/^attr.*/',$key)) {
                $attr[ltrim($key,"attr_")]=$val;//添加到attribute表的数据
             }
         }
-        $file =request()->file('original_img');
-        //图片
-        if($file){
-            $info = $file->move(ROOT_PATH . 'public' . DS . 'uploads');
-            if($info){
-                // 成功上传后 获取上传信息
-                $filePathname = $info->getSaveName();
-                $data['original_img']=$this->path.str_replace('\\', '/', $filePathname);
 
-            }else{
-                // 上传失败获取错误信息
-                echo $file->getError();
-            }
-        }else{
-            if ($goodsid==0){
-                return json(['status'=>0,'msg'=>'商品图片不能为空']);
-            }
+        if (!$data['original_img']){
+            $this->error('商品图片不能为空',url('Admin/goods/add'));
         }
+
         $goodslogic = new GoodsLogic();
         //判断商品是否重复添加
         $res = $goodslogic->checkaddgoods($data,$goodsid);
         if ($res){
             if ($res['status']==0){
-//                return json($res);
                 $this->error($res['msg'],url('Admin/goods/index'));
             }
 
         }
         //获取1级商品分类名称
-//        $catename1 = $goodslogic->getcate1namebyId($data['cate1']);
         $catename1 = mb_substr($goodslogic->getcatenamebyId($data['cate1'])['name'],0,2);
         $num = get_letter($catename1);
 
@@ -203,6 +217,19 @@ class Goods extends Base
                     if ($goodsid>0){
                         //执行修改操作
                         $update = Db::name('goods')->where('id',$goodsid)->update($args1);
+//                        //更新相册
+                        if ($imgdata){
+                            foreach ($imgdata as $k=>$v) {
+                                $imglist[$k]['img_url']=$v;
+                                $imglist[$k]['goods_id']=$data['goods_id'];
+                            }
+
+                            $updateimgagelist=$goodslogic->addimagelist($goodsid,$imglist);
+//
+                        }else{
+                            $goodslogic->del(['goods_id'=>intval($goodsid)],'GoodsPicture');
+                            $updateimgagelist=true;
+                        }
 
                             //添加商品规格操作
                             if (isset($data['item'])){
@@ -218,7 +245,8 @@ class Goods extends Base
 //                                        $this->error('写入商品属性失败', url('Admin/goods/goodsinfo',array('id'=>$goodsid)), 1);
 //                                    }
                             }
-                        if ($update||$res1['addedit']||$res1['del']||$res2['addedit']||$res2['del']){
+
+                        if ($update||$updateimgagelist||$res1||$res2){
                             Db::commit();
                             $this->success('商品修改成功',url('Admin/goods/index'),1);
                         }else{
@@ -241,6 +269,18 @@ class Goods extends Base
                             $args = ['goods_sn'=>$sn];
                             $res = Db::name('goods')->where('id',$id)->update($args);
                             if ($res){
+                                //添加相册
+                                if ($imgdata){
+                                    foreach ($imgdata as $k=>$v) {
+                                        $imglist[$k]['img_url']=$v;
+                                        $imglist[$k]['goods_id']=$id;
+                                    }
+
+                                    $addimgagelist=$goodslogic->addall($imglist,'GoodsPicture');
+                                    if (!$addimgagelist){
+                                        $this->error('写入商品规格失败',url('Admin/goods/index'),1);
+                                    }
+                                }
                                 //添加商品规格操作
                                 if (isset($data['item'])){
                                     $res1=$goodslogic->addEditspecitem($id,$data['item']);

@@ -68,6 +68,11 @@ class GoodsLogic extends My_Logic{
 
     }
 
+    //根据搜索框输入内容获取商品列表
+    public function getgoodslistBysearch($search,$order){
+        $res = Db::name('Goods')->where('goods_name','like',$search)->order($order)->paginate('16');
+        return $res;
+    }
     //商品展示
     public function goodslist($id){
         $goods = Db::name('goods')->where(['id'=>$id])->select();
@@ -266,11 +271,37 @@ class GoodsLogic extends My_Logic{
         return $catename;
     }
 
+    //修改商品相册
+    public function addimagelist($id,$data){
+        $imgIdStr = '';//商品相册id
+        $res = false;
+        foreach ($data as $key=>$val){
+            $val['goods_id'] = intval($val['goods_id']);
+            $where=[
+                'img_url'=>$val['img_url'],
+                'goods_id'=>intval($val['goods_id'])
+            ];
+            $check = $this->get_one($where,'*','GoodsPicture');
+            if($check){
+                $imgIdStr.=$check['id'].',';
+            }else{
+                $this->add($where,'GoodsPicture');
+                $res=true;
+            }
+
+        }
+
+        if($imgIdStr){
+            $res=Db::name('goods_picture')->where('goods_id',$id)->whereNotIn('id',$imgIdStr)->delete();
+        }
+        return $res;
+    }
+
     //添加或修改所有规格信息到specgoodsprice表
     public function addEditspecitem($id,$data){
-        $spec=array();
-        $keyArr = '';//规格key数组
 
+        $keyArr = '';//规格key数组
+        $res1=$res2=$res3=$res=false;
             foreach ($data as $key=>$val){
                 $keyArr .= $key.',';
                 $val['price'] = trim($val['price']);
@@ -286,16 +317,27 @@ class GoodsLogic extends My_Logic{
                 $specGoodsPrice = Db::name('spec_goods_price')->field('goods_id,key,key_name,price,store_count')->where(['goods_id' => $id, 'key' => $spec['key']])->find();
 
                 if($specGoodsPrice){
-                        $res['addedit'] = Db::name('spec_goods_price')->where(['goods_id' => $id, 'key' => $key])->update($spec);
+//                        $res['addedit'] = Db::name('spec_goods_price')->where(['goods_id' => $id, 'key' => $key])->update($spec);
+                         $result=Db::name('spec_goods_price')->where(['goods_id' => $id, 'key' => $key])->update($spec);
+                        if ($result){
+                            $res1=true;
+                        }
 //                    }
                 }else{
                     //把每一项添加到sepcgoodsprice表
-                    $res['addedit'] = Db::name('spec_goods_price')->insert($spec);
+//                    $res['addedit'] = Db::name('spec_goods_price')->insert($spec);
+                     Db::name('spec_goods_price')->insert($spec);
+                    $res2=true;
                 }
             }
-        if($keyArr){
-            $res['del']=Db::name('spec_goods_price')->where('goods_id',$id)->whereNotIn('key',$keyArr)->delete();
 
+        if($keyArr){
+            $res3=Db::name('spec_goods_price')->where('goods_id',$id)->whereNotIn('key',$keyArr)->delete();
+
+        }
+
+        if ($res1||$res2||$res3){
+            $res=true;
         }
         return $res;
     }
@@ -304,6 +346,7 @@ class GoodsLogic extends My_Logic{
     public function addEditattr($id,$data){
         $attr=array();
         $keyArr='';
+        $res1=$res2=$res3=$res=false;
             foreach ($data as $key=>$val){
                 $keyArr .= $key.',';
                 foreach ($val as $v){
@@ -313,38 +356,32 @@ class GoodsLogic extends My_Logic{
                         'attr_value' =>  $v,
                     ];
                     $att = Db::name('goods_attr')->field('attr_id,goods_id,attr_value')->where(['goods_id'=>$id,'attr_id'=>$key])->find();
-//                        dump($attr);
-//                        dump($att);
-
                     if($att){
-//                        if ($attr=$att){
-//                            $res=1;
-//                        }else{
+//
                             $arr[] = Db::name('goods_attr')->where(['goods_id' => $id, 'attr_id' => $key])->update($attr);
-//                        }
-//                        dump($arr);
-
+//
                         foreach ($arr as $v){
                            if ($v==1){
-                               $res['addedit']=1;
+                               $res1['addedit']=1;
                            }
 
                         }
-//                        dump($res);
-
-
-
                     }else{
                         //把每一项添加到goodsattr表
-                        $res['addedit'] = Db::name('goods_attr')->insert($attr);
+//                        $res['addedit'] = Db::name('goods_attr')->insert($attr);
+                        Db::name('goods_attr')->insert($attr);
+                        $res2=true;
                     }
                 }
 
             }
         if($keyArr){
-            $res['del']= Db::name('goods_attr')->where('goods_id',$id)->whereNotIn('attr_id',$keyArr)->delete();
+            $res3= Db::name('goods_attr')->where('goods_id',$id)->whereNotIn('attr_id',$keyArr)->delete();
         }
-//        exit();
+        if ($res1||$res2||$res3){
+            $res=true;
+        }
+//        return $res;
         return $res;
 
     }

@@ -35,54 +35,76 @@
             <!--</li>-->
         <!--</ul>-->
         <div class="categoryContainer">
-            <ul class="category-list">
-                <li class="headers">商品分类</li>
-                <li class="list-items">
-                    <ul>
-                        <a href="{:url('index/goods/goodslist',['id'=>0])}">
-                            <li class="all <if condition="$level eq 0">active</if>">全部</li>
-                        </a>
-                        <foreach name='cate1' item="v1" key="k1">
-                            <if condition="in_array($v1['id'],$arr)">
-                               <a href="{:url('index/goods/goodslist',['id'=>$v1.id])}">
-                                   <li class="item active"><span>{$v1.name}&nbsp<i class="fa fa-caret-down"></i></span></li>
-                               </a>
-                                <else/>
-                               <a href="{:url('index/goods/goodslist',['id'=>$v1.id])}">
-                                   <li class="item"><span>{$v1.name}&nbsp<i class="fa fa-caret-up"></i></span></li>
-                               </a>
-                            </if>
-                        </foreach>
+            <if condition="$status eq 0">
+                <!--商品分类-->
+                <ul class="category-list">
+                    <li class="headers">商品分类</li>
+                    <li class="list-items">
+                        <ul>
+                            <a href="{:url('index/goods/goodslist',['id'=>0])}">
+                                <li class="all <if condition="$level eq 0">active</if>">全部</li>
+            </a>
+            <foreach name='cate1' item="v1" key="k1">
+                <if condition="in_array($v1['id'],$arr)">
+                    <a href="{:url('index/goods/goodslist',['id'=>$v1.id])}">
+                        <li class="item active"><span>{$v1.name}&nbsp<i class="fa fa-caret-down"></i></span></li>
+                    </a>
+                    <else/>
+                    <a href="{:url('index/goods/goodslist',['id'=>$v1.id])}">
+                        <li class="item"><span>{$v1.name}&nbsp<i class="fa fa-caret-up"></i></span></li>
+                    </a>
+                </if>
+            </foreach>
 
-                    </ul>
-                </li>
+            </ul>
+            </li>
             </ul>
 
+            <!--商品二级分类-->
             <ul class="sub-category-list">
                 <if condition="$cate2 neq ''">
-                   <a <if condition="$level gt 1">href="{:url('index/goods/goodslist',['id'=>$arr[$level-1]])}"</if>><li class="all <if condition="$level eq 1">active</if>">全部</li></a>
-                    <foreach name="cate2" item="v2" key="k2">
-                        <a href="{:url('index/goods/goodslist',['id'=>$v2.id])}">
-                            <li class="item <if condition="in_array($v2['id'],$arr)">active</if>"">{$v2.name}</li>
-                        </a>
-                    </foreach>
-                    <else/>
-                     <li class="all active">全部</li>
-            </if>
+                    <a <if condition="$level gt 1">href="{:url('index/goods/goodslist',['id'=>$arr[$level-1]])}"</if>><li class="all <if condition="$level eq 1">active</if>">全部</li></a>
+                <foreach name="cate2" item="v2" key="k2">
+                    <a href="{:url('index/goods/goodslist',['id'=>$v2.id])}">
+                        <li class="item <if condition="in_array($v2['id'],$arr)">active</if>"">{$v2.name}</li>
+                    </a>
+                </foreach>
+                <else/>
+                <li class="all active">全部</li>
+                </if>
             </ul>
+
+            </if>
 
         </div>
         <ul class="sort-list">
-            <a href="{:url('index/goods/goodslist',array('id'=>$cateid,'order'=>'goods_time','ec'=>'desc'))}"> <li class="sort-by-latest <if condition="$order eq 'goods_time'">active</if>">最新</li></a>
-            <a href="{:url('index/goods/goodslist',array('id'=>$cateid,'order'=>'goods_sales','ec'=>'desc'))}"><li class="sort-by-sales <if condition="$order eq 'goods_sales'">active</if>">销量优先</li></a>
-            <if condition="$ec neq '' and $ec eq 'desc'">
-                <a href="{:url('index/goods/goodslist',array('id'=>$cateid,'order'=>'goods_price','ec'=>'asc'))}">
-                    <li class="sort-by-price <if condition="$order eq 'goods_price'">active</if>">价格<i class="fa fa-angle-double-down"></i></li>
-                </a>
-            <else/>
-            <a href="{:url('index/goods/goodslist',array('id'=>$cateid,'order'=>'goods_price','ec'=>'desc'))}">
-                <li class="sort-by-price <if condition="$order eq 'goods_price'">active</if>"">价格<i class="fa fa-angle-double-up" ></i></li>
-            </a>
+            <if condition="$status eq 0">
+                    <a href="{:url('index/goods/goodslist',array('id'=>$cateid,'order'=>'goods_time','ec'=>'desc'))}"> <li class="sort-by-latest <if condition="$order eq 'goods_time'">active</if>">最新</li></a>
+                    <a href="{:url('index/goods/goodslist',array('id'=>$cateid,'order'=>'goods_sales','ec'=>'desc'))}"><li class="sort-by-sales <if condition="$order eq 'goods_sales'">active</if>">销量优先</li></a>
+                    <if condition="$ec neq '' and $ec eq 'desc'">
+                        <a href="{:url('index/goods/goodslist',array('id'=>$cateid,'order'=>'goods_price','ec'=>'asc'))}">
+                            <li class="sort-by-price <if condition="$order eq 'goods_price'">active</if>">价格<i class="fa fa-angle-double-down"></i></li>
+                        </a>
+                    <else/>
+                    <a href="{:url('index/goods/goodslist',array('id'=>$cateid,'order'=>'goods_price','ec'=>'desc'))}">
+                        <li class="sort-by-price <if condition="$order eq 'goods_price'">active</if>"">价格<i class="fa fa-angle-double-up" ></i></li>
+                    </a>
+                    </if>
+
+                <else/>
+                    <a href="{:url('index/goods/goodslist',array('search'=>$search,'order'=>'goods_time','ec'=>'desc','status'=>1))}"> <li class="sort-by-latest <if condition="$order eq 'goods_time'">active</if>">最新</li></a>
+                    <a href="{:url('index/goods/goodslist',array('search'=>$search,'order'=>'goods_sales','ec'=>'desc','status'=>1))}"><li class="sort-by-sales <if condition="$order eq 'goods_sales'">active</if>">销量优先</li></a>
+                    <if condition="$ec neq '' and $ec eq 'desc'">
+                        <a href="{:url('index/goods/goodslist',array('search'=>$search,'order'=>'goods_price','ec'=>'asc','status'=>1))}">
+                            <li class="sort-by-price <if condition="$order eq 'goods_price'">active</if>">价格<i class="fa fa-angle-double-down"></i></li>
+                    </a>
+                    <else/>
+                    <a href="{:url('index/goods/goodslist',array('search'=>$search,'order'=>'goods_price','ec'=>'desc','status'=>1))}">
+                        <li class="sort-by-price <if condition="$order eq 'goods_price'">active</if>"">价格<i class="fa fa-angle-double-up" ></i></li>
+                    </a>
+                    </if>
+
+
             </if>
             <!--<li class="price-input price-input-start">-->
                 <!--<span class="placeholder">￥</span><input value="">&nbsp;-&nbsp;-->

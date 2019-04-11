@@ -197,9 +197,9 @@
 .carousel-inner .item-pic{
     position: absolute;
     top: 0;
-    left: 50%;
+    left: 43%;
     margin-left: -402px;
-    width: 814px;
+    width: 1000px;
     height: 450px;
     overflow: hidden;
 }
@@ -241,11 +241,11 @@
 }
 .carousel-control.left-btn{
     background-position: -2px 0;
-    margin-left: -380px;
+    margin-left: -700px;
 }
 .carousel-control.right-btn{
     background-position: -42px 0;
-    margin-left:347px;
+    margin-left:650px;
 }
 .carousel .carousel-control:hover{
     opacity:.6;
@@ -270,7 +270,99 @@
     opacity: 1;
 }
 
+/*最新周边st*/
+.home-new {
+    margin-top: 60px;
+    margin-bottom: 40px;
+}
+.common-section-header {
+    color: #00aeff;
+    height: 30px;
+    line-height: 30px;
+    margin-bottom: 35px;
+    padding-left: 48px;
+    background-repeat: no-repeat;
+    background-position: 0 0;
+    background-size: auto 100%;
+}
+.common-section-header .title {
+    font-size: 30px;
+    color: #fff;
+}
+.carrousel-container {
+    height: 380px;
+    position: relative;
+}
+.carrousel-container a.show-prev, .carrousel-container span.show-prev {
+    left: -50px;
+    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACkAAAAxCAYAAABH5YAAAAADjElEQ…CNk5b8Qw0Ad07bRy/UAKwCEACI+A/20Z+iJoB1AN8AUP8Ei1hTykPSvq8AAAAASUVORK5CYII=) no-repeat 0 0;
+}
 
+.carrousel-container a.carrousel-item.new, .carrousel-container span.carrousel-item.new {
+    background: #0f3963;
+    position: relative;
+    margin-left: 20px;
+}
+
+.carrousel-container a.carrousel-item, .carrousel-container span.carrousel-item {
+    width: 260px;
+    height: 360px;
+    text-align: center;
+    position: relative;
+    cursor: pointer;
+}
+.carrousel-container a, .carrousel-container span {
+    display: inline-block;
+    float: left;
+    margin-right: 15px;
+}
+.carrousel-container a.carrousel-item img.prod-img, .carrousel-container span.carrousel-item img.prod-img {
+    max-width: 100%;
+    height: 100%;
+}
+.carrousel-container a.show-next, .carrousel-container span.show-next {
+    right: -60px;
+    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACkAAAAxCAYAAABH5YAAAAADXUlEQ…sKwDMAxE8uhJIBPDPS4V0ZAO8A2AE4oPJ5TjgFwASAhwCEbzPAYC7dlKXgAAAAAElFTkSuQmCC) no-repeat 0 0;
+}
+.carrousel-container a.carrousel-item.new .g-icon, .carrousel-container span.carrousel-item.new .g-icon {
+    position: absolute;
+    left: 25px;
+    bottom: 110px;
+    height: 30px;
+}
+.carrousel-container a.carrousel-item.new>span.prod-name, .carrousel-container span.carrousel-item.new>span.prod-name {
+    color: #fff;
+    bottom: 80px;
+    font-size: 14px;
+}
+
+.carrousel-container a.carrousel-item.new>span, .carrousel-container span.carrousel-item.new>span {
+    width: 100%;
+    position: absolute;
+    left: 0;
+    text-align: left;
+    padding: 0 25px;
+    overflow: hidden;
+    white-space: nowrap;
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+}
+.carrousel-container a, .carrousel-container span {
+    display: inline-block;
+    float: left;
+    margin-right: 15px;
+}
+.carrousel-container a.carrousel-item.new>span.prod-desc, .carrousel-container span.carrousel-item.new>span.prod-desc {
+    color: #ff8602;
+    font-size: 12px;
+    bottom: 55px;
+}
+.carrousel-container a.carrousel-item.new>span.prod-price, .carrousel-container span.carrousel-item.new>span.prod-price {
+    color: #fff;
+    font-size: 12px;
+    bottom: 30px;
+}
+/*最新周边ed*/
 /*广告图*/
 .adv3 {
     padding-top: 20px;
@@ -581,6 +673,8 @@
     border-radius: 4px;
     transition: background-color .2s;
 }
+
+
 .header .search{
     position: absolute;
     bottom: 20px;
@@ -593,6 +687,32 @@
     border-radius: 6px;
     font-size: 12px;
     z-index: 10;
+}
+.header .cart{
+    position: absolute;
+    bottom: 22px;
+    right: -30px;
+    width: 25px;
+    height: 25px;
+    padding: 2px 2px 2px 0px;
+    background-color: #e5e9ef;
+    background-color: rgba(0,0,0,.12);
+    border-radius: 4px;
+    font-size: 12px;
+    z-index: 10;
+}
+.header .cart .cart-count {
+    display: inline-block;
+    position: absolute;
+    height: 20px;
+    width: 20px;
+    border-radius: 10px;
+    bottom: 10px;
+    left: 18px;
+    background: #ed871d;
+    color: #fff;
+    text-align: center;
+    line-height: 20px;
 }
 .header .search .search-keyword{
     float: left;

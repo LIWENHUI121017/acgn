@@ -68,7 +68,7 @@ class Category extends Base
                             }else{
                                 //获取1级的分类id
                                 $pid = Db::name('goods_category')->where('id',$data['pid'])->find();
-                                dump($pid['pid_path']);
+//                                dump($pid['pid_path']);
 
 //                            exit();
                                 $count = count(explode('_',$pid['pid_path']));

@@ -2,14 +2,9 @@
     color: #cfd2d7;
     font-size: 15px;
     font-weight: 700;
-    background:  url(../images/index-index/2.png) no-repeat;
-    background-position: center -256px;
-    background-repeat: no-repeat;
-    background-size: 100% 298px ;
-    position: absolute;
-    top: 241px;
-    left: 0;
-    width: 100%;
+    background: #344a71 url(https://yanxuan-static.nosdn.127.net/hxm/b2c-web/p/20150730/static/media/bg-main.531304ac.png) repeat fixed top;
+    height: 42px;
+    position: relative;
     z-index: 500;
 }
 
@@ -49,7 +44,20 @@ ul {
     line-height: 40px;
     margin-right: 80px;
 }
-
+.main-category-list .main-category-item:hover>span {
+    border-bottom: 1px solid #00aeff;
+    color: #00aeff;
+}
+.main-category-list .main-category-item :hover a{
+    height: 40px;
+    line-height: 40px;
+    margin-right: 80px;
+}
+.main-category-list .main-category-item.home:hover a {
+    border-bottom: 1px solid #00aeff;
+    padding-bottom: 4px;
+    color: #00aeff;
+}
 ul li {
     display: inline-block;
 }
@@ -106,6 +114,7 @@ ul li {
 .main-category-list .main-category-item .sub-category-container .sub-category-list .sub-category-item .sub-category-icon {
     height: 40px;
     max-width: 50px;
+    margin-bottom: 5px;
 }
 .main-category-list .main-category-item .sub-category-container .sub-category-list .sub-category-item span {
     height: 12px;

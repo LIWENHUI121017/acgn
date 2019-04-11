@@ -36,11 +36,18 @@
     <div class="bgimg" scrollshow="true">
         <div class="acgn-content acgn-wrapper">
             <div class="search">
-                <form class="searchform">
-                    <input type="text" autocomplete="off" placeholder="搜索" value="" class="search-keyword">
+                <form class="searchform" method="get" action="/index/goods/goodslist/status/1">
+                    <input type="text" name="search" autocomplete="off" placeholder="搜索" value="" class="search-keyword">
                     <button type="submit" class="search-submit"></button>
                 </form>
             </div>
+            <a href="/index/cart">
+                <div class="cart">
+                    <img class="icon cart-icon" src="/public/static/images/cart/cart.png" alt="购物车图标">
+                    <span class="cart-count">{$cartcount}</span>
+                </div>
+            </a>
+
         </div>
     </div>
 
@@ -51,15 +58,21 @@
             <ul class="main-category-list">
                 <li class="main-category-item home"><a href="/index">首页</a></li>
                 <foreach name="nav" item="v1" key="k1">
-                    <li class="main-category-item">
-                        <span>{$v1.name}<span class="triangle-top"></span></span>
+                    <li class="main-category-item" data-href="/index/Goods/goodslist/id/{$v1.id}" >
+                            <span>{$v1.name}<span class="triangle-top"></span></span>
                         <div class="sub-category-container">
                             <ul class="sub-category-list fix-width">
-                                <li class="sub-category-item"><img class="sub-category-icon"
-                                                                   src="http://nos.netease.com/dmall-mc/%E6%B4%97%E6%8A%A4.pngcb6f41ce-5ce5-4bc4-8bcc-1b5a3a413099?download=%25E6%25B4%2597%25E6%258A%25A4.png&amp;Signature=hPaXLf9aly4ZMSLspAy6LxqBlqJ8C8ynJMj%2B8h7OWLc%3D&amp;Expires=1554865891&amp;NOSAccessKeyId=f7ebc3b6afe94da983dd4eacd62195b7"
-                                                                   alt="二级分类图标"><span class="display-block">洗护</span></li>
+                                <foreach name="$v1.tmenu" item="v2" key="k2">
+                                    <a href="{:url('index/goods/goodslist',array('id'=>$v2.id))}">
+                                    <li class="sub-category-item" data-href="/index/Goods/goodslist/id/{$v2.id}">
+                                        <img class="sub-category-icon" src="/public/static/images/index-index/moxingfenlei.png" alt="二级分类图标">
+                                        <span class="display-block">{$v2.name}</span>
+                                    </li>
+                                    </a>
+                                </foreach>
                                 </ul>
                         </div>
+
                     </li>
                 </foreach>
 
@@ -67,3 +80,28 @@
         </div>
     </div>
 </div>
+<script>
+    $(function () {
+        //合成事件 hover()
+        $(".main-category-item").hover(function (){
+            $(this).find('.sub-category-container').show();
+        },function (){
+            $(this).find('.sub-category-container').hide();
+        });
+    })
+    $(document).on('click','.main-category-item',function () {
+        var href = $(this).data('href');
+        console.log(href);
+        window.location.href=href;
+    })
+
+    // $(document).on('click','.sub-category-item',function () {
+    //     $('.main-category-item').unbind("click")
+    //     var href = $(this).data('href')
+    //     // console.log(href);
+    //     window.location.href=href;
+    // })
+</script>
+
+
+

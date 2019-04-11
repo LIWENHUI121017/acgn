@@ -40,7 +40,8 @@ class Spec extends Base
            $this->error($validate->getError(),url('Admin/spec/add'));
        }else{
            //判断规格名称是否重复
-           $isrepeat = Db::name('spec')->where('name',$data['name'])->find();
+           $where = ['name'=>$data['name'],'type_id'=>$data['tid']];
+           $isrepeat = Db::name('spec')->where($where)->find();
            if ($isrepeat){
                $this->error('规格名称重复了',url('Admin/Spec/index'));
            }
@@ -48,7 +49,7 @@ class Spec extends Base
                try{
                    //处理规格项
                    $item = explode('，',$data['item']);
-               dump($item);
+//               dump($item);
                    $args1 = [
                        'type_id'=>$data['tid'],
                        'name'=>$data['name']

@@ -2,7 +2,8 @@
 <block name="head">
 <title>首页</title>
     <link href='__PUBLIC__/static/css/goods/addgoods.css' media='all' rel='stylesheet' type='text/css' />
-<style>
+
+    <style>
     .control-label{font-size: 13px;
         color: #6B6B6B;}
    .controls input{width: 300px;}
@@ -38,6 +39,44 @@
 
     }
 
+.layui-upload-list{
+     position: relative;
+     /*left: px;*/
+     bottom: 30px;
+        overflow: hidden;
+
+ }
+.layui-upload-list image{
+         width: 150px;
+         height: 150px;
+
+     }
+.layui-upload .layui-btn{
+    position: relative;
+    left: 280px;
+    bottom: 40px;
+    width: 100px;
+    height: 30px;
+    }
+.layui-upload #test2{
+        position: relative;
+        left: 25px;
+        bottom: 10px;
+        width: 100px;
+        height: 30px;
+    }
+#deleteimg{
+    position: relative;
+    left: 140px;
+    bottom: 150px;
+    cursor: pointer;
+}
+.images{
+    height: 200px;
+    width: 150px;
+    float: left;
+    margin-left: 10px;
+}
 
 </style>
 </block>
@@ -82,7 +121,7 @@
 
     <div class='span12' style="margin-top: 10px">
 
-        <form accept-charset="UTF-8" action="{:url('/Admin/Goods/addEditgoods')}" class="form form-horizontal" method="post" style="margin-bottom: 0;" enctype="multipart/form-data"/>
+        <form accept-charset="UTF-8" action="{:url('/Admin/Goods/addEditgoods')}" class="form form-horizontal" method="get" style="margin-bottom: 0;" enctype="multipart/form-data"/>
         <!--<form id="data" class="form form-horizontal" method="get" style="margin-bottom: 0;" enctype="multipart/form-data"/>-->
         <input type="hidden" name="goods_id" value="{$goods}">
             <div class='box-content box1'>
@@ -151,11 +190,20 @@
 
                 <!--图片-->
                 <div class='control-group'>
-                    <label class='control-label' for='original_img'>商品图片</label>
+                    <label class='control-label'>商品图片</label>
                     <div class='controls'>
-                        <input id='original_img' name="original_img" type="file" onchange="filepush()" />
+                        <input id='original_img' name="original_img" type="text" value="" />
+
+                    <div class="layui-upload" style="margin-top: 10px;">
+                        <button type="button" class="layui-btn" style="margin-left: 20px" id="test1">上传图片</button>
+                        <div class="layui-upload-list">
+                            <img class="layui-upload-img" width="150" height="150" id="demo1">
+                            <p id="demoText"></p>
+                        </div>
+                    </div>
                     </div>
                 </div>
+
                 <!--简介-->
                 <div class='control-group'>
                 <label class='control-label' for='goods_abstract'>简单描述</label>
@@ -165,24 +213,52 @@
             </div>
                 <!--商品详情-->
                 <div class='control-group'>
-                    <label class='control-label' for='goods_desc'>商品详情描述</label>
+                    <label class='control-label' for='container'>商品详情描述</label>
                     <div class='controls'>
-                        <input id='goods_desc' name="goods_desc" type='text' />
+                        <!--<input id='goods_desc' name="goods_desc" type='text' />-->
+
+                        <!-- 加载编辑器的容器 -->
+                        <script id="container" name="content" type="text/plain">
+
+                        </script>
+                        <!-- 配置文件 -->
+                        <script type="text/javascript" src="__PUBLIC__/static/ueditor/ueditor.config.js"></script>
+                        <!-- 编辑器源码文件 -->
+                        <script type="text/javascript" src="__PUBLIC__/static/ueditor/ueditor.all.js"></script>
                     </div>
                 </div>
 
 
-                <!--<div class='form-actions' id="submit">-->
-                     <!--<div class='btn btn-primary'  >-->
+                <!--<div class='form-actions' >-->
+                     <!--<div class='btn btn-primary'  id="submit">-->
                         <!--<i class='icon-save'></i>-->
                         <!--确认提交-->
                     <!--</div>-->
+                    <!--<div class='btn btn-danger' id="cancel">-->
+                        <!--<i class='fa fa-mail-reply '></i>-->
+                        <!--取消-->
+                    <!--</div>-->
+                <!--</div>-->
+                    <!--<input class='btn btn-primary' id="clicksubmit" style="display: none" type="submit" value=""/>-->
+                </div>
 
-                    <input class='btn btn-primary' type="submit" value="确认提交"></input>
+        <!--多图片上传-->
+            <div class='box-content box2'>
+                <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+                    <legend>上传多张图片</legend>
+                </fieldset>
+
+                <div class="layui-upload">
+                    <button type="button" class="layui-btn" id="test2">多图片上传</button>
+                    <input type="hidden" name="imagelist" value="" id="imagelist"/>
+                    <blockquote class="layui-elem-quote layui-quote-nm" style="margin-top: 10px;">
+                        <div class="layui-upload-list"  id="demo2">
+
+                        </div>
+                    </blockquote>
+
 
                 </div>
-            <div class='box-content box2'>
-                <input class='btn btn-primary' type="submit" value="确认提交"></input>
             </div>
             <div class='box-content box3'>
                <div class="row" style="font-size: 12px;color: #555;">
@@ -233,21 +309,106 @@
                            <table class=" acgntable table-bordered" id="goods_attr_table">
                                <tbody><tr>
                                    <td><b>商品属性</b>：</td>
-
                                </tr>
                                </tbody></table>
                        </div>
                    </div>
-
-
                </div>
-            <input class='btn btn-primary' type="submit" value="确认提交"></input>
+
+            <!--<input class='btn btn-primary' type="submit" value="确认提交"/>-->
         </div>
+            <div class='form-actions' >
+                <div class='btn btn-primary'  id="submit">
+                    <i class='icon-save'></i>
+                    确认提交
+                </div>
+                <div class='btn btn-danger' id="cancel">
+                    <i class='fa fa-mail-reply '></i>
+                    取消
+                </div>
+            </div>
+            <input class='btn btn-primary' id="clicksubmit" style="display: none" type="submit" value=""/>
+            </div>
         </form>
     </div>
 </div>
 </div>
     <script>
+
+        layui.use('upload', function() {
+            var $ = layui.jquery
+                , upload = layui.upload;
+
+            //普通图片上传
+            var uploadInst = upload.render({
+                elem: '#test1'
+                , url: '/admin/Goods/img'
+                , done: function (res) {
+                    //如果上传失败
+
+                    if (res.status == 0) {
+                        return layer.msg('上传失败');
+                    }else {
+                        //上传成功
+                        $('#original_img').val(res.path);
+                        $('#demo1').attr('src', res.path);
+                    }
+
+                }
+                , error: function () {
+                    //演示失败状态，并实现重传
+                    var demoText = $('#demoText');
+                    demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-xs demo-reload">重试</a>');
+                    demoText.find('.demo-reload').on('click', function () {
+                        uploadInst.upload();
+                    });
+                }
+            });
+            //多图片上传
+            upload.render({
+                elem: '#test2'
+                ,url: '/admin/Goods/img'
+                ,multiple: true
+                ,done: function(res){
+                    if (res.status == 0) {
+                        layer.msg('上传失败',{icon:1,time:2000});
+                    }else {
+                        //上传成功
+                        $('#demo2').append(
+                            '<div class="images">' +
+                            '<img id="img" style="float: left;margin-left: 10px;margin-top: 20px" width="150px" height="150px" src="'+ res.path +'"  class="layui-upload-img">' +
+                            '<i class="fa fa-window-close-o fa-lg " id="deleteimg" style="color: #721c24;"></i>' +
+                            '</div>'
+                        );
+                        layer.msg('上传成功',{icon:1,time:2000});
+                    }
+                }
+            });
+        })
+        $(document).on('click','#deleteimg',function () {
+            $(this).parents('div .images').remove();
+
+        })
+        var ue = UE.getEditor('container', {
+            autoHeight: false
+        });
+        // var editor = UE.getEditor('container');
+        //点击提交表单
+        $(document).on('click','#submit',function () {
+            var arr = [];
+          $("img[id^='img']").each(function () {
+              var path = $(this).attr('src');
+              arr.push(path);
+          })
+            var str = arr.join('&');
+            $('#imagelist').val(str);
+            $('#clicksubmit').trigger('click');
+
+        })
+        //点击取消
+        $(document).on('click','#cancel',function () {
+            window.location.href="/admin/goods/index"
+        })
 
         $(function(){
             //select #cate1变化时获取商品分类1 2 3级别
@@ -259,6 +420,7 @@
 
 
         })
+
        //将商品分类输出到select
         function get_category(id,next,select_id){
             console.log(id)
@@ -280,6 +442,7 @@
                 }
             });
         }
+
 
         //点击提交商品
         $(document).on("click",'#submit',function(){

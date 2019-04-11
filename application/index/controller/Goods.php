@@ -31,22 +31,32 @@ class Goods extends Base{
 
     //商品列表
     public function goodslist(){
-        $cateid = input('id',0);
-
-        $order = input('order','goods_time desc');//排序
+        $cateid = input('id',0);//分类id
+        $order = input('order','goods_time');//排序
+        $search = urldecode(trim(input('search',''))); // 关键字搜索
+        $status = input('status', 0); // 关键字搜索
+        if ($status>0){
+            empty($search) && $this->error('请输入搜索词');
+        }
+//        dump($order);
         $this->assign('order',$order);
+        $this->assign('status',$status);
         $ec = input('ec','desc');
         $order.=" ".$ec;
 
-
-
-//        dump($order);
-//        die;
         $logic = new GoodsLogic();
         //获取一级分类
         $where = ['is_show' => 1,'level'=>1];
         $catetree1 = $logic->get_all($where,'*','GoodsCategory','sort_order');
-        if ($cateid>0){
+        //根据搜索框获取商品列表
+        if ($search){
+//            $strArray=preg_split('/(?<!^)(?!$)/u', $search );
+//            $sear=join("%",$strArray);
+            $searchs='%'.$search.'%';
+            $goodslist= $logic->getgoodslistBysearch($searchs,$order);
+            $page = $goodslist->render();
+            $this->assign('search',$search);
+        }else if($cateid>0){
             //获取族谱变成','字符串
             $res = $logic->getcatepath($cateid);
 //            $catestring = strtr($res['pid_path'],'_',',');

@@ -19,6 +19,17 @@ class Base extends Controller
         //获取导航栏
         $nav = get_goods_category_tree();
 //        dump($nav);
+        $logic = new My_Logic();
+        //获取购物车数量
+        if(session('?user')) {
+            $user = session('user');
+            $cartcount= $logic->get_count(['user_id'=>$user['id']],'Cart');
+            $this->assign('cartcount',$cartcount);
+        }else{
+            $cartcount= $logic->get_count(['session_id'=>session_id()],'Cart');
+            $this->assign('cartcount',$cartcount);
+
+        }
         $this->assign('nav',$nav);
 
     }
