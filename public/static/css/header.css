@@ -58,7 +58,7 @@ ul {
     padding-bottom: 4px;
     color: #00aeff;
 }
-ul li {
+.category-container.font-12 ul li {
     display: inline-block;
 }
 .main-category-list .main-category-item.home a {

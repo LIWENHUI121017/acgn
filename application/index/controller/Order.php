@@ -313,10 +313,17 @@ class Order extends Base {
     public function myorder(){
         self::isLogin();
         $user_id =$this->user_id;
+        $mode=input('mode');
+        $search=input('search','');
+        if ($mode=='search'&&empty($search)){
+            $this->error('请输入搜索词','/index/order/myorder/type/myorder/mode/all');
+        }
+//        dump($where);die;
         if ($user_id>0){
             $orderlogic = new OrderLogic();
             $orderlogic->setUserId($user_id);
-            $order = $orderlogic->user_get_all_order();
+            $order = $orderlogic->user_get_all_order(50,$mode,$search);
+
             foreach ($order as $key=>$value){
                 $order[$key]['goodsinfo'] = $orderlogic->get_order_goods($value['id']);
             }
@@ -324,6 +331,7 @@ class Order extends Base {
 //            die;
 //            $this->assign('goods',$goods);
             $this->assign('order',$order);
+            $this->assign('mode',$mode);
             return $this->fetch();
         }
     }

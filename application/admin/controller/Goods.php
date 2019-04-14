@@ -59,7 +59,6 @@ class Goods extends Base
     //获取修改商品页面
     public function goodsinfo(){
         $id = input('id');
-
         $get = new GoodsLogic();
         $goodsinfo = $get->getgoodsinfo($id);
         //根据pid_info获取分类的所有父类pid
@@ -137,9 +136,7 @@ class Goods extends Base
         exit($str);
     }
 
-    /**
-     * 动态获取商品规格输入框 根据不同的数据返回不同的输入框
-     */
+    //动态获取商品规格输入框 根据不同的数据返回不同的输入框
     public function ajaxGetSpecInput(){
         $spec_arr = input('spec_arr/a',[[]]);
 //        dump($spec_arr);
@@ -172,13 +169,17 @@ class Goods extends Base
     public function addEditgoods(){
         $data = input('get.');
        //获取商品属性值
+
         $imgdata='';
         if ($data['imagelist']){
             $imgdata=explode('&',$data['imagelist']);
         }
 
-//
-        $goodsid=$data['goods_id'];
+        //判断商品详情是否有值
+        if (!isset($data['goods_desc'])){
+            $data['goods_desc']='';
+        }
+        $goodsid=input('goods_id/d');
         foreach($data as $key=>$val ){
             if(preg_match('/^attr.*/',$key)) {
                $attr[ltrim($key,"attr_")]=$val;//添加到attribute表的数据
@@ -225,12 +226,14 @@ class Goods extends Base
                             }
 
                             $updateimgagelist=$goodslogic->addimagelist($goodsid,$imglist);
+//                            dump($updateimgagelist);
+//                            die;
 //
                         }else{
                             $goodslogic->del(['goods_id'=>intval($goodsid)],'GoodsPicture');
                             $updateimgagelist=true;
                         }
-
+                            $res1=$res2=false;
                             //添加商品规格操作
                             if (isset($data['item'])){
                                     $res1=$goodslogic->addEditspecitem($goodsid,$data['item']);

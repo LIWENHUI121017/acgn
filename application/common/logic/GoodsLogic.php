@@ -79,6 +79,16 @@ class GoodsLogic extends My_Logic{
         return $goods;
     }
 
+    //获取商品的所有属性
+    public function get_all_goods_attr($goodsid){
+        $res = Db::name('goods_attr')
+            ->alias('a')
+            ->join('goods_attribute s','a.attr_id=s.attr_id')
+            ->where('goods_id',$goodsid)
+            ->select();
+        return $res;
+    }
+
     //获取家族图谱数组
     public function getcatepath($cateid){
         $res = $this->get_one(['id'=>$cateid],'pid_path,level','GoodsCategory');
@@ -220,6 +230,7 @@ class GoodsLogic extends My_Logic{
     public function checkaddgoods($data,$goodsid){
         if ($goodsid>0){
             $goodslist=Db::name('goods')->whereNotIn('id',$goodsid)->order('id')->select();
+
             if ($goodslist){
                 foreach ($goodslist as $key=>$value){
                     if ($value['goods_name']==$data['goods_name']){
@@ -274,7 +285,8 @@ class GoodsLogic extends My_Logic{
     //修改商品相册
     public function addimagelist($id,$data){
         $imgIdStr = '';//商品相册id
-        $res = false;
+        $res1=$res2=$res= false;
+//        dump($data);
         foreach ($data as $key=>$val){
             $val['goods_id'] = intval($val['goods_id']);
             $where=[
@@ -282,17 +294,23 @@ class GoodsLogic extends My_Logic{
                 'goods_id'=>intval($val['goods_id'])
             ];
             $check = $this->get_one($where,'*','GoodsPicture');
+//            dump($check);
+//            die;
             if($check){
                 $imgIdStr.=$check['id'].',';
             }else{
-                $this->add($where,'GoodsPicture');
-                $res=true;
+                $res1=$this->add($where,'GoodsPicture');
+                $imgIdStr.=$res1.",";
             }
 
         }
-
+//        dump($imgIdStr);
+//        die;
         if($imgIdStr){
-            $res=Db::name('goods_picture')->where('goods_id',$id)->whereNotIn('id',$imgIdStr)->delete();
+            $res2=Db::name('goods_picture')->where('goods_id',$id)->whereNotIn('id',$imgIdStr)->delete();
+        }
+        if ($res1||$res2){
+            $res=true;
         }
         return $res;
     }

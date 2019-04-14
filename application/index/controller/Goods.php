@@ -96,22 +96,50 @@ class Goods extends Base{
 
         return $this->fetch();
     }
+
     //商品详情
     public function goodsInfo(){
         $id = input('id');
         $userid = $this->user_id;
         $get = new GoodsLogic();
         $goodslist = $get->goodslist($id);
+//        dump($goodslist);
+//        die;
         Session::set('goodsname',$goodslist[0]['goods_name']);
-        $goodsinfo = array();
         $goodsinfo = array_reduce($goodslist, 'array_merge', array());
         $spec_goods_price = Db::name('spec_goods_price')->where("goods_id", $id)->column("key,item_id,price,store_count,price"); // 规格 对应 价格 库存表
         $collect = Db::name('goods_collect')->where(['goods_id'=>$id,'user_id'=>$userid])->find();
+       //获取商品评价
+        $comment = $get->get_all(['goods_id'=>$id],'*','Comment','add_time desc');
+//        dump($comment);
+
+
+
+        if (!$comment){
+            $comment="";
+        }else{
+            foreach ($comment as $k=>$v){
+                $comment[$k]['rank']  = round(($v['deliver_rank']+$v['goods_rank']+$v['service_rank'])/3);
+            }
+        }
+//        dump($comment);
+//        die;
+        //获取商品相册
+        $goods_images_list = $get->get_all(['goods_id'=>$id],'*','GoodsPicture');
+
+        //获取商品属性
+        $goods_attr = $get->get_all_goods_attr($id);
+//        dump($goods_attr);
+//        die;
+
         $this->assign('collect',$collect);
         $this->assign('goods',$goodslist);
         $this->assign('goodsinfo',$goodsinfo);
         $this->assign('navigate',navigate_goods($id,$type=1));
         $this->assign('spec', $get->getspec($id));
+        $this->assign('comment', $comment);
+        $this->assign('goods_attr', $goods_attr);
+        $this->assign('goods_images_list', $goods_images_list);
         $this->assign('spec_goods_price', json_encode($spec_goods_price, true));
         return $this->fetch('goodsinfo');
 

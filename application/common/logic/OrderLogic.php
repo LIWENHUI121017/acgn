@@ -215,8 +215,58 @@ class OrderLogic extends My_Logic
     }
 
     //前端个人中心我的订单
-    public function user_get_all_order($offset=50){
-        $where = ['user_id'=>$this->userId];
+    public function user_get_all_order($offset=50,$mode,$search=''){
+        if($mode=="all"){
+            $where=[
+                'user_id'=>$this->userId
+            ];
+
+        }elseif($mode=="waitpay"){
+            $where=[
+                'pay_status'=>0,
+                'order_status'=>0
+            ];
+        }elseif($mode=="waitsend"){
+            $where=[
+                'pay_status'=>1,
+                'shipping_status'=>0,
+                'order_status'=>[array('eq',0),array('eq',1), 'or']
+            ];
+
+        }elseif($search){
+            $orderid='';
+            $where=[
+                'goods_name'=>[ 'like', "%".$search."%"],
+            ];
+            $res1 = $this->get_all($where,'order_id','OrderGoods');
+
+            $w=[
+                'order_sn'=>[ 'like', "%".$search."%"],
+            ];
+            $res2 = $this->get_all($w,'id','Order');
+
+            if ($res1){
+                foreach ($res1 as $k=>$v) {
+                    $orderid.=$v['order_id'].",";
+                }
+            }
+            if ($res2){
+                foreach ($res2 as $k=>$v) {
+                    $orderid.=$v['id'].",";
+                }
+            }
+            $where=[
+                'id'=>['in',$orderid]
+            ];
+        }else{
+            $where=[
+                'order_status'=>3,
+                'shipping_status'=>1,
+            ];
+        }
+
+//        dump($where);
+//        die;
         $res = $this->get_all($where,'*','Order','order_time desc',$offset);
         return $res;
     }

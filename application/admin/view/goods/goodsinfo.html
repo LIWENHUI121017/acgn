@@ -213,14 +213,19 @@
                             <div class='control-group'>
                             <label class='control-label' for='goods_abstract'>简单描述</label>
                             <div class='controls'>
-                                <input id='goods_abstract' name="goods_abstract" type='text' />
+                                <input id='goods_abstract' name="goods_abstract" type='text'  value="{$vo.goods_abstract}"/>
                             </div>
                         </div>
                             <!--商品详情-->
                             <div class='control-group'>
-                                <label class='control-label' for='goods_desc'>商品详情描述</label>
+                                <label class='control-label' for='container'>商品详情描述</label>
                                 <div class='controls'>
-                                    <input id='goods_desc' name="goods_desc" type='text' />
+                                    <!--<input id='goods_desc' name="goods_desc" type='text' />-->
+                                    <!-- 加载编辑器的容器 -->
+                                    <script id="container" name="goods_desc" type="text/plain">
+                                        {$vo.goods_desc}
+                                    </script>
+
                                 </div>
                             </div>
                         </volist>
@@ -382,7 +387,7 @@
             $(this).parents('div .images').remove();
 
         })
-
+        var editor = UE.getEditor('container');
         //点击提交表单
         $(document).on('click','#submit',function () {
             var arr = [];

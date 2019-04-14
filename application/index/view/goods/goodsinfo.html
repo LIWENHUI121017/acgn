@@ -7,20 +7,26 @@
     <link rel="stylesheet" type="text/css" href="__PUBLIC__/static/css/base.css"/>
     <link rel="stylesheet" type="text/css" href="__PUBLIC__/static/css/goods/goodsinfo.css"/>
     <link href="__PUBLIC__/static/css/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet">
-
+    <link rel="stylesheet" href="__PUBLIC__/static/css/layui/css/layui.css" type="text/css">
     <script src="__PUBLIC__/static/js/jquery/jquery.min.js" type="text/javascript"></script>
     <script src='__PUBLIC__/static/js/layer/layer.js' type='text/javascript'></script>
+    <script src='__PUBLIC__/static/css/layui/layui.js' type='text/javascript'></script>
     <!--<script src="__PUBLIC__/static/js/jquery/jquery-1.11.3.min.js" type="text/javascript" charset="utf-8"></script>-->
+<style>
+    .activity-info-content img{
+        width: 800px;
+    }
 
+</style>
 </head>
 <body>
 <include file="public/indexhead"/>
 <div style="background-color: #f5f5f5">
-            <div class="buyticket">
+    <div class="buyticket">
 
                     <div class="bread-wrapper" style="font-size: 16px">
                         <foreach name="navigate" key="k1" item="nav">
-                        <span class="project-name"><a href="//www.acgn.com">{$nav}</a></span>
+                        <span class="project-name"><a href="/index/goods/goodslist/id/{$k1}">{$nav}</a></span>
                         <span class="symbol">&nbsp &gt; &nbsp</span>
                         </foreach>
                         <span class="project-name" style="color: #999999;max-width: 8em;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">{$Think.session.goodsname}</span>
@@ -30,9 +36,17 @@
 
                 <foreach name="goods" key="k" item="v">
                 <div class="whole-detail-info-wrapper">
-                    <div class="detail-img-icon no_pic" style="background-image: url('../../../..{$v.original_img}')">
+                    <div class="detail-img-icon no_pic" data-defaultimg="{$v.original_img}" ></div>
+                    <div class="smallImages">
+                        <div class="scrollUp"></div>
+                        <ul class="imageMenu">
+                            <volist name="$goods_images_list" id="vo">
+                            <li class="small-pic-li"><img src="{$vo.img_url}"></li>
+                            </volist>
+                        </ul>
+                        <div class="scrollDown"></div>
                     </div>
-                   <!--<form id="buy_goods_form" name="buy_goods_form" method="post" action="{:url('Index/Goods/buycar')}">-->
+                    <!--<form id="buy_goods_form" name="buy_goods_form" method="post" action="{:url('Index/Goods/buycar')}">-->
                    <form id="buy_goods_form" name="buy_goods_form" method="post" action="">
                        <input type="text" hidden  name="item_id" id="item_id" value="{$Request.param.item_id}"/><!-- 商品规格id -->
                        <input type="text" hidden name="store_count" value="{$goodsinfo.goods_inventory}"/><!-- 活动库存 -->
@@ -42,6 +56,7 @@
 
                        <div class="detail-info-wrapper">
                         <div class="product-info-name" id="goods_name">{$v.goods_name}</div>
+                        <div class="product-info-name" id="goods_abstract" style="color: #999;font-size: 13px;">&nbsp&nbsp{$v.goods_abstract}</div>
                         <div class="product-info-time-wrapper">
                             <div class="product-info-time-title" >商 城 价：</div>
                             <div class="product-info-time" style="font-size: 22px;color: #e23435" data-goodsprice="{$v.goods_price}" id="goods_price" >￥{$v.goods_price}</div>
@@ -115,45 +130,100 @@
                    </form>
                 </div>
                 </foreach>
-            </div>
+    </div>
 
         <div class="tabs-wrapper ticket-system-container">
             <div class="tabs">
-                <div class="tabs-item active">商品详情</div>
-                <div class="tabs-item">商品属性</div>
-                <div class="tabs-item">商品评价</div>
+                <div class="tabs-item active" data-status="xiangqing">商品详情</div>
+                <div class="tabs-item" data-status="shuxing">商品属性</div>
+                <div class="tabs-item" data-status="comment">商品评价</div>
             </div>
         </div>
 
         <div class="detail-content-wrapper">
             <div class="detail-content">
                 <div class="activity-info-wrapper ticket-system-container">
-                    <div class="activity-info scroll-wrapper">
-                        <div class="activity-info-header">
+                    <!--详情内容-->
+                    <div class="activity-info scroll-wrapper" id="xiangqing">
+                        <div class="activity-info-header" >
                             <div class="icon icon-activity"></div>
                             <div class="guest-title">商品详情</div>
                         </div>
-                        <div class="activity-info-content">
-                            <p>
-                                <span style="color: rgb(34, 34, 34);">神奇宝贝口袋妖怪：</span>
-                                神奇宝贝口袋妖怪
-                                <span style="color: rgb(34, 34, 34);">神奇宝贝口袋妖怪</span>
-                            </p>
-                            <p>
-                                <span style="color: rgb(34, 34, 34);">神奇宝贝口袋妖怪：</span>
-                                神奇宝贝口袋妖怪
-                            </p>
-                            <p>神奇宝贝口袋妖怪&nbsp;</p>
 
-                            <p><br></p>
-                            <p>
-                                <img src="__PUBLIC__/static/images/index-goods/pigaqiu/1.jpg">
-                                <img src="__PUBLIC__/static/images/index-goods/pigaqiu/2.jpg">
-                                <img src="__PUBLIC__/static/images/index-goods/pigaqiu/3.jpg">
-                                <img src="__PUBLIC__/static/images/index-goods/pigaqiu/4.jpg">
-                                <img src="__PUBLIC__/static/images/index-goods/pigaqiu/5.jpg">
-                            </p>
+                        <div class="activity-info-content" >
+                            <foreach name="goods" key="kk" item="vv">
+                                {$vv.goods_desc}
+                            </foreach>
                         </div>
+
+                    </div>
+                    <!--商品属性-->
+                    <div class="activity-info scroll-wrapper" id="shuxing" style="display: none">
+                        <div class="activity-info-header" >
+                            <div class="icon icon-activity"></div>
+                            <div class="guest-title">商品属性</div>
+                        </div>
+
+                        <div class="activity-info-content" >
+                            <foreach name="goods_attr" key="kk" item="vv">
+                                {$vv.attr_name}&nbsp&nbsp<strong>:</strong>&nbsp&nbsp&nbsp&nbsp&nbsp{$vv.attr_value}<br/>
+                            </foreach>
+                        </div>
+
+                    </div>
+                    <!--评价内容-->
+                    <div class="activity-info scroll-wrapper" id="comment" style="display: none;">
+                        <div class="activity-info-header" >
+                            <div class="icon icon-activity"></div>
+                            <div class="guest-title">商品评价</div>
+                        </div>
+                        <if condition="$comment eq ''" ">
+                        <br/>
+                        <p>暂无评价</p>
+                        <else/>
+                        <div class="comment">
+                            <foreach name="comment" item="value" key="key">
+                            <div class="comment-hot-item comment-common-0">
+                            <div class="comment-hot-item-user-image" style="background-image: url({$value.img|default="/public/static/images/userHeaddefault/default.jpg"});">
+                            </div>
+                                <div class="comment-hot-item-user-name">
+                                    <if condition="$value.is_anonymous eq 0">
+                                        {$value.username}
+                                    </if>
+                                </div>
+                            <div class="comment-hot-item-user-content">
+
+                                <div class="comment-hot-item-message">
+                                    <div class="content-detail active">
+                                        <p>
+                                        <ul class="layui-rate" readonly="">
+                                        <?php
+                                        for ($i=0;$i<$value['rank'];$i++){
+                                          echo ' <li class="layui-inline" >
+                                        <i class="layui-icon layui-icon-rate-solid" style="color: #FF8000;"></i>
+                                        </li>';
+                                         }
+                                        ?>
+
+
+                                        </ul>
+                                        </p>
+                                        <p>
+                                            {$value.content}
+                                        </p>
+                                    </div>
+                                    <div class="show-icon" style="display: none;">展开</div>
+                                </div> <!---->
+                                <div class="comment-hot-item-floor">
+                                    <span class="time">{$value.add_time|date='Y-m-d H:i:s',###}</span>
+                                    <span class="fa fa-thumbs-o-up"></span>
+                                    <span class="report"></span>
+                                </div>
+                                <div class="reply-comment-list"></div> <!----> <!----></div>
+                        </div>
+                            </foreach>
+                        </div>
+                        </if>
                     </div>
                 </div>
             </div>
@@ -187,6 +257,38 @@
 <include file="public/footer"/>
 </body>
 <script>
+    $(function () {
+        var src= $('.imageMenu').children().eq(0).children().attr('src');
+        if (!src){
+            var defaultimg = $('.no_pic').data('defaultimg')
+            $('.no_pic').css("background-image","url("+defaultimg+")")
+        }else {
+            $('.no_pic').css("background-image","url("+src+")")
+        }
+
+
+    })
+
+
+
+    //缩略图切换
+    $('.small-pic-li').mouseenter(function () {
+        $(this).siblings().removeClass('active');
+        $(this).addClass('active');
+        $('.no_pic').css("background-image","url("+$(this).find('img').attr('src')+")")
+    });
+
+    //切换商品详情、商品评价
+    $(document).on('click','.tabs-item',function() {
+        $(this).addClass('active')
+        $(this).siblings().removeClass('active')
+        var status = $(this).data('status')
+        $("#"+status).siblings().css('display','none');
+        $("#"+status).css('display','block');
+    })
+
+
+
     var spec_goods_price = {$spec_goods_price |default= 'null'};//规格库存价格
     //收藏
     $(document).on('click','.collect',function () {

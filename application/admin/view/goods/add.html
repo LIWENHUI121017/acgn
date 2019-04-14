@@ -218,29 +218,14 @@
                         <!--<input id='goods_desc' name="goods_desc" type='text' />-->
 
                         <!-- 加载编辑器的容器 -->
-                        <script id="container" name="content" type="text/plain">
+                        <script id="container" name="goods_desc" type="text/plain">
 
                         </script>
-                        <!-- 配置文件 -->
-                        <script type="text/javascript" src="__PUBLIC__/static/ueditor/ueditor.config.js"></script>
-                        <!-- 编辑器源码文件 -->
-                        <script type="text/javascript" src="__PUBLIC__/static/ueditor/ueditor.all.js"></script>
-                    </div>
+                       </div>
                 </div>
 
 
-                <!--<div class='form-actions' >-->
-                     <!--<div class='btn btn-primary'  id="submit">-->
-                        <!--<i class='icon-save'></i>-->
-                        <!--确认提交-->
-                    <!--</div>-->
-                    <!--<div class='btn btn-danger' id="cancel">-->
-                        <!--<i class='fa fa-mail-reply '></i>-->
-                        <!--取消-->
-                    <!--</div>-->
-                <!--</div>-->
-                    <!--<input class='btn btn-primary' id="clicksubmit" style="display: none" type="submit" value=""/>-->
-                </div>
+            </div>
 
         <!--多图片上传-->
             <div class='box-content box2'>
@@ -389,10 +374,8 @@
             $(this).parents('div .images').remove();
 
         })
-        var ue = UE.getEditor('container', {
-            autoHeight: false
-        });
-        // var editor = UE.getEditor('container');
+
+        var editor = UE.getEditor('container');
         //点击提交表单
         $(document).on('click','#submit',function () {
             var arr = [];

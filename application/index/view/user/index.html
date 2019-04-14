@@ -79,7 +79,7 @@
 						<div class="ddlb-ayh">
 							<div class="ddlb-tit">
 								<h1>我的订单</h1>
-								<a class="u-view-all" href="{:url('/index/order/myorder')}">查看全部订单</a>
+								<a class="u-view-all" href="{:url('/index/order/myorder',array('type'=>'myorder'))}">查看全部订单</a>
 								<!--<i class="u-sep"></i>-->
 								<!--<a class="u-view-pre" href="">预售单<span class="hide">(待付款 <em>0</em>)</span></a>-->
 							</div>
@@ -97,10 +97,10 @@
 													<if condition="$list.pay_status eq 0">
 														<if condition="$list.order_status neq 2">
 															<a class="to_pay" href="{:url('/index/order/orderpay',['order_id'=>$list.id])}">立即支付</a>
-
+															<a class="consoorder" href="javascript:void(0);" onclick="cancel_order({$list.id})">取消订单</a>
 														</if>
 													</if>
-													<a class="consoorder" href="javascript:void(0);" onclick="cancel_order({$list.id})">取消订单</a>
+
 												</div>
 
 											</div>

@@ -53,7 +53,7 @@ class User extends Base
             $user['user_phone']=hidtel($user['user_phone']);
             $orderlogic = new OrderLogic();
             $orderlogic->setUserId($user_id);
-            $order = $orderlogic->user_get_all_order(1);
+            $order = $orderlogic->user_get_all_order(1,'all');
             $goods = $orderlogic->get_order_goods($order[0]['id']);
             $where=[
                 'a.user_id'=>$user_id,
@@ -65,7 +65,6 @@ class User extends Base
                 ->limit(3)
                 ->select()
                 ->toArray();
-
 
             $this->assign('goods',$goods);
             $this->assign('collect',$collect);
