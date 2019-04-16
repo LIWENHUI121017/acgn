@@ -12,7 +12,7 @@ use think\Session;
 
 class CategoryLogic extends Model{
     //获取所有商品分类
-    public function     getAllcategory(){
+    public function getAllcategory(){
         $tree = $arr = $result = array();
         $cat_list = Db::name('goods_category')->order('id')->select();//所有分类
         if($cat_list){
@@ -58,5 +58,22 @@ class CategoryLogic extends Model{
     public function checkchildren($id){
             $res = Db::name('goods_category')->where('pid',$id)->order('sort_order descs')->find();
             return $res;
+    }
+
+    //ajax修改分类属性
+    public function ajaxchangeinput($type,$id){
+
+        $where['id']=$id;
+        if ($type=="is_show-ok"){
+            $data=['is_show'=>1];
+        }elseif($type=="is_show-notok"){
+            $data['is_show']=0;
+        }elseif ($type=="ishot-notok"){
+            $data['is_hot']=0;
+        }elseif ($type=="ishot-ok"){
+            $data['is_hot']=1;
+        }
+        $res = Db::name('goods_category')->where($where)->update($data);
+        return $res;
     }
 }

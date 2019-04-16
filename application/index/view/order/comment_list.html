@@ -27,6 +27,13 @@
         .commstargoods.a_number img{
             vertical-align: text-bottom;
         }
+        .layui-inline .layui-rate{
+            position: relative;
+            top:-15px;
+        }
+        .layui-inline span{
+            display: none;
+        }
     </style>
 </head>
 <body class="bg-f5">
@@ -54,9 +61,13 @@
                             <!-- page -->
                             <div class="form-part1">
                                 <!--待评价商品-s-->
+                                <!--商品信息-s-->
+
+                                <!--商品信息-e-->
+
                                     <div class="f-cutline"></div>
+
                                     <div class="f-item f-goods product-741538" voucherstatus="0" catefi="670" catese="677" cateth="680">
-                                        <!--商品信息-s-->
                                         <div class="fi-info">
                                             <div class="comment-goods">
                                                 <div class="p-img"><a href="{:url('index/Goods/goodsInfo',array('id'=>$order_info['goods_id']))}" target="_blank"><img src="{$order_info['original_img']}" alt=""></a></div>
@@ -66,30 +77,33 @@
                                                 <input type="hidden" id="spec_key" data-key="{$order_info.spec_key}">
                                             </div>
                                         </div>
-                                        <!--商品信息-e-->
                                         <div class="fi-operate" id="div_{$order_info.goods_id}">
                                             <!--评分--->
+
                                             <div class="fop-item fop-star   z-tip-warn" >
-                                                <div class="fop-label">商品描述相符</div>
+                                                <div class="fop-label" >商品描述相符</div>
                                                 <div class="fop-main">
-                                                    <span class="commstargoods a_number" id="goods_rank">
-                                                        <span class="star-info">0分</span>
-                                                    </span>
-                                                    <input type="hidden" id="goods_rank_hidden" name="goods_rank">
+                                                    <!--<span class="commstargoods a_number" id="goods_rank">-->
+                                                        <!--<span class="star-info">0分</span>-->
+                                                    <!--</span>-->
+                                                    <div id="test1"></div>
+                                                    <!--<input type="hidden" id="goods_rank_hidden" name="goods_rank">-->
                                                 </div>
                                                 <div class="fop-label">商品满意度</div>
                                                 <div class="fop-main">
-                                                    <span class="commstargoods a_number" id="service_rank">
-                                                        <span class="star-info">0分</span>
-                                                    </span>
+                                                    <!--<span class="commstargoods a_number" id="service_rank">-->
+                                                        <!--<span class="star-info">0分</span>-->
+                                                    <!--</span>-->
+                                                    <div id="test2"></div>
                                                     <input type="hidden" id="service_rank_hidden" name="service_rank">
                                                 </div>
 
                                                 <div class="fop-label">物流服务质量</div>
                                                 <div class="fop-main">
-                                                    <span class="commstargoods a_number" id="deliver_rank">
-                                                        <span class="star-info">0分</span>
-                                                    </span>
+                                                    <!--<span class="commstargoods a_number" id="deliver_rank">-->
+                                                        <!--<span class="star-info">0分</span>-->
+                                                    <!--</span>-->
+                                                    <div id="test3"></div>
                                                     <input type="hidden" id="deliver_rank_hidden" name="deliver_rank">
                                                 </div>
 
@@ -103,7 +117,7 @@
                                                 <i class="tip-icon"></i><em class="tip-text"></em>
                                             </div>
                                         <!--</div>-->
-                                            <div class="fop-item" style="margin-top: 20px">
+                                            <div class="fop-item" style="margin-top: 80px">
                                                 <div class="fop-label">评价晒单</div>
                                                  <div class="fop-main">
                                                     <div class="f-textarea">
@@ -166,7 +180,7 @@
                             <div class="tip-inner">
                                 <i class="tip-icon"></i>
                                 <h3 class="tip-title">该商品已评价过啦~</h3>
-                                <div class="tip-hint"><a clstag="pageclick|keycount|pingjiachenggong_201605192|1" href="{:url('Home/User/comment',array('status'=>0))}" class="ftc3 ml10">返回待评价列表 &gt;</a></div>
+                                <div class="tip-hint"><a clstag="pageclick|keycount|pingjiachenggong_201605192|1" href="{:url('/index/User/mycomment',array('type'=>'mycomment','mode'=>'all'))}"  class="ftc3 ml10">返回待评价列表 &gt;</a></div>
                             </div>
                         </div>
                     </div>
@@ -184,15 +198,48 @@
 
 </body>
 <script type="text/javascript">
+    layui.use(['rate'], function(){
+        var rate = layui.rate;
+        //主题色
+        rate.render({
+            elem: '#test1'
+            ,value: 0
+            ,theme: '#FE0000' //自定义主题色
+            ,text: true //开启文本
+            ,setText: function(value){
+                this.span.text(value);
+            }
+        });
+        //主题色
+        rate.render({
+            elem: '#test2'
+            ,value: 0
+            ,theme: '#FE0000' //自定义主题色
+            ,text: true //开启文本
+            ,setText: function(value){
+                this.span.text(value);
+            }
+        });
+        //主题色
+        rate.render({
+            elem: '#test3'
+            ,value: 0
+            ,theme: '#FE0000' //自定义主题色
+            ,text: true //开启文本
+            ,setText: function(value){
+                this.span.text(value);
+            }
+        });
+    })
     store_comment_flag = false;
     //评分
-    $('.commstargoods').raty({
-        click: function(score, evt) {
-            $('#'+ this.id + ' .star-info').html(score+'分');
-            $('#'+this.id+'_hidden').val(score);
-            store_comment_flag = true;
-        }
-    });
+    // $('.commstargoods').raty({
+    //     click: function(score, evt) {
+    //         $('#'+ this.id + ' .star-info').html(score+'分');
+    //         $('#'+this.id+'_hidden').val(score);
+    //         store_comment_flag = true;
+    //     }
+    // });
 
     //判断内容填写和评分
     function setval(obj,sum){
@@ -214,13 +261,13 @@
     })
 
     function comment_submit(){
+        var goods_rank = $('#test1').find('span').html()
+        var service_rank = $('#test2').find('span').html()
+        var deliver_rank = $('#test3').find('span').html()
         var rec_id = {$order_info['id']};
         var order_id = $('#order_id').val()
         var goods_id = $('#goods_id').val()
         var comment_content = $('#comment_content').val()
-        var goods_rank = $('#goods_rank_hidden').val()
-        var service_rank = $('#service_rank_hidden').val()
-        var deliver_rank = $('#deliver_rank_hidden').val()
         var is_anonymous = 0;
         var spec_key = $('#spec_key').data('key')
         if ($('.i-check').hasClass('checked')){

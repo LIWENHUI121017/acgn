@@ -338,6 +338,7 @@ class OrderLogic extends My_Logic
                 ->join('address s','a.address_id=s.address_id')
                 ->where($where)
                 ->find();
+
         $res['province']=$this->get_one(['id'=>$res['province']],'name','Region')['name'];
         $res['city']=$this->get_one(['id'=>$res['city']],'name','Region')['name'];
         $res['district']=$this->get_one(['id'=>$res['district']],'name','Region')['name'];
@@ -347,12 +348,39 @@ class OrderLogic extends My_Logic
 
     }
     //后台获取所有订单信息
-    public function get_all_order()
-    {
+    public function get_all_order($starttime,$endtime,$orderstatus,$pay,$shipping){
+        $where=array();
+      if ($starttime&&$endtime){
+          $where['a.order_time']=array(array('gt',strtotime($starttime)),array('lt',strtotime($endtime)), 'and');
+      }
+
+
+      if ($orderstatus){
+          if ($orderstatus=='a'){
+              $where['a.order_status']=0;
+          }else{
+              $where['a.order_status']=$orderstatus;
+          }
+      }
+      if ($pay){
+          if ($pay=="2"){
+              $where['a.pay_status']=0;
+          }else{
+              $where['a.pay_status']=$pay;
+          }
+      }
+      if ($shipping){
+          if ($shipping=="2"){
+              $where['a.shipping_status']=0;
+          }else{
+              $where['a.shipping_status']=$shipping;
+          }
+      }
         $res = Db::name('order')
             ->alias('a')
             ->join('address s', 'a.address_id=s.address_id')
             ->order('order_time desc')
+            ->where($where)
             ->select();
         foreach ($res as $k => $v) {
             //支付类别
@@ -423,17 +451,35 @@ class OrderLogic extends My_Logic
     }
 
     //获取全部订单日志
-    public function get_all_order_action(){
+    public function get_all_order_action($starttime,$endtime,$adminid,$ordersn){
+        $where=array();
+        $w=array();
+        if ($starttime&&$endtime){
+            $where['a.log_time']=array(array('gt',strtotime($starttime)),array('lt',strtotime($endtime)), 'and');
+        }
+        if ($adminid){
+            $where['a.action_user']=$adminid;
+        }
+        if ($ordersn){
+            $where['n.order_sn']= ['like', "%".$ordersn."%"];
+        }
+
         $orderaction=array();
-        $table = 'OrderAction';
-        $res = $this->get_all(array(),'*',$table,'log_time desc');
+//        $table = 'OrderAction';
+//        $res = $this->get_all($where,'*',$table,'log_time desc');
+        $res = Db::name('order_action')->alias('a')
+            ->join('user s','s.id=a.action_user')
+            ->join('order n','n.id=a.order_id')
+            ->where($where)
+            ->select();
+
         foreach ($res as $k=>$v) {
             if ($v['action_user']==0){
-                $user = Db::name('order')->alias('a')->join('user s','s.id=a.user_id')
+                $user = Db::name('order_action')->alias('a')
+                    ->join('user s','s.id=a.user_id')
                     ->where('a.id',$v['order_id'])
-                    ->field('s.user_name')
+                    ->field('s.user_name,a.order_sn')
                     ->find();
-//                dump($user);
                 $res[$k]['action_user']='用户：'.$user['user_name'];
             }else{
                 $res[$k]['action_user']='管理员：'.$this->get_one(['id'=>$v['action_user']],'*','Admin')['admin_name'];

@@ -37,22 +37,17 @@
 
         <div class='controls '>
             <div class='input-append pull-right'>
-                <select class="span3">
-                    <option>所有分类</option>
-                </select>
-                <select class="span3">
-                    <option>D--戴尔</option>
-                </select>
-                <select class="span2">
-                    <option>全部</option>
-                </select>
-                <select class="span2">
-                    <option>全部</option>
-                </select>
-                <input class='span3' id='appendedInputButtons1' type='text' />
-                <button class='btn' type='button'>
-                    <i class='icon-search'></i>
-                </button>
+                <form method="get" action="{:url('attribute/index')}">
+                    <select class="span12" name="tid">
+                        <option value="0">所有模型</option>
+                        <foreach name="type" item="v" key="k">
+                            <option value="{$v.tid}">{$v.type_name}</option>
+                        </foreach>
+                    </select>
+                    <button class='btn' type='submit' >
+                        <i class='icon-search'></i>
+                    </button>
+                </form>
             </div>
         </div>
 

@@ -37,9 +37,16 @@ class Order extends Base
 
     //订单列表
     public function index(){
+        $starttime=input('starttime');
+        $endtime=input('endtime');
+        $orderstatus=input('orderstatus');
+        $pay=input('pay');
+        $shipping=input('shipping');
+
         $logic = new OrderLogic();
-        $order = $logic->get_all_order();
+        $order = $logic->get_all_order($starttime,$endtime,$orderstatus,$pay,$shipping);
         $this->assign('order',$order);
+        $this->assign('count',count($order));
         return $this->fetch();
     }
 
@@ -233,10 +240,20 @@ class Order extends Base
 
     //订单日志页面
     public function orderaction(){
+        $starttime = input('starttime');
+        $endtime = input('endtime');
+        $adminid = input('adminid');
+        $ordersn = input('order_sn');
+
         $logic = new OrderLogic();
-        $orderaction = $logic->get_all_order_action();
+        $orderaction = $logic->get_all_order_action($starttime,$endtime,$adminid,$ordersn);
 //        dump($orderaction);
+        //获取所有管理员
+        $adminlist=$logic->get_all(array(),'*','Admin');
+//        dump($adminlist);
+
         $this->assign('orderaction',$orderaction);
+        $this->assign('adminlist',$adminlist);
         return $this->fetch('orderaction');
     }
 

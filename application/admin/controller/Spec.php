@@ -15,13 +15,14 @@ class Spec extends Base
         return parent::_initialize();
     }
 
-    public function index()
-    {
+    public function index(){
+        $tid = input('tid');
         $speclogic = new SpecLogic();
-        $speclist = $speclogic->getallSpeclist();
-//        dump($speclist);
-//        $page = $speclist->render();//分页页码
+        $speclist = $speclogic->getallSpeclist($tid);
+        //获取所有商品模型
+        $type = Db::name('goods_type')->select();
         $this->assign('speclist',$speclist);
+        $this->assign('type',$type);
 //        $this->assign('page',$page);
         return $this->fetch();
     }

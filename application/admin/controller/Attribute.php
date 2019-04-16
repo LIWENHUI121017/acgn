@@ -16,14 +16,17 @@ class Attribute extends Base
         return parent::_initialize();
     }
 
-    public function index()
-    {
+    public function index(){
+        $tid = input('tid');
         $logic = new AttributeLogic();
-        $attributelist = $logic->getallattlist();
-//        dump($attributelist);
-//        $page = $speclist->render();//分页页码
+        $attributelist = $logic->getallattlist($tid);
+        //获取所有商品模型
+        $type = Db::name('goods_type')->select();
+
+
         $this->assign('attributelist',$attributelist);
-//        $this->assign('page',$page);
+        $this->assign('type',$type);
+
         return $this->fetch();
     }
     public function add(){

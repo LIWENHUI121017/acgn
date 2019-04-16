@@ -5,10 +5,16 @@ use app\index\controller\User;
 use think\Db;
 use think\Session;
 
-class UserLogic extends My_Logic
-{
+class UserLogic extends My_Logic{
+    protected $userId;
+
     public function __construct(){
         $this->table = 'User';
+    }
+    //设置userid
+    public function setUserId($user_id)
+    {
+        $this->userId = $user_id;
     }
     public function login($username,$password){
         $data['user_name'] = $username;
@@ -110,8 +116,16 @@ class UserLogic extends My_Logic
     }
 
     //所有会员列表
-    public function get_all_user(){
-        $res=$this->get_all();
+    public function get_all_user($type,$search){
+        $where=array();
+        if ($type&&$search){
+            if ($type=='nick'){
+                $where['user_nickname']=["like","%".$search."%"];
+            }else{
+                $where['user_name']=["like","%".$search."%"];
+            }
+        }
+        $res=$this->get_all($where);
         return $res;
     }
 
@@ -121,11 +135,7 @@ class UserLogic extends My_Logic
         return $res;
     }
 
-    /**
-     * 新增或修改会员
-     * @param  int $id 用户id
-     * @param  array $data 修改或者新增的参数
-     */
+    //新增或修改会员
     public function addEditUser($id,$data){
         if ($id){
             //修改
@@ -149,5 +159,52 @@ class UserLogic extends My_Logic
             $res = $this->add($data);
             return $res;
         }
+    }
+
+    //前端获取所有评价
+    public function user_get_all_comment($mode){
+       if ($mode=='all') {
+           $where=[
+               's.user_id'=>$this->userId,
+               's.order_status'=>[array('eq',4),array('eq',6), 'or']
+           ];
+        }elseif($mode=="waitcomment"){
+           $where=[
+               's.user_id'=>$this->userId,
+               's.order_status'=>4,
+               'a.is_comment'=>0
+           ];
+       }else{
+           $where=[
+               's.user_id'=>$this->userId,
+               's.order_status'=>6,
+           ];
+       }
+        $field='s.*,a.id,a.order_id,a.goods_id,a.goods_name,a.goods_sn,a.goods_num,a.spec_key_name,a.is_comment,a.is_send,n.original_img,m.price as goods_price';
+        $res = Db::name('order_goods')
+            ->alias('a')
+            ->join('order s','a.order_id=s.id')
+            ->join('goods n','a.goods_id=n.id')
+            ->join('spec_goods_price m','a.spec_key=m.key and a.goods_id=m.goods_id')
+            ->field($field)
+            ->where($where)
+            ->select();
+
+        return $res;
+    }
+
+    //前端获取所有收藏
+    public function user_get_all_collect(){
+            $where=[
+                'user_id'=>$this->userId,
+            ];
+            $field = "a.*,s.goods_name,s.original_img,s.goods_inventory,s.goods_price";
+         $res = Db::name('goods_collect')
+             ->alias('a')
+             ->join('goods s','a.goods_id=s.id')
+             ->where($where)
+             ->field($field)
+             ->select();
+        return $res;
     }
 }

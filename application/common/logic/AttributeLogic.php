@@ -9,10 +9,15 @@ use think\Model;
 
 class AttributeLogic extends Model{
     //获取所有商品属性
-    public function getallattlist(){
+    public function getallattlist($tid){
+        $where=array();
+        if ($tid){
+            $where['type_id']=$tid;
+        }
         $att = Db::name('goods_attribute')
             ->alias('a')
             ->join('goods_type s','a.type_id=s.tid')
+            ->where($where)
             ->select();
         foreach ($att as $key=>$value){
             if ($value['attr_input_type']==0){

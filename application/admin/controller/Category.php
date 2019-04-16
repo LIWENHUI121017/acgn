@@ -5,6 +5,7 @@ namespace app\admin\controller;
 
 use app\common\logic\CategoryLogic;
 use app\common\logic\GoodsLogic;
+use app\common\logic\My_Logic;
 use think\Cookie;
 use think\Db;
 use think\Loader;
@@ -22,15 +23,26 @@ class Category extends Base
         return parent::_initialize();
     }
 
-    public function index()
-    {
+    public function index(){
+
         $categorylogic = new CategoryLogic();
         $categorylist = $categorylogic->getAllcategory();
-//        dump($categorylist);
+
         $this->assign('categorylist',$categorylist);
         return $this->fetch();
     }
-
+    //ajax修改分类属性
+    public function ajaxchangeinput(){
+        $type=input('type');
+        $id=input('id');
+        $logic = new CategoryLogic();
+        $res = $logic->ajaxchangeinput($type,$id);
+        if ($res){
+            return json(['status'=>200,'msg'=>'操作成功!']);
+        }else{
+            return json(['status'=>-100,'msg'=>'操作失败!']);
+        }
+    }
     //添加商品分类页面
     public function add(){
         $categorylogic = new CategoryLogic();

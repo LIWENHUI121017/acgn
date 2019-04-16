@@ -32,18 +32,8 @@
 								<div class="navitems2 p" id="navitems5">
 									<ul>
 										<li>
-											<a href="{:url('/index/User/mycomment',array('type'=>'mycomment','mode'=>'all'))}" class="<if condition="$mode eq 'all' || $mode eq 'search'">selected</if>">全部评论</a>
+											<a  class="selected">全部收藏</a>
 										</li>
-										<li>
-											<a href="{:url('/index/User/mycomment',array('type'=>'mycomment','mode'=>'waitcomment'))}"  class="<if condition="$mode eq 'waitcomment'">selected</if>">待评论</a>
-										</li>
-										<li>
-											<a href="{:url('/index/User/mycomment',array('type'=>'mycomment','mode'=>'commented'))}"  class="<if condition="$mode eq 'commented'">selected</if>">已评论</a>
-										</li>
-
-										<!--<li>-->
-										<!--<a href="javascript:void(0);" class="">预售订单</a>-->
-										<!--</li>-->
 									</ul>
 									<div class="wrap-line" style="width: 130px; left: 10px;">
 										<span style="left:15px;"></span>
@@ -53,11 +43,10 @@
 								<div class="orderbook-list">
 									<div class="book-tit" id="book-tit" >
 										<ul>
-											<li class="sx1">商品信息</li>
-											<li class="sx2">单价</li>
-											<li class="sx3">数量</li>
-											<li class="sx4">总金额</li>
-											<li class="sx5 s5clic">状态</li>
+											<li class="sx1" style="width: 550px;">商品信息</li>
+											<li class="sx2"  style="width: 135px;">单价</li>
+											<li class="sx3" style="width: 135px;">库存</li>
+											<li class="sx5 s5clic" style="width: 180px;">操作</li>
 										</ul>
 									</div>
 
@@ -65,27 +54,17 @@
 
 							</div>
 							<div class="order-alone-li">
-								<foreach name="comment" key="k1" item="v1">
+								<foreach name="collect" key="k1" item="v1">
 								<table width="100%" border="" cellspacing="" cellpadding="">
 									<tbody>
-									<tr class="time_or">
-										<td colspan="6">
-											<div class="fl_ttmm">
-												<span class="time-num">下单时间：<em class="num">{$v1.order_time}</em></span>
-												<span class="time-num">订单编号：<em class="num">{$v1.order_sn}</em></span>
 
-
-
-											</div>
-											<div class="fr_ttmm"></div>
-										</td>
-									</tr>
 
 											<tr class="conten_or">
 												<td class="sx1">
 													<div class="shop-if-dif">
 														<div class="shop-difimg">
-															<img src="{$v1.original_img}" style="float: left;width: 100px;height: 100px;">
+															<a  href="{:url('index/goods/goodsinfo',array('id'=>$v1.goods_id))}"><img src="{$v1.original_img}" style="float: left;width: 100px;height: 100px;"></a>
+
 														</div>
 														<div class="shop_name">
 															<a  href="{:url('index/goods/goodsinfo',array('id'=>$v1.goods_id))}">{$v1.goods_name}</a>
@@ -93,42 +72,11 @@
 													</div>
 												</td>
 												<td class="sx2"><span>￥</span><span>{$v1.goods_price}</span></td>
-												<td class="sx3">x{$v1.goods_num}</td>
-
-												<td class="sx4" >
-													<div class="pric_rhz">
-														<p class="d_pri"><span>￥</span><span>{$v1.order_amount}</span></p>
-
-
-													</div>
-												</td>
-												<td class="sx5">
-													<div class="detail_or">
-														<p class="d_yzo" style="font-size: 14px">
-															<if condition="$v1.order_status==2">
-																{$order_status[$v1.order_status]}
-																<else/>
-																<if condition="$v1.pay_status eq 0"/>
-																	{$pay_status[$v1.pay_status]}
-																	<else/>
-																	{$order_status[$v1.order_status]}
-																</if>
-															</if>
-
-														</p>
-
-														<!--<p class="inspect"><a href="/Home/User/order_detail/id/599.html">查看物流</a></p>-->
-														<!--<p class="ps_r"><a href="javascript:void(0);">配送</a></p>-->
-													</div>
-												</td>
+												<td class="sx3">{$v1.goods_inventory}</td>
 												<td class="sx6">
 													<div class="rbac">
 														<p class="">
-                                                            <if condition="$v1.is_comment eq 1">
-                                                                <a href="{:url('index/goods/goodsinfo',array('id'=>$v1.goods_id))}">查看</a>
-                                                                <else/>
-                                                                <a href="{:url('index/Order/comment_list',array('id'=>$v1.id))}">评价</a>
-                                                            </if>
+															<a href="{:url('index/goods/goodsinfo',array('id'=>$v1.goods_id))}">查看</a>
                                                         </p>
 													</div>
 												</td>

@@ -78,7 +78,19 @@ class GoodsLogic extends My_Logic{
         $goods = Db::name('goods')->where(['id'=>$id])->select();
         return $goods;
     }
-
+    //获取商品分类并处理
+    public function getcatelist(){
+        $categoryList = Db::name('goods_category')->cache(true)->field('id,name,pid,level')->select();
+        $nameList = array();
+        foreach($categoryList as $k => $v)
+        {
+            $name = substr(get_letter($v['name']),0,1).' '. $v['name']; // 前面加上拼音首字母
+            $nameList[] = $v['name'] = $name;
+            $categoryList[$k] = $v;
+        }
+        array_multisort($nameList,SORT_STRING,SORT_ASC,$categoryList);
+        return $categoryList;
+    }
     //获取商品的所有属性
     public function get_all_goods_attr($goodsid){
         $res = Db::name('goods_attr')
@@ -99,6 +111,32 @@ class GoodsLogic extends My_Logic{
         $goods = Db::name('goods')->where(['id'=>$id])->select();
         $goods[0]['category'] = Db::name('goods_category')->where('id',$goods[0]['goods_type_id'])->find();
         return $goods;
+    }
+
+    //前端ajax改变商品的状态
+    public function ajaxSetGoodsType($type,$id){
+        if ($type=='isnew-notok'){
+            $where=['id'=>$id];
+            $data=[ 'is_new'=>0];
+        }elseif ($type=='isnew-ok'){
+            $where=['id'=>$id];
+            $data=[ 'is_new'=>1];
+        }elseif ($type=='ishot-notok'){
+            $where=['id'=>$id];
+            $data=[ 'is_hot'=>0];
+        }elseif ($type=='ishot-ok'){
+            $where=['id'=>$id];
+            $data=[ 'is_hot'=>1];
+        }elseif ($type=='isonsale-notok'){
+            $where=['id'=>$id];
+            $data=[ 'is_on_sale'=>0];
+        }elseif ($type=='isonsale-ok'){
+            $where=['id'=>$id];
+            $data=[ 'is_on_sale'=>1];
+        }
+        $res = $this->edit($where,$data,'goods');
+        return $res;
+
     }
 
     //根据goodsid获取goodstype商品模型
@@ -126,14 +164,33 @@ class GoodsLogic extends My_Logic{
     }
 
     //获取后台商品
-    public function goodsAlllist(){
-//        $goods = new Goods();
-////        $goodslist = $goods->all();
-//        $goodslist = $goods->goodscategory()->select();
+    public function goodsAlllist($cateid,$isonsale,$type,$search){
+        $where=array();
+        if ($cateid){
+            $where['a.goods_type_id']=$cateid;
+        }
+        if ($isonsale){
+            if ($isonsale=="2"){
+                $where['a.is_on_sale']=0;
+            }else{
+                $where['a.is_on_sale']=1;
+            }
+        }
+        if ($type){
+            if ($type=='new'){
+                $where['a.is_new']=1;
+            }else{
+                $where['a.is_hot']=1;
+            }
+        }
+        if ($search){
+            $where['a.goods_name']=[ 'like', "%".$search."%"];
+        }
         $goodslist = Db::name('goods')
                     ->alias('a')
-                    ->field('a.id,a.goods_sn,a.goods_name,a.goods_price,a.goods_inventory,a.is_hot,a.is_on_sale,s.name')
+                    ->field('a.id,a.goods_sn,a.goods_name,a.goods_price,a.goods_inventory,a.is_new,a.is_hot,a.is_on_sale,s.name')
                     ->join('goods_category s','a.goods_type_id = s.id')
+                    ->where($where)
                     ->order('a.id desc')
                     ->paginate(5);
         return $goodslist;

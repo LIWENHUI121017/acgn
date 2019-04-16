@@ -3,7 +3,9 @@ namespace app\admin\controller;
 
 
 
+use app\common\logic\CategoryLogic;
 use app\common\logic\GoodsLogic;
+use app\common\logic\My_Logic;
 use app\common\logic\SpecLogic;
 use think\Config;
 use think\Cookie;
@@ -32,13 +34,21 @@ class Goods extends Base
     }
 
 
-    public function index()
-    {
+    public function index(){
+        $cateid=input('cateid');
+        $isonsale=input('isonsale');
+        $type=input('type');
+        $search=input('search');
+
         $goodslogic = new GoodsLogic();
-        $goodslist = $goodslogic->goodsAlllist();
+        $goodslist = $goodslogic->goodsAlllist($cateid,$isonsale,$type,$search);
         $page = $goodslist->render();//分页页码
+
+        //获取所有分类
+        $catelist = $goodslogic->getcatelist();
         $this->assign('goodslist',$goodslist);
         $this->assign('page',$page);
+        $this->assign('catelist',$catelist);
         return $this->fetch();
     }
 
@@ -317,114 +327,6 @@ class Goods extends Base
 
     }
 
-
-
-//    //修改商品
-//    public function updategoods(){
-//        $data = input('post.');
-//        $id = Session::get('goodsid');
-//
-//        $data=request()->param();
-//        $file =request()->file('original_img');
-////        dump($data['id']);
-////        exit();
-//        //图片
-//        if($file){
-//            $info = $file->move(ROOT_PATH . 'public' . DS . 'uploads');
-//            if($info){
-//                // 成功上传后 获取上传信息
-//                $filePathname = $info->getSaveName();
-////                $data['original_img']='/public/uploads/'.$filePathname;
-//                $data['original_img']=$this->path.str_replace('\\', '/', $info->getSaveName());
-//
-//            }else{
-//                // 上传失败获取错误信息
-//                echo $file->getError();
-//            }
-//        }
-//
-//
-//
-//        $goodslogic = new GoodsLogic();
-//        //获取1级商品分类名称
-//        $catename1 = mb_substr($goodslogic->getcatenamebyId($data['cate1'])['name'],0,2);
-//        $num = get_letter($catename1);
-//        //判断商品名字是否重复
-//        $res = $goodslogic->checkgoodsname($id,$data);
-//        if ($res){
-//            if ($res['status']==0){
-////                return json($res);
-//                $this->error($res['msg'],url('Admin/Goods/index'));
-//            }
-//        }
-//        if ($data){
-//            if ($data['cate3']!=0){
-//                $x=3;
-//            }elseif ($data['cate2']!=0){
-//                $x=2;
-//            }else{
-//                $x=1;
-//            }
-//
-//            switch ($x){
-//                case 1:
-//                    $data['goods_type_id']=$data['cate1'];
-//                    break;
-//                case 2:
-//                    $data['goods_type_id']=$data['cate2'];
-//                    break;
-//                case 3:
-//                    $data['goods_type_id']=$data['cate3'];
-//                    break;
-//                default :
-//                    $data['goods_type_id']='';
-//            }
-//
-//        }
-//
-////        dump($data);
-//        //validate验证
-//        $validate = Loader::validate('AdminUpdateGoods');
-//        if(!$validate->check($data)){
-//            return json(['status'=>0,'msg'=>$validate->getError()]);
-//        }else{
-//            $data['goods_time']=time();
-//            unset($data['cate1']);
-//            unset($data['cate2']);
-//            unset($data['cate3']);
-//
-//
-//                if (empty($data['goods_sn'])){
-//
-////                    $sn1= substr($num.'0000000'.$id,-3,9);
-//                    $sn1= $num.$id;
-//                    $sn2='';
-//                    $length = strlen($sn1);
-//                    for ($i=$length;$i<9;$i++){
-//                        $sn2.='0';
-//                    }
-//
-//                    $sn = $num.$sn2.$id;
-////                    dump($sn2);
-//                    $data['goods_sn'] = $sn;
-//                    $res = Db::name('goods')->where('id',$id)->update($data);
-//                }else{
-//                    $res = Db::name('goods')->where('id',$id)->update($data);
-//                }
-//                if ($res){
-////                    return json(['status'=>1,'msg'=>'商品添加成功']);
-//                    $this->success('商品修改成功',url('Admin/goods/index'),1);
-//                }else{
-////                    return json(['status'=>0,'msg'=>'添加失败了']);
-//                    $this->error('商品修改失败',url('Admin/goods/index'),1);
-//                }
-////
-//
-//        }
-//
-//
-//    }
-
     //删除商品
     public function deletegoods(){
         $goodsid = input('goodsid');
@@ -465,6 +367,26 @@ class Goods extends Base
 
 
 
+    }
+
+
+
+    //ajax改变商品的状态
+    public function ajaxChangetype(){
+        $type = input('type');
+        $id = input('id/d');
+//        dump($type);
+//        dump($id);
+        if (!$type||!$id){
+            return json(['status'=>-100,'msg'=>'参数错误']);
+        }
+        $logic = new GoodsLogic();
+        $res = $logic->ajaxSetGoodsType($type,$id);
+        if ($res){
+            return json(['status'=>200,'msg'=>"操作成功!"]);
+        }else{
+            return json(['status'=>-100,'msg'=>"操作失败!"]);
+        }
     }
 
 

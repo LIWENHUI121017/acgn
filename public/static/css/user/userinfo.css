@@ -1,0 +1,122 @@
+.security-right-title[data-v-4cbad597] {
+	height: 50px;
+	padding-left: 30px;
+	border-bottom: 1px solid #ddd;
+}
+.security-right-title-icon[data-v-4cbad597] {
+	float: left;
+	width: 4px;
+	height: 16px;
+	margin-top: 18px;
+	background-color: #00a1d6;
+	border-radius: 4px;
+}
+.security-right-title-text[data-v-4cbad597] {
+	float: left;
+	margin: 15px 0 0 5px;
+	color: #00a1d6;
+	font-size: 14px;
+	cursor: default;
+}
+.user-setting-warp {
+	padding: 20px 20px 0;
+	position: relative;
+}
+.user-local, .user-my-aim, .user-my-btn, .user-my-date, .user-my-love, .user-my-sex, .user-my-sign, .user-nick-name, .user-nick-rel-name {
+	float: left;
+	width: 789px;
+}
+.el-form-item {
+	margin-bottom: 22px;
+}
+.el-form-item__label {
+	width: 95px;
+	text-align: right;
+	margin-right: 20px;
+	float: left;
+	line-height: 30px;
+	padding: 0;
+}
+.el-form-item__label {
+	text-align: right;
+	vertical-align: middle;
+	float: left;
+	font-size: 14px;
+	color: #48576a;
+	line-height: 1;
+	padding: 11px 12px 11px 0;
+	box-sizing: border-box;
+}
+.el-form-item__content {
+	line-height: 30px;
+}
+.el-form-item__content {
+	line-height: 36px;
+	position: relative;
+	font-size: 14px;
+}
+.user-nick-name .el-input, .user-nick-name .el-input__inner {
+	float: left;
+	width: 225px;
+	height: 30px;
+	margin-right: 40px;
+}
+.el-input {
+	position: relative;
+	font-size: 14px;
+}
+.el-input, .el-input__inner {
+	width: 100%;
+	display: inline-block;
+}
+.user-nick-name .el-input, .user-nick-name .el-input__inner {
+	float: left;
+	width: 225px;
+	height: 30px;
+	margin-right: 40px;
+}
+.el-input__inner {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	background-color: #fff;
+	background-image: none;
+	border-radius: 4px;
+	border: 1px solid #bfcbd9;
+	box-sizing: border-box;
+	color: #1f2d3d;
+	font-size: inherit;
+	height: 36px;
+	line-height: 1;
+	outline: 0;
+	padding: 3px 10px;
+	transition: border-color .2s cubic-bezier(.645,.045,.355,1);
+}
+.nick-name-not {
+	color: #aaa;
+}
+.el-form-item__content {
+	line-height: 30px;
+}
+.el-form-item__content {
+	line-height: 36px;
+	position: relative;
+	font-size: 14px;
+}
+.userinfo-username {
+	font-size: 14px;
+	color: #898989;
+}
+
+.el-radio-group {
+	display: inline-block;
+	font-size: 0;
+}
+.el-radio-button__inner, .el-radio-group, .el-radio__input {
+	line-height: 1;
+	vertical-align: middle;
+}
+.el-radio-button, .el-radio-button__inner {
+	position: relative;
+	display: inline-block;
+}

@@ -75,6 +75,75 @@ class User extends Base
 
     }
 
+
+    //我的评价
+    public function mycomment(){
+        self::isLogin();
+        $user_id =$this->user_id;
+        $mode=input('mode');
+
+        if ($user_id>0){
+            $logic = new UserLogic();
+            $logic->setUserId($user_id);
+            $comment = $logic->user_get_all_comment($mode);
+//            dump($comment);
+//            die;
+
+            $this->assign('comment',$comment);
+            $this->assign('mode',$mode);
+            return $this->fetch();
+        }
+    }
+
+    //我的收藏
+    public function mycollect(){
+        self::isLogin();
+        $user_id =$this->user_id;
+        if ($user_id>0){
+            $logic = new UserLogic();
+            $logic->setUserId($user_id);
+            $collect = $logic->user_get_all_collect();
+//            dump($collect);
+//            die;
+
+            $this->assign('collect',$collect);
+            return $this->fetch();
+        }
+    }
+
+    //个人信息
+    public function userinfo(){
+        self::isLogin();
+        $user_id =$this->user_id;
+        if ($user_id>0){
+            $logic = new UserLogic();
+            $userinfo = $logic->get_one(['id'=>$user_id],'*');
+            dump($userinfo);
+            $this->assign('userinfo',$userinfo);
+            return $this->fetch();
+        }
+    }
+    //处理图片返回路径
+    public function img(){
+        $file =request()->file('file');
+//        dump($file);
+//        die;
+        if($file){
+            $info = $file->move(ROOT_PATH . 'public' . DS . 'uploads');
+            if($info){
+                // 成功上传后 获取上传信息
+                $filePathname = $info->getSaveName();
+                $path = $this->path.str_replace('\\', '/', $filePathname);
+                return json(['status'=>1,'path'=>$path]);
+            }else{
+                // 上传失败获取错误信息
+                echo $file->getError();
+            }
+        }
+        return json(['status'=>0]);
+    }
+
+
     public function login()
     {
         if($this->user_id > 0){

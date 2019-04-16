@@ -2,6 +2,11 @@
 <block name="head">
     <title>商品列表</title>
     <include file="public/style"/>
+    <style>
+        .text-right a:hover, .text-right a:visited{
+            text-decoration: none;
+        }
+    </style>
 
 </block>
 <block name="main">
@@ -40,22 +45,30 @@
 
         <div class='controls '>
             <div class='input-append pull-right'>
-                <select class="span3">
-                    <option>所有分类</option>
-                </select>
-                <select class="span3">
-                    <option>全部</option>
-                </select>
-                <select class="span2">
-                    <option>全部</option>
-                </select>
-                <select class="span2">
-                    <option>全部</option>
-                </select>
-                <input class='span3' id='appendedInputButtons1' type='text' />
-                <button class='btn' type='button'>
-                    <i class='icon-search'></i>
-                </button>
+                <form method="get" action="{:url('goods/index')}">
+                    <select class="span5" name="cateid">
+                        <option value="0">所有分类</option>
+                        <foreach name="catelist" key="k" item="v">
+                            <option value="{$v.id}">{$v.name}</option>
+                        </foreach>
+                    </select>
+                    <select class="span2" name="isonsale">
+                        <option value="2">全部</option>
+                        <option value="1">上架</option>
+                        <option value="0">下架</option>
+                    </select>
+                    <select class="span2" name="type">
+                        <option value="0">全部</option>
+                        <option value="new">新品</option>
+                        <option value="hot">热卖</option>
+
+                    </select>
+                    <input class='span3' type='text' name="search" placeholder="输入商品名称"/>
+                    <button class='btn' type='submit' >
+                        <i class='icon-search'></i>
+                    </button>
+                </form>
+
             </div>
         </div>
 
@@ -79,7 +92,6 @@
                             <th>货号</th>
                             <th>分类</th>
                             <th>价格</th>
-                            <th>推荐</th>
                             <th>新品</th>
                             <th>热卖</th>
                             <th>是否上架</th>
@@ -100,21 +112,6 @@
                                                 </span>
                                     </a>
                                 </div>
-                                <!--<div class="fbutton">-->
-                                    <!--<a href="#" onfocus="this.blur();">-->
-                                                <!--<span>-->
-                                                    <!--<i class="icon-plus"></i>-->
-                                                    <!--添加商品-->
-                                                <!--</span>-->
-                                    <!--</a>-->
-                                <!--</div>div class="fbutton">-->
-                                    <!--<a href="#" onfocus="this.blur();">-->
-                                                <!--<span>-->
-                                                    <!--<i class="icon-plus"></i>-->
-                                                    <!--添加商品-->
-                                                <!--</span>-->
-                                    <!--</a>-->
-                                <!--</div>-->
                             </div>
                         </div>
                         <foreach name="goodslist" item="v1" key="k1">
@@ -127,48 +124,47 @@
                             <td>{$v1.goods_sn}</td>
                             <td>{$v1.name}</td>
                             <td>{$v1.goods_price}</td>
+
+                            <!--新品-->
                             <td>
                                 <div class='text-right'>
-                                        <span>
+                                    <if condition="$v1.is_new eq 1">
+                                        <a href='javascript:void(0);' data-status="isnew-ok" onclick="ajaxChange('isnew-notok',{$v1.id})">
                                             <i class='icon-ok-circle ok-icon'></i>
-                                        </span>
-
-                                    <a class='' href='#'>
-                                        <i class='icon-ban-circle notok-icon'></i>
-                                    </a>
+                                        </a>
+                                        <else/>
+                                        <a href='javascript:void(0);' data-status="isnew-notok" onclick="ajaxChange('isnew-ok',{$v1.id})">
+                                            <i class='icon-ban-circle notok-icon'></i>
+                                        </a>
+                                    </if>
                                 </div>
                             </td>
+                            <!--热卖-->
                             <td>
                                 <div class='text-right'>
-                                        <span>
+                                    <if condition="$v1.is_hot eq 1">
+                                        <a href='javascript:void(0);' data-status="ishot-ok" onclick="ajaxChange('ishot-notok',{$v1.id})">
                                             <i class='icon-ok-circle ok-icon'></i>
-                                        </span>
-
-                                    <a class='' href='#'>
-                                        <i class='icon-ban-circle notok-icon'></i>
-                                    </a>
+                                        </a>
+                                        <else/>
+                                        <a href='javascript:void(0);' data-status="ishot-notok" onclick="ajaxChange('ishot-ok',{$v1.id})">
+                                            <i class='icon-ban-circle notok-icon'></i>
+                                        </a>
+                                    </if>
                                 </div>
                             </td>
+                            <!--是否上架-->
                             <td>
                                 <div class='text-right'>
-                                        <span>
+                                    <if condition="$v1.is_on_sale eq 1">
+                                        <a href='javascript:void(0);' data-status="isonsale-ok" onclick="ajaxChange('isonsale-notok',{$v1.id})">
                                             <i class='icon-ok-circle ok-icon'></i>
-                                        </span>
-
-                                    <a class='' href='#'>
-                                        <i class='icon-ban-circle notok-icon'></i>
-                                    </a>
-                                </div>
-                            </td>
-                            <td>
-                                <div class='text-right'>
-                                        <span>
-                                            <i class='icon-ok-circle ok-icon'></i>
-                                        </span>
-
-                                    <a class='' href='#'>
-                                        <i class='icon-ban-circle notok-icon'></i>
-                                    </a>
+                                        </a>
+                                        <else/>
+                                        <a href='javascript:void(0);' data-status="isonsale-notok" onclick="ajaxChange('isonsale-ok',{$v1.id})">
+                                            <i class='icon-ban-circle notok-icon'></i>
+                                        </a>
+                                    </if>
                                 </div>
                             </td>
                             <td>{$v1.goods_inventory}</td>
@@ -223,6 +219,32 @@
         }
 
     })
+
+    //ajax改变商品的状态
+    function ajaxChange(n,id) {
+        var type=n;
+        console.log(id)
+        $.ajax({
+            type:'post',
+            async:false,
+            dataType:'json',
+            data:{type:type,id:id},
+            url:"{:url('Admin/Goods/ajaxChangetype')}",
+            success: function(data) {
+                if (data.status==200) {
+                    layer.msg(data.msg,{icon: 1,time:2000},function () {
+                        window.location.reload();
+                    })
+                }else {
+                    layer.msg(data.msg,{icon: 2,time:2000},function () {
+                        window.location.reload();
+                    })
+                }
+
+
+            }
+        })
+    }
 </script>
 
 </block>

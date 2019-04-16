@@ -37,22 +37,24 @@
 
         <div class='controls '>
             <div class='input-append pull-right'>
-                <select class="span3">
-                    <option>所有分类</option>
-                </select>
-                <select class="span3">
-                    <option>D--戴尔</option>
-                </select>
-                <select class="span2">
-                    <option>全部</option>
-                </select>
-                <select class="span2">
-                    <option>全部</option>
-                </select>
-                <input class='span3' id='appendedInputButtons1' type='text' />
-                <button class='btn' type='button'>
-                    <i class='icon-search'></i>
-                </button>
+                <form method="get" action="{:url('order/orderaction')}">
+                    <div class="layui-input-inline" style="margin-left: 20px;">
+                        <input type="text" name="starttime" class="layui-input" id="starttime" placeholder="开始时间">
+                    </div>
+                    <div class="layui-input-inline">
+                        <input type="text" name="endtime" class="layui-input" id="endtime" placeholder="结束时间">
+                    </div>
+                    <select class="span3" name="adminid">
+                        <option value="0">选择管理员</option>
+                        <foreach name="adminlist" key="k" item="v">
+                            <option value="{$v.id}">{$v.admin_name}</option>
+                        </foreach>
+                    </select>
+                    <input type="text" name="order_sn" class="layui-input span2" placeholder="订单编号">
+                    <button class='btn' type='submit' >
+                        <i class='icon-search'></i>
+                    </button>
+                </form>
             </div>
         </div>
 
@@ -63,14 +65,14 @@
         <div class='span12 box bordered-box green-border' style='margin-bottom:0;'>
             <div class="tDiv">
                 <div class="tDiv2">
-                    <div class="fbutton">
-                        <a href="" onfocus="this.blur();">
-                                        <span>
-                                            <i class="icon-plus"></i>
-                                            导出数据
-                                        </span>
-                        </a>
-                    </div>
+                    <!--<div class="fbutton">-->
+                        <!--<a href="" onfocus="this.blur();">-->
+                                        <!--<span>-->
+                                            <!--<i class="icon-plus"></i>-->
+                                            <!--导出数据-->
+                                        <!--</span>-->
+                        <!--</a>-->
+                    <!--</div>-->
 
                 </div>
             </div>
@@ -84,7 +86,7 @@
                                 <th>
                                     <input type="checkbox" value="">
                                 </th>
-                                <th>订单ID</th>
+                                <th>订单编号</th>
                                 <th>操作动作</th>
                                 <th>操作人</th>
                                 <th>操作备注</th>
@@ -99,7 +101,7 @@
                             <td>
                                 <input type="checkbox" value="">
                             </td>
-                            <td>{$v1.order_id}</td>
+                            <td>{$v1.order_sn}</td>
 
 
                             <td>{$v1.status_desc}  </td>

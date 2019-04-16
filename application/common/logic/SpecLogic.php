@@ -9,10 +9,15 @@ use think\Model;
 
 class SpecLogic extends Model{
     //获取所有商品规格
-    public function getallSpeclist(){
+    public function getallSpeclist($tid){
+        $where=array();
+        if ($tid){
+            $where['type_id']=$tid;
+        }
         $spec = Db::name('spec')
             ->alias('a')
             ->join('goods_type s','a.type_id=s.tid')
+            ->where($where)
             ->select();
         foreach ($spec as $key=>$value){
             $item=$this->getSpecItem($value['id']);

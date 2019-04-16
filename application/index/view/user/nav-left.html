@@ -3,26 +3,28 @@
     <dl>
         <dt>交易中心</dt>
         <dd>
-            <p class="<if condition="$Request.param.type eq 'myorder'">selected</if>"><a href="{:url('/index/order/myorder',array('type'=>'myorder'))}" >我的订单</a></p>
-            <p><a href="#" <if condition="$Request.param.type eq 'myorder'">selected</if>>我的评价</a></p>
+            <p class="<if condition="$Request.param.type eq 'myorder'">selected</if>"><a href="{:url('/index/order/myorder',array('type'=>'myorder','mode'=>'all'))}" >我的订单</a></p>
+            <p  class="<if condition="$Request.param.type eq 'mycomment'">selected</if>"><a href="{:url('/index/User/mycomment',array('type'=>'mycomment','mode'=>'all'))}" >我的评价</a></p>
         </dd>
     </dl>
     <dl>
         <dt>资产中心</dt>
         <dd>
-            <p><a href="#">账户余额</a></p>
+            <p><a>账户余额</a></p>
         </dd>
     </dl>
     <dl>
         <dt>关注中心</dt>
         <dd>
-            <p><a href="#" >我的收藏</a></p>
+            <p class="<if condition="$Request.param.type eq 'mycollect'">selected</if>"><a href="{:url('/index/user/mycollect',array('type'=>'mycollect'))}">我的收藏</a></p>
         </dd>
     </dl>
     <dl>
         <dt>我的账号</dt>
         <dd>
-            <p><a href="#" >个人信息</a></p>
+
+            <p class="<if condition="$Request.param.type eq 'userinfo'">selected</if>"><a href="{:url('/index/user/userinfo',array('type'=>'userinfo'))}">个人信息</a></p>
+
             <p><a href="#" >地址管理</a></p>
             <p><a href="#" >安全设置</a></p>
         </dd>

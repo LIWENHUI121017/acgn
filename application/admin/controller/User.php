@@ -18,12 +18,14 @@ class User extends Base
         return parent::_initialize();
     }
 
-    public function index()
-    {
+    public function index(){
+        $type=input('type');
+        $search=input('search');
         $logic = new UserLogic();
-        $user = $logic->get_all_user();
+        $user = $logic->get_all_user($type,$search);
 //        dump($user);
         $this->assign('user',$user);
+        $this->assign('count',count($user));
         return $this->fetch();
     }
 
