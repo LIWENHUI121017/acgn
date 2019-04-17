@@ -207,10 +207,16 @@
                 data:{goodsid:id},
                 url:"{:url('Admin/Goods/deletegoods')}",
                 success: function(data) {
-
+                if (data.status==1){
                     layer.msg(data.msg,{icon: 1,time:2000},function () {
                         window.location.reload();
                     })
+                } else{
+                    layer.msg(data.msg,{icon: 2,time:2000},function () {
+                        window.location.reload();
+                    })
+                }
+
 
                 }
             })

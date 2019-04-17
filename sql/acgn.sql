@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: 2019-04-16 20:09:11
+-- Generation Time: 2019-04-17 23:04:41
 -- 服务器版本： 5.7.21
 -- PHP Version: 5.6.35
 
@@ -43,17 +43,18 @@ CREATE TABLE IF NOT EXISTS `ji_address` (
   `is_default` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否为默认收获i地址',
   PRIMARY KEY (`address_id`),
   KEY `fk_ji_address_ji_user1_idx` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
 --
 -- 转存表中的数据 `ji_address`
 --
 
 INSERT INTO `ji_address` (`address_id`, `user_id`, `consignee`, `province`, `city`, `district`, `town`, `address`, `zipcode`, `phone`, `is_default`) VALUES
-(1, 1, '赵某某', 28240, 28241, 28308, 28309, '民丰西苑82号202室(214045)', 511440, '13760130941', 1),
-(2, 1, '洪正直', 28240, 28241, 28308, 28309, '民丰西苑82号202室(214045)', 511440, '13760130941', 0),
+(1, 1, '赵铁柱', 28240, 28241, 28266, 28270, '民丰西苑82号202室旁边', 511440, '13760130942', 0),
+(2, 1, '洪正直', 28240, 28241, 28308, 28309, '民丰西苑82号202室(214045)', 511440, '13760130941', 1),
 (3, 1, '周凯凯', 636, 936, 938, 943, '民丰西苑82号202室(214045)', 511440, '13760130941', 0),
-(5, 1, '温润剂', 28240, 28241, 28308, 28309, '翡翠苑82号202室(214045)', 511440, '13760130941', 0);
+(11, 1, '李文辉', 28240, 28241, 28409, 28416, '广州大学华软软甲学院', 511440, '13533901333', 0),
+(12, 1, '赵日天', 338, 569, 586, 589, '1234124214214', 123123, '11111111111', 0);
 
 -- --------------------------------------------------------
 
@@ -77,7 +78,7 @@ CREATE TABLE IF NOT EXISTS `ji_admin` (
 --
 
 INSERT INTO `ji_admin` (`id`, `admin_name`, `admin_pwd`, `admin_login`, `admin_role`, `img`) VALUES
-(1, 'root', '14e1b600b1fd579f47433b88e8d85291', 1555378460, '1', ''),
+(1, 'root', '14e1b600b1fd579f47433b88e8d85291', 1555506834, '1', ''),
 (2, 'admin', '14e1b600b1fd579f47433b88e8d85291', 1554364275, '', '');
 
 -- --------------------------------------------------------
@@ -186,7 +187,7 @@ CREATE TABLE IF NOT EXISTS `ji_cart` (
   KEY `user_id` (`user_id`),
   KEY `goods_id` (`goods_id`),
   KEY `spec_key` (`spec_key`)
-) ENGINE=InnoDB AUTO_INCREMENT=110 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=119 DEFAULT CHARSET=utf8;
 
 --
 -- 转存表中的数据 `ji_cart`
@@ -194,7 +195,13 @@ CREATE TABLE IF NOT EXISTS `ji_cart` (
 
 INSERT INTO `ji_cart` (`id`, `user_id`, `session_id`, `goods_id`, `goods_sn`, `goods_name`, `market_price`, `goods_price`, `member_goods_price`, `goods_num`, `item_id`, `spec_key`, `spec_key_name`, `bar_code`, `selected`, `add_time`, `prom_type`, `prom_id`, `sku`, `combination_group_id`) VALUES
 (100, 0, 'otj3hgl6a9fjqf1vi99qk0f6o0', 84, 'PJ0000084', '死神徽标 钥匙扣 守望先锋', '0.00', '39.00', '0.00', 1, 42, '80', '类型:钥匙扣', '', 1, 1554955854, 0, 0, '', 0),
-(102, 0, '7fet83mh6ar2e2c6ppjgu1v2i0', 83, 'RC0000083', '《魔兽世界》佩佩拖鞋', '0.00', '120.00', '0.00', 7, 41, '77', '尺码:41码', '', 0, 1555153500, 0, 0, '', 0);
+(102, 0, '7fet83mh6ar2e2c6ppjgu1v2i0', 83, 'RC0000083', '《魔兽世界》佩佩拖鞋', '0.00', '120.00', '0.00', 7, 41, '77', '尺码:41码', '', 0, 1555153500, 0, 0, '', 0),
+(111, 1, 'ofb9241stnpb0beetilo15gim5', 1, 'SM0000001', '皮卡丘手办神奇宝贝口袋妖怪扭蛋摆件宠物小精灵合集diy情侣礼物', '0.00', '22.00', '0.00', 1, 2, '2_4', '颜色分类:6款6cm(B) 玩偶:只有小精灵', '', 0, 1555421486, 0, 0, '', 0),
+(112, 1, 'ofb9241stnpb0beetilo15gim5', 8, 'JI0000003', '炉石酒馆 鼠标垫', '0.00', '99.00', '0.00', 1, 0, '0', '0', '', 0, 1555421492, 0, 0, '', 0),
+(114, 1, 'd2juge76v3dluonq52brap9494', 84, 'PJ0000084', '死神徽标 钥匙扣 守望先锋', '0.00', '39.00', '0.00', 2, 42, '80', '类型:钥匙扣', '', 0, 1555508034, 0, 0, '', 0),
+(115, 1, 'd2juge76v3dluonq52brap9494', 7, 'JI0000002', '标志LOGO 浴巾 魔兽世界', '0.00', '88.00', '0.00', 1, 0, '0', '0', '', 0, 1555511265, 0, 0, '', 0),
+(116, 1, 'd2juge76v3dluonq52brap9494', 87, 'RC0000087', '英雄主题 巧克力礼盒 守望先锋', '0.00', '69.00', '0.00', 1, 45, '82', '克重:72g', '', 0, 1555511270, 0, 0, '', 0),
+(117, 1, 'd2juge76v3dluonq52brap9494', 85, 'SB0000085', '洋葱小鱿新年版 守望先锋', '0.00', '138.00', '0.00', 2, 43, '81', '型号:洋葱小鱿', '', 0, 1555511279, 0, 0, '', 0);
 
 -- --------------------------------------------------------
 
@@ -227,7 +234,7 @@ CREATE TABLE IF NOT EXISTS `ji_comment` (
   KEY `id_value` (`goods_id`),
   KEY `order_id` (`order_id`),
   KEY `user_id` (`user_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
 
 --
 -- 转存表中的数据 `ji_comment`
@@ -237,7 +244,8 @@ INSERT INTO `ji_comment` (`comment_id`, `goods_id`, `username`, `content`, `add_
 (14, 83, '', '123213123131312312321', 1555068646, 1, 0, 1, NULL, 50, 5, 5, 5, 0, '', 1, 56, 100),
 (13, 1, '红鼻子', '12321321312312321313', 1554636581, 1, 0, 1, NULL, 45, 5, 5, 5, 0, '', 0, 48, 100),
 (15, 1, '', '商品非常非常非常的棒!好喜欢！', 1555319593, 1, 0, 1, NULL, 40, 4, 4, 4, 0, '', 1, 41, 100),
-(16, 1, '红鼻子', '5645412.023112', 1555389210, 1, 0, 1, NULL, 52, 5, 5, 5, 0, '', 0, 61, 100);
+(16, 1, '红鼻子', '5645412.023112', 1555389210, 1, 0, 1, NULL, 52, 5, 5, 5, 0, '', 0, 61, 100),
+(17, 95, '', '444565456456456465', 1555511781, 1, 0, 1, NULL, 55, 5, 5, 5, 0, '', 1, 65, 100);
 
 -- --------------------------------------------------------
 
@@ -288,7 +296,7 @@ CREATE TABLE IF NOT EXISTS `ji_delivery` (
   PRIMARY KEY (`id`),
   KEY `fk_ji_delivery_ji_admin1_idx` (`admin_id`),
   KEY `fk_ji_delivery_ji_order1_idx` (`order_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8;
 
 --
 -- 转存表中的数据 `ji_delivery`
@@ -307,7 +315,9 @@ INSERT INTO `ji_delivery` (`id`, `order_id`, `order_sn`, `user_id`, `consignee`,
 (31, 45, '2019040519185245', 1, '赵某某', '511440', '13760130941', '民丰西苑82号202室(214045)', '21312312312', '0.00', '中通快递', '', 1554465187, 0, 1),
 (32, 50, '2019041219293150', 1, '赵某某', '511440', '13760130941', '民丰西苑82号202室(214045)', '11111111111', '0.00', '顺丰快递', '213312312312312', 1555068613, 0, 1),
 (33, 49, '2019041010015749', 1, '周凯凯', '511440', '13760130941', '民丰西苑82号202室(214045)', '11111111111', '0.00', '中通快递', '', 1555232151, 0, 1),
-(34, 52, '2019041612303852', 1, '赵某某', '511440', '13760130941', '民丰西苑82号202室(214045)', '23154654', '0.00', '顺丰快递', '', 1555389140, 0, 1);
+(34, 52, '2019041612303852', 1, '赵某某', '511440', '13760130941', '民丰西苑82号202室(214045)', '23154654', '0.00', '顺丰快递', '', 1555389140, 0, 1),
+(35, 53, '2019041621263853', 1, '洪正直', '511440', '13760130941', '民丰西苑82号202室(214045)', '1', '0.00', '中通快递', '123123213', 1555421351, 0, 1),
+(36, 55, '2019041722352155', 1, '赵日天', '123123', '11111111111', '1234124214214', '456465456', '0.00', '顺丰快递', '', 1555511757, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -339,7 +349,7 @@ CREATE TABLE IF NOT EXISTS `ji_goods` (
   `goods_delete` varchar(1) DEFAULT NULL COMMENT '商品回收站',
   PRIMARY KEY (`id`),
   KEY `fk_ji_goods_ji_goods_type1_idx` (`goods_type_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=94 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=98 DEFAULT CHARSET=utf8;
 
 --
 -- 转存表中的数据 `ji_goods`
@@ -347,26 +357,20 @@ CREATE TABLE IF NOT EXISTS `ji_goods` (
 
 INSERT INTO `ji_goods` (`id`, `goods_sn`, `goods_name`, `goods_type_id`, `goods_click`, `goods_inventory`, `goods_price`, `original_img`, `is_hot`, `is_new`, `is_on_sale`, `goods_sale`, `goods_startdate`, `goods_enddate`, `goods_abstract`, `goods_desc`, `goods_time`, `goods_sales`, `comment_count`, `goods_delete`) VALUES
 (1, 'SM0000001', '皮卡丘手办神奇宝贝口袋妖怪扭蛋摆件宠物小精灵合集diy情侣礼物', 13, 0, 934, '198.00', '/public/static/images/index-goods/pigaqiu/5.jpg', 1, 0, 1, '0.0', NULL, NULL, '皮卡丘手办神奇宝贝口袋妖怪扭蛋摆件宠物小精灵合集diy情侣礼物', '<p><img src=\"/uploads/image/20190414/1555210315130080.jpg\" title=\"1555210315130080.jpg\"/></p><p><img src=\"/uploads/image/20190414/1555210315673361.jpg\" title=\"1555210315673361.jpg\"/></p><p><img src=\"/uploads/image/20190414/1555210315430791.jpg\" title=\"1555210315430791.jpg\"/></p><p><br/></p>', 1554737839, 1008, 3, NULL),
-(7, 'JI0000002', '标志LOGO 浴巾 魔兽世界', 10, 0, 0, '88.00', '/public/static/images/index-goods/baoxue/1.png', 1, 0, 0, NULL, NULL, NULL, '感受艾泽拉斯的柔软', NULL, 1554737839, 0, 0, NULL),
+(7, 'JI0000002', '标志LOGO 浴巾 魔兽世界', 10, 0, 166, '88.00', '/public/static/images/index-goods/baoxue/1.png', 1, 0, 1, '0.0', NULL, NULL, '感受艾泽拉斯的柔软', '', 1554737839, 0, 0, NULL),
 (8, 'JI0000003', '炉石酒馆 鼠标垫', 17, 0, 934, '99.00', '/public/static/images/index-goods/baoxue/4.png', 1, 0, 1, NULL, NULL, NULL, '看看是谁来了！', NULL, 1554737839, 0, 0, NULL),
 (9, 'JI0000004', '项链 身份牌 铭牌 温斯顿 守望先锋', 20, 0, 934, '99.00', '/public/static/images/index-goods/baoxue/3.png', 1, 0, 1, NULL, NULL, NULL, '时尚单品，温斯顿铭牌', NULL, 1554737839, 0, 0, NULL),
 (10, 'FZ0000010', '伊利丹 夜光套头卫衣 魔兽世界', 26, 0, 934, '198.00', '/public/static/images/index-goods/baoxue/2.png', 1, 0, 1, '0.0', NULL, NULL, '', '', 1549114715, 0, 0, NULL),
 (11, 'JI0000001', '皮卡丘手办神奇宝贝口袋', 13, 0, 934, '198.00', '/public/static/images/index-goods/pigaqiu/4.jpg', 1, 0, 1, NULL, NULL, NULL, '皮卡丘手办神奇宝贝口袋妖怪扭蛋摆件宠物小精灵合集diy情侣礼物', NULL, 1549114715, 1000, 0, NULL),
-(16, 'JI0000002', '标志LOGO 浴巾 魔兽世界', 10, 0, 106, '88.00', '/public/static/images/index-goods/baoxue/1.png', 1, 0, 0, NULL, NULL, NULL, '感受艾泽拉斯的柔软', NULL, 1554737839, 0, 0, NULL),
-(17, 'JI0000002', '标志LOGO 浴巾 魔兽世界', 10, 0, 98, '88.00', '/public/static/images/index-goods/baoxue/1.png', 1, 0, 0, NULL, NULL, NULL, '感受艾泽拉斯的柔软', NULL, 1554737839, 0, 0, NULL),
-(18, 'JI0000002', '标志LOGO 浴巾 魔兽世界', 10, 0, 98, '88.00', '/public/static/images/index-goods/baoxue/1.png', 1, 0, 0, NULL, NULL, NULL, '感受艾泽拉斯的柔软', NULL, 1554737839, 0, 0, NULL),
-(54, '1111', 'fsdfsa', 24, 0, 11, '111.00', NULL, 0, 0, 1, '0.0', NULL, NULL, '', '', 1549170683, 0, 0, NULL),
-(59, 'SB0000059', '路飞', 13, 0, 11111, '111.00', '/public/uploads/20190215/4e0735655066943df6d3fc9ffd50b243.jpg', 0, 0, 1, '0.0', NULL, NULL, '', '', 1550211925, 0, 0, NULL),
-(60, 'SB0000060', '下来的', 15, 0, 111, '111.00', '/public/uploads/20190215/1bca23925a750447b6abd8fc5fdde54b.jpg', 0, 0, 1, '0.0', NULL, NULL, '', '', 1550216439, 0, 0, NULL),
-(81, 'SM0000081', '1顶顶顶', 18, 0, 111, '1111.00', '/public/uploads/20190215/f259d255e72a6c3fe02f94bd417b0651.jpg', 0, 0, 1, '0.0', NULL, NULL, '', '', 1550222514, 0, 0, NULL),
-(82, 'SM0000082', '地方撒', 18, 0, 111, '111.00', '/public/uploads/20190215/90fc739de66e0e4dd18a765608706476.jpg', 0, 0, 1, '0.0', NULL, NULL, '', '', 1550225806, 0, 0, NULL),
-(83, 'RC0000083', '《魔兽世界》佩佩拖鞋', 8, 0, 1111, '120.00', '/public/uploads/20190411/df45fa0343d5b949bf5d646aa06ba1ea.jpg', 0, 1, 1, '0.0', NULL, NULL, '这个冬天，佩佩温暖你', '<p><img src=\"/uploads/image/20190412/1555054875105591.jpg\" title=\"1555054875105591.jpg\" alt=\"12312.jpg\"/></p>', 1554801555, 3, 1, NULL),
-(84, 'PJ0000084', '死神徽标 钥匙扣 守望先锋', 24, 0, 111, '39.00', '/public/uploads/20190411/2dc6373fb05e3f42917430042039f24d.jpg', 0, 1, 1, '0.0', NULL, NULL, '', '', 1554813440, 1, 0, NULL),
-(85, 'SB0000085', '洋葱小鱿新年版 守望先锋', 12, 0, 121, '138.00', '/public/uploads/20190411/21291052ef3d75dfc5116b1933503c37.jpg', 0, 1, 1, '0.0', NULL, NULL, '', '', 1554813708, 0, 0, NULL),
-(86, 'PJ0000086', 'logo文件夹 守望先锋', 54, 0, 11111, '25.00', '/public/uploads/20190411/5b2352ea43bc446618dc52d12fabf420.jpg', 0, 0, 1, '0.0', NULL, NULL, '', '', 1554814118, 0, 0, NULL),
-(87, 'RC0000087', '英雄主题 巧克力礼盒 守望先锋', 55, 0, 1111, '69.00', '/public/uploads/20190411/48acdadb600bd49984bfba990201d313.jpg', 0, 1, 1, '0.0', NULL, NULL, '', '', 1554820307, 1, 0, NULL),
-(92, 'SB0000092', '12', 15, 0, 111, '111.00', '/public/uploads/20190411/a96e640d7b19d4d79dc7e2e5b5a48bbb.jpg', 0, 1, 1, '9.9', NULL, NULL, '', '<p><img src=\"/uploads/image/20190412/1555033898158486.png\" title=\"1555033898158486.png\"/></p><p><img src=\"/uploads/image/20190412/1555033898630200.jpg\" title=\"1555033898630200.jpg\"/></p><p><img src=\"/uploads/image/20190412/1555033898122253.jpg\" title=\"1555033898122253.jpg\"/></p><p><img src=\"/uploads/image/20190412/1555033898122532.jpg\" title=\"1555033898122532.jpg\"/></p><p><img src=\"/uploads/image/20190412/1555033898503945.jpg\" title=\"1555033898503945.jpg\"/></p><p><br/></p>', 1554977282, 0, 0, NULL),
-(93, 'RC0000093', '333', 10, 0, 111, '111.00', '/public/uploads/20190412/dc98453358c76968bb9893dd09b7806e.jpg', 0, 0, 1, '0.0', NULL, NULL, '1', '', 1555034256, 0, 0, NULL);
+(83, 'RC0000083', '《魔兽世界》佩佩拖鞋', 8, 0, 1111, '120.00', '/public/uploads/20190411/df45fa0343d5b949bf5d646aa06ba1ea.jpg', 1, 1, 1, '0.0', NULL, NULL, '这个冬天，佩佩温暖你', '<p><img src=\"/uploads/image/20190412/1555054875105591.jpg\" title=\"1555054875105591.jpg\" alt=\"12312.jpg\"/></p>', 1554801555, 3, 1, NULL),
+(84, 'PJ0000084', '死神徽标 钥匙扣 守望先锋', 24, 0, 111, '39.00', '/public/uploads/20190411/2dc6373fb05e3f42917430042039f24d.jpg', 1, 1, 1, '0.0', NULL, NULL, '', '', 1554813440, 1, 0, NULL),
+(85, 'SB0000085', '洋葱小鱿新年版 守望先锋', 12, 0, 121, '138.00', '/public/uploads/20190411/21291052ef3d75dfc5116b1933503c37.jpg', 1, 1, 1, '0.0', NULL, NULL, '', '', 1554813708, 0, 0, NULL),
+(86, 'PJ0000086', 'logo文件夹 守望先锋', 54, 0, 11111, '25.00', '/public/uploads/20190411/5b2352ea43bc446618dc52d12fabf420.jpg', 1, 0, 1, '0.0', NULL, NULL, '', '', 1554814118, 0, 0, NULL),
+(87, 'RC0000087', '英雄主题 巧克力礼盒 守望先锋', 55, 0, 1111, '69.00', '/public/uploads/20190411/48acdadb600bd49984bfba990201d313.jpg', 1, 1, 1, '0.0', NULL, NULL, '', '<p><img src=\"/uploads/image/20190417/1555511156830943.jpg\" title=\"1555511156830943.jpg\"/></p><p><img src=\"/uploads/image/20190417/1555511156962965.jpg\" title=\"1555511156962965.jpg\"/></p><p><img src=\"/uploads/image/20190417/1555511156583510.jpg\" title=\"1555511156583510.jpg\"/></p><p><img src=\"/uploads/image/20190417/1555511156842777.jpg\" title=\"1555511156842777.jpg\"/></p><p><br/></p>', 1554820307, 1, 0, NULL),
+(94, 'SB0000094', 'D.VA', 15, 0, 1111, '128.00', '/public/uploads/20190417/29a8992fa5d89906dfd456c592d55cc1.jpg', 1, 0, 1, NULL, NULL, NULL, 'd.va手办精品', '<p><img src=\"/uploads/image/20190417/1555510289135636.png\" title=\"1555510289135636.png\"/></p><p><img src=\"/uploads/image/20190417/1555510289109464.jpg\" title=\"1555510289109464.jpg\"/></p><p><img src=\"/uploads/image/20190417/1555510289741437.jpg\" title=\"1555510289741437.jpg\"/></p><p><img src=\"/uploads/image/20190417/1555510289110212.jpg\" title=\"1555510289110212.jpg\"/></p><p><img src=\"/uploads/image/20190417/1555510289324803.jpg\" title=\"1555510289324803.jpg\"/></p><p><br/></p>', 1555510271, 0, 0, NULL),
+(95, 'SB0000095', '魔兽世界 旅行者佩佩 毛绒玩具', 12, 0, 111, '150.00', '/public/uploads/20190417/40cd293ebd025c04a4b60e7d477aa78e.jpg', 1, 0, 1, NULL, NULL, NULL, '和佩佩一起去远方', '<p><img src=\"/uploads/image/20190417/1555510972612342.jpg\" title=\"1555510972612342.jpg\"/></p><p><img src=\"/uploads/image/20190417/1555510972390341.jpg\" title=\"1555510972390341.jpg\"/></p><p><img src=\"/uploads/image/20190417/1555510972111284.jpg\" title=\"1555510972111284.jpg\"/></p><p><img src=\"/uploads/image/20190417/1555510972110320.jpg\" title=\"1555510972110320.jpg\"/></p><p><br/></p>', 1555510984, 1, 1, NULL),
+(96, 'SM0000096', '勇闯安戈洛 鼠标垫 炉石传说', 17, 0, 111, '49.00', '/public/uploads/20190417/0469a6507eb685f38e972f4f3437287d.jpg', 1, 0, 1, NULL, NULL, NULL, '出发，目标安戈洛环形山！', '<p><img src=\"/uploads/image/20190417/1555511453232371.jpg\" title=\"1555511453232371.jpg\"/></p><p><img src=\"/uploads/image/20190417/1555511453112648.jpg\" title=\"1555511453112648.jpg\"/></p><p><img src=\"/uploads/image/20190417/1555511453656148.jpg\" title=\"1555511453656148.jpg\"/></p><p><img src=\"/uploads/image/20190417/1555511453447702.png\" title=\"1555511453447702.png\"/></p><p><img src=\"/uploads/image/20190417/1555511453402691.png\" title=\"1555511453402691.png\"/></p><p><br/></p>', 1555511496, 0, 0, NULL),
+(97, 'FZ0000097', '守望先锋 New Era 棒球帽', 29, 0, 123, '399.00', '/public/uploads/20190417/03f648d8a68f32a0c5ae6252e65c1c47.jpg', 1, 0, 1, NULL, NULL, NULL, 'New Era合作款，酷炫守望标志', '<p><img src=\"/uploads/image/20190417/1555513305800132.jpg\" title=\"1555513305800132.jpg\"/></p><p><img src=\"/uploads/image/20190417/1555513305121341.png\" title=\"1555513305121341.png\"/></p><p><img src=\"/uploads/image/20190417/1555513305353376.jpg\" title=\"1555513305353376.jpg\"/></p><p><img src=\"/uploads/image/20190417/1555513305778789.jpg\" title=\"1555513305778789.jpg\"/></p><p><img src=\"/uploads/image/20190417/1555513305935683.jpg\" title=\"1555513305935683.jpg\"/></p><p><br/></p>', 1555513325, 0, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -384,7 +388,7 @@ CREATE TABLE IF NOT EXISTS `ji_goods_attr` (
   PRIMARY KEY (`goods_attr_id`),
   KEY `fk_ji_goods_attr_ji_goods1_idx` (`goods_id`),
   KEY `fk_ji_goods_attr_ji_goods_attribute1_idx` (`attr_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
 
 --
 -- 转存表中的数据 `ji_goods_attr`
@@ -395,12 +399,10 @@ INSERT INTO `ji_goods_attr` (`goods_attr_id`, `goods_id`, `attr_id`, `attr_value
 (4, 1, 2, '树脂', ''),
 (6, 83, 4, '1年', ''),
 (7, 87, 8, '0', ''),
-(8, 92, 1, '中国12', ''),
-(9, 92, 2, '123123132', ''),
-(10, 92, 3, 'XL', ''),
-(15, 93, 1, '', ''),
-(16, 93, 2, '', ''),
-(17, 93, 3, '0', '');
+(18, 95, 1, '', ''),
+(19, 95, 2, '', ''),
+(20, 97, 3, '0', ''),
+(21, 97, 4, '', '');
 
 -- --------------------------------------------------------
 
@@ -426,9 +428,7 @@ CREATE TABLE IF NOT EXISTS `ji_goods_attribute` (
 INSERT INTO `ji_goods_attribute` (`attr_id`, `attr_name`, `type_id`, `attr_type`, `attr_input_type`, `attr_values`) VALUES
 (1, '生产地', 1, 1, 0, ''),
 (2, '规则', 1, 0, 2, ''),
-(3, '服装规格', 2, 0, 1, 'X\r\nXL\r\nS\r\nM'),
-(4, '保证期', 2, 0, 0, ''),
-(8, 'sdaf呆呆', 3, 0, 1, '的说法是 \r\n多少分士大夫as 是发的是\r\n范德萨方式\r\n 士大夫水岸东方');
+(3, '服装规格', 2, 0, 1, 'X\r\nXL\r\nS\r\nM');
 
 -- --------------------------------------------------------
 
@@ -454,7 +454,7 @@ CREATE TABLE IF NOT EXISTS `ji_goods_category` (
 --
 
 INSERT INTO `ji_goods_category` (`id`, `name`, `pid`, `pid_path`, `level`, `sort_order`, `is_hot`, `is_show`) VALUES
-(1, '日常用品', 0, '0_1', 1, 0, 0, 1),
+(1, '日常用品', 0, '0_1', 1, 0, 1, 1),
 (2, '手办模型', 0, '0_2', 1, 1, 1, 1),
 (3, '数码外设', 0, '0_3', 1, 2, 1, 1),
 (4, '配件挂件', 0, '0_4', 1, 3, 1, 1),
@@ -502,7 +502,7 @@ CREATE TABLE IF NOT EXISTS `ji_goods_collect` (
   `user_id` int(11) UNSIGNED NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_ji_goods_collect_ji_user1_idx` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 --
 -- 转存表中的数据 `ji_goods_collect`
@@ -528,7 +528,7 @@ CREATE TABLE IF NOT EXISTS `ji_goods_picture` (
   `goods_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_ji_goods_picture_ji_goods1_idx` (`goods_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=229 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=253 DEFAULT CHARSET=utf8;
 
 --
 -- 转存表中的数据 `ji_goods_picture`
@@ -548,7 +548,31 @@ INSERT INTO `ji_goods_picture` (`id`, `img_url`, `img_info`, `goods_id`) VALUES
 (225, '/public/uploads/20190414/550242e9d7ef3c526e50a0875cade064.jpg', NULL, 1),
 (226, '/public/uploads/20190414/381a2df1d6e7fa99cae2b310cce99cab.jpg', NULL, 1),
 (227, '/public/uploads/20190414/a9157f5911178c60a6d6099bb5ee4612.jpg', NULL, 1),
-(228, '/public/uploads/20190414/df541a2342a8a596b3edf948a7bab626.jpg', NULL, 1);
+(228, '/public/uploads/20190414/df541a2342a8a596b3edf948a7bab626.jpg', NULL, 1),
+(229, '/public/uploads/20190417/0622266e95a46f93d185d6bc36aacd11.png', NULL, 94),
+(230, '/public/uploads/20190417/8bb3923f74546337aeb445cea3cc9667.jpg', NULL, 94),
+(231, '/public/uploads/20190417/a69d1fc1c0a109a6d938e52f8766f7d2.jpg', NULL, 94),
+(232, '/public/uploads/20190417/b6aef23ab1d8aee4bbe3e9675b8172f1.jpg', NULL, 94),
+(233, '/public/uploads/20190417/46f84bb679edcaa7ca464b84cfefd1f4.jpg', NULL, 94),
+(234, '/public/uploads/20190417/ed03a68b8a825c91b010176c35000253.jpg', NULL, 95),
+(235, '/public/uploads/20190417/c05e5feddc86aa89b92bd6bab1979d1a.jpg', NULL, 95),
+(236, '/public/uploads/20190417/1f268ce23b162cb22e1919067beedb16.jpg', NULL, 95),
+(237, '/public/uploads/20190417/1a3bd921c8d8a7ce7ae792ad4391b3f2.jpg', NULL, 95),
+(238, '/public/uploads/20190417/b615c351e7a4b6ac378c1247beb6d5b3.jpg', NULL, 87),
+(239, '/public/uploads/20190417/ec902ba02dc478a09e0ebde1b84485bf.jpg', NULL, 87),
+(240, '/public/uploads/20190417/1638b63e0a8878a03ca0586afbdc9359.jpg', NULL, 87),
+(241, '/public/uploads/20190417/2235c00abce0c8efe9b5e48d3b70c22b.jpg', NULL, 87),
+(242, '/public/uploads/20190417/7520fec96f19a4075619ad40615e67bc.png', NULL, 87),
+(243, '/public/uploads/20190417/076f21220c106033baa8bc88087366e3.jpg', NULL, 96),
+(244, '/public/uploads/20190417/0c1c47e35238fcb7341994e5761dfa66.jpg', NULL, 96),
+(245, '/public/uploads/20190417/017fb8a8752f944e51f4ed244688abde.jpg', NULL, 96),
+(246, '/public/uploads/20190417/d6e614ffc198eeeeb802fbc8dea8826a.jpg', NULL, 96),
+(247, '/public/uploads/20190417/752f01d6ddd18e9806c00960eb7def9f.png', NULL, 96),
+(248, '/public/uploads/20190417/f349438dc1b85d06d91f3a67e00f2a6a.jpg', NULL, 97),
+(249, '/public/uploads/20190417/fe11c8867b5731bb0bea5e00d1b04ca1.png', NULL, 97),
+(250, '/public/uploads/20190417/76ece069fe8100ee80cbfabf4897d7c8.jpg', NULL, 97),
+(251, '/public/uploads/20190417/005b4457ccf10230a9f81354b6546e73.jpg', NULL, 97),
+(252, '/public/uploads/20190417/bde92ae8ed9cc9deaba0ae0a549888e6.jpg', NULL, 97);
 
 -- --------------------------------------------------------
 
@@ -634,7 +658,7 @@ CREATE TABLE IF NOT EXISTS `ji_order` (
   KEY `fk_ji_order_ji_pay_type1_idx` (`pay_type_id`),
   KEY `fk_ji_order_ji_user1_idx` (`user_id`),
   KEY `fk_ji_order_ji_shipping1_idx` (`shipping_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=utf8;
 
 --
 -- 转存表中的数据 `ji_order`
@@ -664,7 +688,10 @@ INSERT INTO `ji_order` (`id`, `user_id`, `order_sn`, `admin_id`, `address_id`, `
 (49, 1, '2019041010015749', NULL, 3, 3, 1, 1, NULL, 1, 2, '0.00', '0.00', '61.00', '61.00', 1554861717, 1555232134, 1555232151, 0, 0, '', ''),
 (50, 1, '2019041219293150', NULL, 1, 6, 1, 1, NULL, 1, 1, '0.00', '0.00', '120.00', '120.00', 1555068571, 1555068579, 1555068613, 1555068626, 0, '', ''),
 (51, 1, '2019041419533251', NULL, 1, 0, 1, 0, NULL, 1, 1, '0.00', '0.00', '120.00', '120.00', 1555242812, 1555242821, 0, 0, 0, '', ''),
-(52, 1, '2019041612303852', NULL, 1, 4, 1, 1, NULL, 1, 1, '0.00', '0.00', '58975.00', '58975.00', 1555389038, 1555389050, 1555389140, 1555389183, 0, '', '');
+(52, 1, '2019041612303852', NULL, 1, 4, 1, 1, NULL, 1, 1, '0.00', '0.00', '58975.00', '58975.00', 1555389038, 1555389050, 1555389140, 1555389183, 0, '', ''),
+(53, 1, '2019041621263853', NULL, 2, 3, 0, 1, NULL, 1, 2, '0.00', '0.00', '22.00', '22.00', 1555421198, 0, 1555421351, 0, 0, '', ''),
+(54, 1, '2019041717270454', NULL, 3, 0, 0, 0, NULL, 1, 1, '0.00', '0.00', '39.00', '39.00', 1555493224, 0, 0, 0, 0, '', ''),
+(55, 1, '2019041722352155', NULL, 12, 6, 1, 1, NULL, 1, 1, '0.00', '0.00', '150.00', '150.00', 1555511721, 1555511730, 1555511757, 1555511769, 0, '', '');
 
 -- --------------------------------------------------------
 
@@ -685,7 +712,7 @@ CREATE TABLE IF NOT EXISTS `ji_order_action` (
   `status_desc` varchar(255) DEFAULT NULL COMMENT '状态描述',
   PRIMARY KEY (`action_id`),
   KEY `order_id` (`order_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=160 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=168 DEFAULT CHARSET=utf8;
 
 --
 -- 转存表中的数据 `ji_order_action`
@@ -831,7 +858,15 @@ INSERT INTO `ji_order_action` (`action_id`, `order_id`, `action_user`, `order_st
 (156, 52, 0, 0, 0, 0, '您提交了订单，请等待系统确认', 1555389038, '提交订单'),
 (157, 52, 0, 0, 0, 1, '支付成功，耐心等候发货!!', 1555389050, ''),
 (158, 52, 1, 1, 0, 1, '', 1555389113, '确认订单'),
-(159, 52, 1, 1, 1, 1, '', 1555389140, '发货成功!');
+(159, 52, 1, 1, 1, 1, '', 1555389140, '发货成功!'),
+(160, 53, 0, 0, 0, 0, '您提交了订单，请等待系统确认', 1555421198, '提交订单'),
+(161, 53, 1, 1, 0, 0, '', 1555421337, '确认订单'),
+(162, 53, 1, 1, 1, 1, '123123213', 1555421351, '发货成功!'),
+(163, 54, 0, 0, 0, 0, '您提交了订单，请等待系统确认', 1555493224, '提交订单'),
+(164, 55, 0, 0, 0, 0, '您提交了订单，请等待系统确认', 1555511721, '提交订单'),
+(165, 55, 0, 0, 0, 1, '支付成功，耐心等候发货!!', 1555511730, ''),
+(166, 55, 1, 1, 0, 1, '', 1555511745, '确认订单'),
+(167, 55, 1, 1, 1, 1, '', 1555511757, '发货成功!');
 
 -- --------------------------------------------------------
 
@@ -856,7 +891,7 @@ CREATE TABLE IF NOT EXISTS `ji_order_goods` (
   `prom_type` tinyint(4) NOT NULL COMMENT '0 普通订单,1 限时抢购, 2 团购 , 3 促销优惠,4预售',
   PRIMARY KEY (`id`),
   KEY `fk_ji_order_goods_ji_order1_idx` (`order_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=63 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=66 DEFAULT CHARSET=utf8;
 
 --
 -- 转存表中的数据 `ji_order_goods`
@@ -912,7 +947,10 @@ INSERT INTO `ji_order_goods` (`id`, `order_id`, `goods_id`, `goods_name`, `goods
 (59, 52, 87, '英雄主题 巧克力礼盒 守望先锋', 'RC0000087', 322, '82', '克重:72g', 0, 1, 23154654, 0, 0),
 (60, 52, 1, '皮卡丘手办神奇宝贝口袋妖怪扭蛋摆件宠物小精灵合集diy情侣礼物', 'SM0000001', 927, '3_4', '颜色分类:12款(A+B) 玩偶:只有小精灵', 0, 1, 23154654, 0, 0),
 (61, 52, 1, '皮卡丘手办神奇宝贝口袋妖怪扭蛋摆件宠物小精灵合集diy情侣礼物', 'SM0000001', 13, '2_4', '颜色分类:6款6cm(B) 玩偶:只有小精灵', 1, 1, 23154654, 0, 0),
-(62, 52, 83, '《魔兽世界》佩佩拖鞋', 'RC0000083', 2, '74', '尺码:38码', 0, 1, 23154654, 0, 0);
+(62, 52, 83, '《魔兽世界》佩佩拖鞋', 'RC0000083', 2, '74', '尺码:38码', 0, 1, 23154654, 0, 0),
+(63, 53, 1, '皮卡丘手办神奇宝贝口袋妖怪扭蛋摆件宠物小精灵合集diy情侣礼物', 'SM0000001', 1, '2_4', '颜色分类:6款6cm(B) 玩偶:只有小精灵', 0, 1, 1, 0, 0),
+(64, 54, 84, '死神徽标 钥匙扣 守望先锋', 'PJ0000084', 1, '80', '类型:钥匙扣', 0, 0, 84, 0, 0),
+(65, 55, 95, '魔兽世界 旅行者佩佩 毛绒玩具', 'SB0000095', 1, '114', '类型:旅行者', 1, 1, 456465456, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -48533,7 +48571,7 @@ CREATE TABLE IF NOT EXISTS `ji_spec` (
   `type_id` int(11) DEFAULT '0' COMMENT '模型id',
   `name` varchar(55) DEFAULT NULL COMMENT '规格名称',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
 
 --
 -- 转存表中的数据 `ji_spec`
@@ -48549,7 +48587,9 @@ INSERT INTO `ji_spec` (`id`, `type_id`, `name`) VALUES
 (21, 12, '类型'),
 (22, 12, '型号'),
 (23, 3, '克重'),
-(24, 9, '型号');
+(24, 9, '型号'),
+(25, 1, '类型'),
+(26, 2, '头围');
 
 -- --------------------------------------------------------
 
@@ -48566,7 +48606,7 @@ CREATE TABLE IF NOT EXISTS `ji_spec_goods_price` (
   `price` decimal(10,2) UNSIGNED DEFAULT '0.00' COMMENT '价格',
   `store_count` int(11) UNSIGNED NOT NULL COMMENT '库存数量',
   PRIMARY KEY (`item_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=84 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=90 DEFAULT CHARSET=utf8;
 
 --
 -- 转存表中的数据 `ji_spec_goods_price`
@@ -48585,27 +48625,18 @@ INSERT INTO `ji_spec_goods_price` (`item_id`, `key`, `goods_id`, `key_name`, `pr
 (25, '1_5', 11, '小精灵+礼盒礼袋贺卡：6款4.5cm(A)', '32.00', 927),
 (26, '2_5', 11, '小精灵+礼盒礼袋贺卡：12款(A+B)', '49.00', 15),
 (27, '3_5', 11, '小精灵+礼盒礼袋贺卡：6款6cm(B)', '32.00', 0),
-(28, '1_4', 81, '颜色分类:6款4.5cm(A) 玩偶:只有小精灵', '1.00', 1),
-(29, '2_4', 81, '颜色分类:6款6cm(B) 玩偶:只有小精灵', '1.00', 1),
-(30, '3_4', 81, '颜色分类:12款(A+B) 玩偶:只有小精灵', '1.00', 1),
-(31, '1_5', 81, '颜色分类:6款4.5cm(A) 玩偶:小精灵+礼盒礼袋贺卡', '1.00', 1),
-(32, '2_5', 81, '颜色分类:6款6cm(B) 玩偶:小精灵+礼盒礼袋贺卡', '1.00', 1),
-(33, '3_5', 81, '颜色分类:12款(A+B) 玩偶:小精灵+礼盒礼袋贺卡', '1.00', 1),
-(34, '1_4', 82, '颜色分类:6款4.5cm(A) 玩偶:只有小精灵', '111.00', 11111),
-(35, '2_4', 82, '颜色分类:6款6cm(B) 玩偶:只有小精灵', '111.00', 11111),
-(36, '3_4', 82, '颜色分类:12款(A+B) 玩偶:只有小精灵', '111.00', 11111),
-(37, '1_5', 82, '颜色分类:6款4.5cm(A) 玩偶:小精灵+礼盒礼袋贺卡', '111.00', 11111),
-(38, '2_5', 82, '颜色分类:6款6cm(B) 玩偶:小精灵+礼盒礼袋贺卡', '111.00', 11111),
-(39, '3_5', 82, '颜色分类:12款(A+B) 玩偶:小精灵+礼盒礼袋贺卡', '111.00', 11111),
 (40, '74', 83, '尺码:38码', '120.00', 66),
 (41, '77', 83, '尺码:41码', '120.00', 99),
 (42, '80', 84, '类型:钥匙扣', '39.00', 75),
 (43, '81', 85, '型号:洋葱小鱿', '138.00', 111),
 (44, '83', 86, '型号:单强力夹', '25.00', 11111),
-(45, '82', 87, '克重:72g', '69.00', 0),
-(46, '5', 92, '玩偶:小精灵+礼盒礼袋贺卡', '11.00', 1),
-(82, '4', 92, '玩偶:只有小精灵', '111.00', 111),
-(83, '33', 93, '1:edf', '1.00', 11);
+(45, '82', 87, '克重:72g', '69.00', 66),
+(84, '114', 95, '类型:旅行者', '150.00', 110),
+(85, '115', 97, '头围:56.8cm', '399.00', 50),
+(86, '116', 97, '头围:58.7cm', '399.00', 50),
+(87, '117', 97, '头围:60.6cm', '399.00', 50),
+(88, '118', 97, '头围:57.7cm', '399.00', 50),
+(89, '119', 97, '头围:59.6cm', '399.00', 50);
 
 -- --------------------------------------------------------
 
@@ -48619,7 +48650,7 @@ CREATE TABLE IF NOT EXISTS `ji_spec_item` (
   `spec_id` int(11) DEFAULT NULL COMMENT '规格id',
   `item` varchar(54) DEFAULT NULL COMMENT '规格项',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=114 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=120 DEFAULT CHARSET=utf8;
 
 --
 -- 转存表中的数据 `ji_spec_item`
@@ -48646,7 +48677,13 @@ INSERT INTO `ji_spec_item` (`id`, `spec_id`, `item`) VALUES
 (110, 20, '40码'),
 (111, 20, '41码'),
 (112, 20, '42码'),
-(113, 20, '43码');
+(113, 20, '43码'),
+(114, 25, '旅行者'),
+(115, 26, '56.8cm'),
+(116, 26, '58.7cm'),
+(117, 26, '60.6cm'),
+(118, 26, '57.7cm'),
+(119, 26, '59.6cm');
 
 -- --------------------------------------------------------
 
@@ -48664,7 +48701,7 @@ CREATE TABLE IF NOT EXISTS `ji_user` (
   `user_question` varchar(45) DEFAULT NULL COMMENT '用户找回密码的问题',
   `user_answer` varchar(45) DEFAULT NULL COMMENT '用户找回密码的答案',
   `user_nickname` varchar(45) NOT NULL COMMENT '用户昵称',
-  `user_pic` varchar(45) DEFAULT NULL COMMENT '用户头像',
+  `user_pic` varchar(255) DEFAULT NULL COMMENT '用户头像',
   `birthday` int(11) DEFAULT '0' COMMENT '生日',
   `user_money` decimal(10,2) DEFAULT NULL COMMENT '用户资金',
   `user_address` varchar(45) DEFAULT NULL COMMENT '用户收货地址',
@@ -48682,8 +48719,8 @@ CREATE TABLE IF NOT EXISTS `ji_user` (
 --
 
 INSERT INTO `ji_user` (`id`, `user_name`, `user_pwd`, `paypwd`, `user_sex`, `user_question`, `user_answer`, `user_nickname`, `user_pic`, `birthday`, `user_money`, `user_address`, `user_regtime`, `user_lastlogin`, `user_count`, `user_qq`, `user_phone`, `is_disable`) VALUES
-(1, 'test1', '14e1b600b1fd579f47433b88e8d85291', '9db06bcff9248837f86d1a6bcf41c9e7', '', NULL, NULL, '红鼻子', NULL, 0, '35191.00', NULL, 1553348460, 1555388905, 117, '', '13533901333', 0),
-(27, 'test2', '14e1b600b1fd579f47433b88e8d85291', '', NULL, NULL, NULL, 'test21542702701', NULL, 0, NULL, NULL, 1552826135, 1552826135, 4, NULL, '18011752647', 0),
+(1, 'test1', '14e1b600b1fd579f47433b88e8d85291', '9db06bcff9248837f86d1a6bcf41c9e7', '3', NULL, NULL, '红鼻子', '/public/uploads/20190416/b215af814bc4d9420de229e26a7968f1.jpg', 1555344000, '99850.00', NULL, 1553348460, 1555501172, 123, '', '13533901333', 0),
+(27, 'test2', '14e1b600b1fd579f47433b88e8d85291', '', NULL, NULL, NULL, 'test21542702701', NULL, 0, NULL, NULL, 1552826135, 1552826135, 4, NULL, '', 0),
 (32, '', '14e1b600b1fd579f47433b88e8d85291', '', '3', NULL, NULL, 'ffsas a', NULL, 0, NULL, NULL, 0, NULL, NULL, '', '12312312312', 0),
 (33, '', '14e1b600b1fd579f47433b88e8d85291', '', '3', NULL, NULL, '213213123213', NULL, 0, NULL, NULL, 1553672426, NULL, NULL, '', '21321321312', 0);
 
@@ -48697,35 +48734,23 @@ DROP TABLE IF EXISTS `ji_user_log`;
 CREATE TABLE IF NOT EXISTS `ji_user_log` (
   `log_id` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '日志id',
   `user_id` mediumint(8) UNSIGNED NOT NULL DEFAULT '0' COMMENT '用户id',
-  `user_money` decimal(10,2) DEFAULT '0.00' COMMENT '用户金额',
+  `user_money` varchar(255) DEFAULT '0' COMMENT '用户金额',
   `change_time` int(10) UNSIGNED NOT NULL COMMENT '变动时间',
   `desc` varchar(255) NOT NULL DEFAULT '' COMMENT '描述',
   `order_sn` varchar(50) DEFAULT NULL COMMENT '订单编号',
   `order_id` int(10) DEFAULT NULL COMMENT '订单id',
   PRIMARY KEY (`log_id`),
   KEY `user_id` (`user_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
 
 --
 -- 转存表中的数据 `ji_user_log`
 --
 
 INSERT INTO `ji_user_log` (`log_id`, `user_id`, `user_money`, `change_time`, `desc`, `order_sn`, `order_id`) VALUES
-(1, 1, '100000.00', 1554177133, '充值金额', '2019040211192037', 37),
-(2, 1, '100000.00', 1554177172, '充值金额', '2019040211192037', 37),
-(3, 1, '-39.00', 1554259672, '充值金额', '2019040218391438', 38),
-(4, 1, '-22.00', 1554269984, '充值金额', '2019040313394039', 39),
-(5, 1, '-132.00', 1554271474, '充值金额', '2019040314041840', 40),
-(6, 1, '-479.00', 1554363971, '充值金额', '2019040415373141', 41),
-(7, 1, '-4.00', 1554456180, '充值金额', '2019040517224942', 42),
-(8, 1, '-4400.00', 1554462639, '充值金额', '2019040519085844', 44),
-(9, 1, '-22.00', 1554464291, '充值金额', '2019040519185245', 45),
-(10, 1, '-44.00', 1554712616, '充值金额', '2019040816365046', 46),
-(11, 1, '-171.00', 1554712649, '充值金额', '2019040816372447', 47),
-(12, 1, '-120.00', 1555068579, '充值金额', '2019041219293150', 50),
-(13, 1, '-61.00', 1555232134, '充值金额', '2019041010015749', 49),
-(14, 1, '-120.00', 1555242821, '充值金额', '2019041419533251', 51),
-(15, 1, '-58975.00', 1555389050, '充值金额', '2019041612303852', 52);
+(17, 1, '-150.00', 1555511730, '订单支付', '2019041722352155', 55),
+(15, 1, '-58975.00', 1555389050, '订单支付', '2019041612303852', 52),
+(16, 1, '+100000.00', 1555421286, '充值金额', '2019041621263853', 53);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

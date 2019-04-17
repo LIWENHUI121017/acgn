@@ -460,12 +460,12 @@
         }
     }
     $(document).on('click','.buy_car',function () {
-        alert(1);
+
         buycar();
     });
     //加入购物车
     function buycar(){
-        alert(1);
+
         var goods_id = $(" input[ name='goods_id' ] ").val();
         var item_id = $("input[name='item_id']").val();
         // var goods_name = $('#goods_name').val();
@@ -481,9 +481,10 @@
                 url: "{:url('Index/Cart/addCart')}",
                 success: function (data) {
                     if (data.status == 1) {
-                        layer.msg(data.msg,{icon:1,time:2000});
+                        layer.msg(data.msg,{icon:1,time:2000},function () {
+                            window.location.reload();
+                        });
 
-                        // console.log(data.result);
                     }else {
                         layer.msg(data.msg,{icon:2,time:2000});
                     }

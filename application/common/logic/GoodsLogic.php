@@ -14,18 +14,22 @@ class GoodsLogic extends My_Logic{
     //首页热门
     public function getlist(){
         $hot_goods = $cateList = array();
-        $sql = "select a.id,a.goods_name,a.original_img,a.goods_price,a.goods_type_id,b.name,b.pid_path from 
-        ".config('database.prefix')."goods as a left join ".config('database.prefix')."goods_category
-        as b on a.goods_type_id=b.id  where a.is_hot=1 and a.is_on_sale=1  ;
-        ";
-        $index_hot_goods = Db::query($sql);
-        dump($index_hot_goods);
+        $field="a.id,a.goods_name,a.original_img,a.goods_price,a.goods_type_id,b.name,b.pid_path";
+        $where=['a.is_hot'=>1,'a.is_on_sale'=>1];
+        $index_hot_goods=Db::name('goods')
+                        ->alias('a')
+                        ->join('goods_category b',' a.goods_type_id=b.id')
+                        ->field($field)
+                        ->where($where)
+                        ->select();
+
         if ($index_hot_goods){
             foreach ($index_hot_goods as $val) {
                 $path = explode('_',$val['pid_path']);
                 $hot_goods[$path[1]][]=$val;
             }
         }
+//        dump($hot_goods);
         $catetree = get_goods_category_tree();
         foreach ($catetree as $k=>$v){
             if($v['is_hot']==1){
@@ -215,7 +219,6 @@ class GoodsLogic extends My_Logic{
                 'goods_sn'=>$data['goods_sn'],
                 'goods_inventory'=>$data['goods_inventory'],
                 'goods_price'=>$data['goods_price'],
-                'goods_sale'=>$data['goods_sale'],
                 'goods_abstract'=>$data['goods_abstract'],
                 'goods_desc'=>$data['goods_desc'],
                 'original_img'=>$data['original_img']
@@ -226,7 +229,6 @@ class GoodsLogic extends My_Logic{
                 'goods_sn'=>$data['goods_sn'],
                 'goods_inventory'=>$data['goods_inventory'],
                 'goods_price'=>$data['goods_price'],
-                'goods_sale'=>$data['goods_sale'],
                 'goods_abstract'=>$data['goods_abstract'],
                 'goods_desc'=>$data['goods_desc']
 
@@ -477,13 +479,13 @@ class GoodsLogic extends My_Logic{
      * @param int $goods_id 商品id
      * @return bool
      */
-    public function delattr($where=array(),$filed='*',$goods_id){
-            $res2 = Db::name('goods_attr')->where('goods_id',$goods_id)->delete();
+    public function delattr($where=array()){
+            $res = Db::name('goods_attr')->where($where)->delete();
 
 
-        if ($res1&&$res2){
-            return true;
-        }
+
+            return $res;
+
     }
 
 

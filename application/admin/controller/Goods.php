@@ -215,7 +215,9 @@ class Goods extends Base
 
         $validate = Loader::validate('Goods');
         if(!$validate->check($data)){
-            return json(['status'=>0,'msg'=>$validate->getError()]);
+//            return json(['status'=>0,'msg'=>$validate->getError()]);
+//            return " <script>alert($validate->getError());history.go(-1)</script>";
+            $this->error($validate->getError(),'/admin/goods/add');
         }else{
             $args1 = $goodslogic->setarg1($data);
             if ($goodsid==0){
@@ -329,26 +331,25 @@ class Goods extends Base
 
     //删除商品
     public function deletegoods(){
-        $goodsid = input('goodsid');
+        $goodsid = input('goodsid/d');
+
         $logic = new GoodsLogic();
         Db::startTrans();
         try{
-            $res = Db::name('goods')->where('id',$goodsid)->delete();
+            $res = Db::name('goods')->where(['id'=>$goodsid])->delete();
+
             $where = ['goods_id'=>$goodsid];
             $filed = '*';
             $checkspec = $logic->get_one($where,$filed,'SpecGoodsPrice');//查询是否有属性
             $checkattr = $logic->get_one($where,$filed,'GoodsAttr');//查询是否有属性
+
             if ($checkspec){
                 $res1= $logic->delspec($where);
-                if ($res1){
-                    return json(['status'=>0,'msg'=>'商品删除失败']);
-                }
+
             }
             if ($checkattr){
                 $res2= $logic->delattr($where);
-                if ($res2){
-                    return json(['status'=>0,'msg'=>'商品删除失败']);
-                }
+
             }
 
             if ($res){

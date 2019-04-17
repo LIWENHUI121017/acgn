@@ -172,12 +172,38 @@
             <a class="nav-more-btn" href="{:url('index/Goods/goodslist',array('id'=>$v.id))}">更多<i>></i></a>
         </div>
         <div class="floor-main">
+
             <div class="floor-brand cleanflow">
 
-                <a class="brand-big" href="javascript:void(0);"><img class="w-100" src="__PUBLIC__/static/images/index-goods/1.png" alt="" /></a>
+                <if condition="$k eq 0">
+                    <a class="brand-big" href="javascript:void(0);">
+                        <img class="w-100" src="/public/uploads/20190411/df45fa0343d5b949bf5d646aa06ba1ea.jpg" alt="" />
+                    </a>
+                    <elseif condition="$k eq 1"/   >
+                        <a class="brand-big" href="javascript:void(0);">
+                            <img class="w-100" src="/public/uploads/20190411/21291052ef3d75dfc5116b1933503c37.jpg" alt="" />
+                        </a>
+                    <elseif condition="$k eq 1"/>
+                        <a class="brand-big" href="javascript:void(0);">
+                            <img class="w-100" src="/public/uploads/20190411/21291052ef3d75dfc5116b1933503c37.jpg" alt="" />
+                        </a>
+                    <elseif condition="$k eq 2"/>
+                    <a class="brand-big" href="javascript:void(0);">
+                        <img class="w-100" src="/public/uploads/20190417/0469a6507eb685f38e972f4f3437287d.jpg" alt="" />
+                    </a>
+                    <elseif condition="$k eq 3"/>
+                    <a class="brand-big" href="javascript:void(0);">
+                        <img class="w-100" src="/public/uploads/20190411/2dc6373fb05e3f42917430042039f24d.jpg" alt="" />
+                    </a>
+                    <elseif condition="$k eq 4"/>
+                    <a class="brand-big" href="javascript:void(0);">
+                        <img class="w-100" src="/public/uploads/20190411/21291052ef3d75dfc5116b1933503c37.jpg" alt="" />
+                    </a>
+                </if>
 
 
-                <a class="brand-samll" href="javascript:void(0);"><img class="w-100" src="__PUBLIC__/static/images/test/2.jpg" alt="" /></a>
+
+                <a class="brand-samll" href="javascript:void(0);"><img class="w-100" src="__PUBLIC__/static/images/index-goods/1.jpg" alt="" /></a>
 
             </div>
             <div class="floor-goods-list">
