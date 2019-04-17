@@ -317,14 +317,21 @@ return [
 
     //手机短信模板
     //登录
-    'phone_login' =>'SMS_151179017',
+//    'phone_login' =>'SMS_151179017',
+    'phone_login' =>'SMS_163725105',
     //注册
-    'phone_reg' =>'SMS_151179075',
+//    'phone_reg' =>'SMS_151179075',
+    'phone_reg' =>'SMS_163725102',
     //重置密码
-    'phone_reset' =>'SMS_151233920',
+//    'phone_reset' =>'SMS_151233920',
+    'phone_reset' =>'SMS_163725106',
 
-    'accessKeyId' => 'LTAI8CDXqHonU0Ck',
-    'accessKeySecret' => 'FzvkfdtZvEAwagKS0wKBAay99EBJsT',
-    'signName' => 'acgn周边商城',
-    'templateCode' => 'SMS_151576238',
+//    'accessKeyId' => 'LTAI8CDXqHonU0Ck',//13533901333用户
+
+    'accessKeyId' => 'LTAINy47t2rDMyIC，
+',
+//    'accessKeySecret' => 'FzvkfdtZvEAwagKS0wKBAay99EBJsT',
+    'accessKeySecret' => 'i4zVLxCSzxyCVtcbfFosLG9L6imrbJ',
+    'signName' => 'acgn',
+    'templateCode' => 'SMS_163725105',
 ];

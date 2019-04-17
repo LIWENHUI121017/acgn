@@ -18,6 +18,11 @@
 				position: relative;
 				left: 150px;
 			}
+			#el-date-pick{
+				position: relative;
+				left: 110px;
+				bottom: 50px;
+			}
 
 		</style>
 	</head>
@@ -34,6 +39,7 @@
 				<include file="user/nav-left"/>
 
 				<!--右边列表内容  开始-->
+				<div class="fr vip_right vip_magRight">
 				<div class="order-list">
 				<div class="security-right">
 					<div data-v-4cbad597="" class="security-right-title">
@@ -42,94 +48,73 @@
 					</div>
 					<div class="user-setting-warp">
 						<div>
-							<form class="el-form clearfix" mode="[object Object]">
-								<div class="el-form-item user-nick-name">
-									<label class="el-form-item__label">头像:</label>
-									<div class="el-form-item__content">
-										<div class="layui-upload">
-											<button type="button" class="layui-btn" id="test1">上传图片</button>
-											<div class="layui-upload-list">
-												<img class="layui-upload-img" id="demo1" width="150" height="150">
-												<p id="demoText"></p>
-												<input style="display: none" id='original_img' name="original_img" type="text" value="" />
+								<form class="el-form clearfix" method="get" action="{:url('/index/user/changeuserinfo')}">
+									<input name="id" value="{$userinfo.id}" type="hidden">
+									<div class="el-form-item user-nick-name">
+										<label class="el-form-item__label">头像:</label>
+										<div class="el-form-item__content">
+											<div class="layui-upload">
+												<button type="button" class="layui-btn" id="test1">上传图片</button>
+												<div class="layui-upload-list">
+													<img class="layui-upload-img" id="demo1" width="150" height="150" src="{$userinfo.user_pic|default='/public/static/images/userHeaddefault/default.jpg'}">
+													<p id="demoText"></p>
+													<input style="display: none" id='original_img' name="user_pic" type="text" value="{$userinfo.user_pic|default='/public/static/images/userHeaddefault/default.jpg'}"" />
+												</div>
 											</div>
 										</div>
 									</div>
-								</div>
-								<div class="el-form-item user-nick-name"><label class="el-form-item__label">昵称:</label>
-									<div class="el-form-item__content">
-										<div class="el-input">
-											<input autocomplete="off" placeholder="你的昵称" type="text" rows="2" maxlength="16" validateevent="true" class="el-input__inner">
-										</div>
+									<div class="el-form-item user-nick-name"><label class="el-form-item__label">昵称:</label>
+										<div class="el-form-item__content">
+											<div class="el-input">
+												<input autocomplete="off" value="{$userinfo.user_nickname}" name="user_nickname" placeholder="你的昵称" type="text" rows="2" maxlength="16" validateevent="true" class="el-input__inner">
+											</div>
 
-									</div>
-								</div>
-								<div class="el-form-item user-nick-rel-name">
-									<label class="el-form-item__label">用户名:</label>
-									<div class="el-form-item__content">
-										<span class="userinfo-username">nerm45742140</span>
-									</div>
-								</div>
-								<div class="el-form-item user-my-sign"><label class="el-form-item__label">我的签名:</label>
-									<div class="el-form-item__content">
-										<div class="el-textarea">
-											<input name="sex" type="radio" value="0"/>保密
-											<input name="sex" type="radio" value="1"/>男
-											<input name="sex" type="radio" value="2"/>女
 										</div>
 									</div>
-								</div>
-								<div class="el-form-item user-my-sex"><label class="el-form-item__label">性别:</label>
-									<div class="el-form-item__content">
-										<div class="el-radio-group">
-											<label class="el-radio-button">
-											<input type="radio" class="el-radio-button__orig-radio" value="男"><span
-												class="el-radio-button__inner">男</span></label> <label
-												class="el-radio-button"><input type="radio" class="el-radio-button__orig-radio"
-																			   value="女"><span
-												class="el-radio-button__inner">女</span></label> <label
-												class="el-radio-button is-active"><input type="radio"
-																						 class="el-radio-button__orig-radio"
-																						 value="保密"><span
-												class="el-radio-button__inner">保密</span></label></div><!----></div>
-								</div>
-								<div class="el-form-item user-my-date"><label class="el-form-item__label">出生日期:</label>
-									<div class="el-form-item__content">
-										<div class="el-date-editor el-input el-date-editor--date" id="el-date-pick"><!----><i
-												class="el-input__icon el-icon-date"></i><input autocomplete="off"
-																							   placeholder="选择日期"
-																							   readonly="readonly" type="text"
-																							   rows="2" class="el-input__inner">
-											<!----><!----></div><!----></div>
-								</div>
-								<div class="el-form-item user-my-btn"><!---->
-									<div class="el-form-item__content">
-										<div class="padding-dom"></div>
-										<div class="user-my-btn-warp">
-											<button type="button" class="el-button el-button--primary"><!---->
-												<!----><span>保存</span></button>
-										</div><!----></div>
-								</div>
-							</form>
-						</div>
-					</div>
-					<div data-v-2df59252="" class="dialog-wrap" style="display: none;">
-						<div data-v-2df59252="" class="dialog-wrap-box">
-							<div data-v-2df59252="" class="dialog-contnent">
-								<div data-v-2df59252="" class="dialog-title"><span data-v-2df59252="" class="dialog-title-txt">提示</span>
-									<span data-v-2df59252="" class="dialog-title-icon"></span></div>
-								<div data-v-2df59252="" class="dialog-content">
-									<div data-v-2df59252="" class="dialog-success-content">
-										<div data-v-2df59252="" class="dialog-success-img"></div>
-										<p data-v-2df59252="" class="dialog-success-explain">已经成功更新你的资料</p>
-										<div data-v-2df59252="" class="dialog-btn-warp">
-											<div data-v-2df59252="" class="dialog-btn">确定</div>
+
+									<div class="el-form-item user-my-sex"><label class="el-form-item__label">性别:</label>
+										<div class="el-form-item__content">
+											<div class="el-textarea">
+												<input name="sex" type="radio" value="3" <if condition="$userinfo.user_sex eq 0 or $userinfo.user_sex eq 3">checked=checked</if>/>保密
+												<input name="sex" type="radio" value="1" <if condition="$userinfo.user_sex eq 1">checked=checked</if>/>男
+												<input name="sex" type="radio" value="2" <if condition="$userinfo.user_sex eq 2">checked=checked</if>/>女
+											</div>
 										</div>
 									</div>
-								</div>
-							</div>
+
+									<div class="el-form-item user-my-date"><label class="el-form-item__label">出生日期:</label>
+										<div class="el-form-item__content">
+											<div class="el-date-editor el-input el-date-editor--date" id="el-date-pick">
+
+												<div class="layui-inline">
+													<div class="layui-input-inline">
+														<input type="text" class="layui-input" id="birthday" name="birthday" placeholder="出生日期" value="{$userinfo.birthday|date='Y-m-d',###}">
+													</div>
+												</div>
+												</div>
+										</div>
+									</div>
+									<div class="el-form-item user-my-date">
+										<label class="el-form-item__label"><i class="fa fa-mobile fa-lg"></i>手机:</label>
+										<div class="el-form-item__content">
+											{$userinfo.user_phone}&nbsp<a href="" style="color: #6ba532;"><span>更改绑定</span></a>
+										</div>
+									</div>
+									<div class="el-form-item user-my-btn">
+										<div class="el-form-item__content">
+											<div class="padding-dom"></div>
+											<div class="user-my-btn-warp">
+												<button type="submit" class="el-button el-button--primary">
+													<span>保存</span>
+												</button>
+											</div>
+										</div>
+									</div>
+								</form>
 						</div>
 					</div>
+
+				</div>
 				</div>
 				</div>
 				<!--右边列表内容  结束-->
@@ -167,6 +152,14 @@
                     uploadInst.upload();
                 });
             }
+        });
+    })
+    layui.use('laydate', function() {
+        var laydate = layui.laydate;
+
+        //日期常规用法
+        laydate.render({
+            elem: '#birthday'
         });
     })
 	//取消订单

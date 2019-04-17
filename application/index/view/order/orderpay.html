@@ -98,7 +98,7 @@
                 <p id="checkCodeTip">您的账户余额：<span class="num"><em style="color: red;font-size: 14px;" id="usermoney">{$user.user_money}</em>元</span></p>
 
                 <input type="password" name="Newpaypwd[first]" maxlength="6" oninput = "value=value.replace(/[^\d]/g,'')" id="paypwd" class="input" placeholder="请输入支付密码">
-                <span class="send-again" id="forgetpwd">忘记支付密码<em></em></span>
+                <a class="send-again" href="/index/user/security">忘记支付密码<em></em></a>
                 <p><input type="button" value="确认支付" class="btn btn-primary" id="toPay" data-status="1"></p>
 
                     <div id="weixin" style="display: none">

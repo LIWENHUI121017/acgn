@@ -19,7 +19,7 @@ class GoodsLogic extends My_Logic{
         as b on a.goods_type_id=b.id  where a.is_hot=1 and a.is_on_sale=1  ;
         ";
         $index_hot_goods = Db::query($sql);
-
+        dump($index_hot_goods);
         if ($index_hot_goods){
             foreach ($index_hot_goods as $val) {
                 $path = explode('_',$val['pid_path']);

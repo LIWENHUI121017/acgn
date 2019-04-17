@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<link href="__PUBLIC__/static/css/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet">
+		<link href="__PUBLIC__/static/css/user/usermoney.css" rel="stylesheet">
+		<script src="__PUBLIC__/static/js/jquery/jquery.min.js" type="text/javascript"></script>
+		<include file="public/head"/>
+		<title>账户余额</title>
+
+	</head>
+
+	<body style="background: #f0f1f5">
+		<include file="public/publichead"/>
+
+		<include file="user/user_title"/>
+
+		<!-- 内容  开始-->
+		<div class="wrap">
+			<div class="vip_cont c100 clearfix">
+				<include file="user/nav-left"/>
+
+				<!--右边列表内容  开始-->
+				<div class="fr vip_right vip_magRight">
+					<div class="order-list">
+						<div class="security-right">
+							<div data-v-4cbad597="" class="security-right-title">
+								<span data-v-4cbad597="" class="security-right-title-icon"></span>
+								<span data-v-4cbad597="" class="security-right-title-text">余额信息</span>
+							</div>
+						</div>
+						<div class="shopcard frozen-cha ma-to-20 p">
+							<div class="cuschan">
+								<span class="kycha"><i class="fa fa-money fa-2x">&nbsp可用余额:<em style="color: red">￥{$userlist.user_money}</em></i></span><br>
+							</div>
+							<div class="cuschan jhove">
+
+								<span class="kycha"><i class="fa fa-user-circle-o fa-2x">&nbsp账户状态:
+									<if condition="$userlist.is_disable eq 0">
+										<em style="color: green">已激活</em>
+										<else/>
+										<em style="color: red">已冻结</em>
+									</if>
+								</i></span><br>
+
+							</div>
+
+						</div>
+						<div class="ddlb-ayh">
+							<div class="">
+								<div class="navitems2 p" id="navitems5">
+									<ul>
+										<li>
+											<a href="{:url('/index/order/myorder',array('type'=>'myorder','mode'=>'all'))}" class="selected">余额变动记录</a>
+										</li>
+									</ul>
+									<div class="wrap-line" style="width: 130px; left: 10px;">
+										<span style="left:15px;"></span>
+									</div>
+								</div>
+								<div class="menu_search p">
+
+								</div>
+								<div class="card-list accbala">
+									<ul>
+										<li><a href="javascript:void(0);">日期</a></li>
+										<li><a href="javascript:void(0);">金额</a></li>
+										<li><a href="javascript:void(0);">订单号</a></li>
+										<li><a href="javascript:void(0);">备注</a></li>
+									</ul>
+								</div>
+								<foreach name="userloglist" key="k" item="v">
+									<div class="card-list1 c_contan accbala-list" >
+
+											<ul>
+												<li><a href="javascript:void(0);">{$v.change_time|date="Y-m-d H:i:s",###}</a></li>
+												<li><a href="javascript:void(0);">{$v.user_money}</a></li>
+												<li><a href="javascript:void(0);">{$v.order_sn}</a></li>
+												<li><a href="javascript:void(0);">{$v.desc}</a></li>
+											</ul>
+
+
+									</div>
+								</foreach>
+							</div>
+
+
+
+						</div>
+					</div>
+				</div>
+
+				<!--右边列表内容  结束-->
+			</div>
+		</div>
+
+		<!-- 内容  结束-->
+
+	<include file="public/footer"/>
+
+	</body>
+<script>
+    layui.use('upload', function() {
+        var $ = layui.jquery
+            , upload = layui.upload;
+
+        //普通图片上传
+        var uploadInst = upload.render({
+            elem: '#test1'
+            , url: '/admin/Goods/img'
+            , done: function (res) {
+                if (res.status == 0) {
+                    return layer.msg('上传失败');
+                }else {
+                    //上传成功
+                    $('#original_img').val(res.path);
+                    $('#demo1').attr('src', res.path);
+                }
+            }
+            , error: function () {
+                //演示失败状态，并实现重传
+                var demoText = $('#demoText');
+                demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-xs demo-reload">重试</a>');
+                demoText.find('.demo-reload').on('click', function () {
+                    uploadInst.upload();
+                });
+            }
+        });
+    })
+    layui.use('laydate', function() {
+        var laydate = layui.laydate;
+
+        //日期常规用法
+        laydate.render({
+            elem: '#birthday'
+        });
+    })
+	//取消订单
+    function cancel_order(id){
+        layer.confirm('确定取消订单?', {
+                btn: ['确定','取消'] //按钮
+            }, function(){
+                // 确定
+                $.ajax({
+					type:'get',
+					dataType:'json',
+					url:"/index/order/cancel_order",
+					data:{id:id},
+					success:function (data) {
+					    if(data.status==0){
+                            layer.alert(data.msg,{icon:2,time:2000});
+						}
+						if(data.status==1){
+                            layer.alert(data.msg,{icon:1,time:2000},function () {
+								window.location.reload();
+                            });
+						}
+
+                    }
+				})
+            }, function(index){
+                layer.close(index);
+            }
+        );
+    }
+
+
+</script>
+</html>

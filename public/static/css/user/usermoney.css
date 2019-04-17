@@ -1,23 +1,4 @@
-.security-right-title[data-v-4cbad597] {
-	height: 50px;
-	padding-left: 30px;
-	border-bottom: 1px solid #ddd;
-}
-.security-right-title-icon[data-v-4cbad597] {
-	float: left;
-	width: 4px;
-	height: 16px;
-	margin-top: 18px;
-	background-color: #00a1d6;
-	border-radius: 4px;
-}
-.security-right-title-text[data-v-4cbad597] {
-	float: left;
-	margin: 15px 0 0 5px;
-	color: #00a1d6;
-	font-size: 14px;
-	cursor: default;
-}
+
 .user-setting-warp {
 	padding: 20px 20px 0;
 	position: relative;
@@ -121,7 +102,7 @@
 	display: inline-block;
 }
 .el-input {
-	 position: relative;
+	position: relative;
 	font-size: 14px;
 }
 .el-input, .el-input__inner {
@@ -158,4 +139,127 @@
 	color: #fff;
 	background-color: #20a0ff;
 	border-color: #20a0ff;
+}
+.c_contan {
+	background: white;
+	margin-top: 4px;
+	margin-bottom: 4px;
+	border-bottom: 1px solid #dadada;
+}
+.card-list {
+	overflow: hidden;
+	margin-top: 50px;
+	background: #f5f5f5;
+	padding: 10px 0px;
+}
+
+ul, ol {
+	list-style: none;
+}
+.accbala {
+	margin-top: 20px;
+}
+
+.card-list {
+	overflow: hidden;
+	margin-top: 50px;
+	background: #f5f5f5;
+	padding: 10px 0px;
+}
+.card-list1 {
+	overflow: hidden;
+	margin-top: 50px;
+	background: #FFFFFF;
+	padding: 10px 0px;
+}
+.card-list ul li {
+	float: left;
+	font-size: 14px;
+	text-align: center;
+}
+.card-list1 ul li {
+	float: left;
+	font-size: 14px;
+	width: 14.28571%;
+	text-align: center;
+}
+.c_contan {
+	background: white;
+	margin-top: 4px;
+	margin-bottom: 4px;
+	border-bottom: 1px solid #dadada;
+}
+
+.card-list {
+	overflow: hidden;
+	margin-top: 50px;
+	background: #f5f5f5;
+	padding: 10px 0px;
+}
+.accbala-list ul li, .accbala ul li {
+	width: 20%;
+	min-height: 21px;
+}
+
+.card-list ul li a {
+	color: #7b7777;
+}
+.security-right-title[data-v-4cbad597] {
+	height: 50px;
+	padding-left: 30px;
+	border-bottom: 1px solid #ddd;
+}
+.security-right-title-icon[data-v-4cbad597] {
+	float: left;
+	width: 4px;
+	height: 16px;
+	margin-top: 18px;
+	background-color: #00a1d6;
+	border-radius: 4px;
+}
+.security-right-title-text[data-v-4cbad597] {
+	float: left;
+	margin: 15px 0 0 5px;
+	color: #00a1d6;
+	font-size: 14px;
+	cursor: default;
+}
+.ma-to-20 {
+	margin-top: 20px;
+}
+
+
+.shopcard {
+	overflow: hidden;
+	padding: 70px 10px;
+	border-bottom: 1px solid #dadada;
+}
+.frozen-cha .cuschan {
+	width: 25%;
+}
+
+.shopcard .cuschan {
+	float: left;
+	width: 50%;
+	text-align: center;
+}
+
+.shopcard .cuschan span {
+	font-size: 14px;
+	text-align: right;
+}
+.shopcard .cuschan span {
+	font-size: 14px;
+	text-align: right;
+}
+.shopcard .cuschan .co {
+	margin-left: 37px;
+	color: #e23435;
+}
+.shopcard .cuschan span {
+	font-size: 14px;
+	text-align: right;
+}
+.frozen-cha .jhove {
+	margin-top: 10px;
 }

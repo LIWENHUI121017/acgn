@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<link href="__PUBLIC__/static/css/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet">
+		<link href="__PUBLIC__/static/css/user/usermoney.css" rel="stylesheet">
+		<link rel="stylesheet" type="text/css" href="__PUBLIC__/static/css/order/buyConfirm.css" />
+		<link href="__PUBLIC__/static/css/user/security.css" rel="stylesheet">
+		<include file="public/head"/>
+		<title>安全中心</title>
+		<style>
+			#book-tit{
+				line-height: 38px;
+			}
+		</style>
+	</head>
+
+	<body style="background: #f0f1f5">
+		<include file="public/publichead"/>
+
+		<include file="user/user_title"/>
+
+		<!-- 内容  开始-->
+		<div class="wrap">
+			<div class="vip_cont c100 clearfix">
+				<include file="user/nav-left"/>
+
+				<!--右边列表内容  开始-->
+				<div class="fr vip_right vip_magRight">
+					<div class="order-list">
+						<div class="security-right">
+							<div data-v-4cbad597="" class="security-right-title">
+								<span data-v-4cbad597="" class="security-right-title-icon"></span>
+								<span data-v-4cbad597="" class="security-right-title-text">修改密码</span>
+							</div>
+						</div>
+						<div class="personerinfro verifyi-next">
+							<form action="{:url('index/user/editpwd')}" method="post" id="pwdform">
+								<ul class="name_jz">
+									<li class="infor_wi_le"><a href="javascript:void(0);">新密码：</a></li>
+									<li class="teaeu">
+										<a href="javascript:void(0);">
+											<input class="name_zjxs" type="password" name="password" id="password" value="" placeholder="6-16位字母、数字或符号组合">
+											<i class="teaeu_i"></i>
+										</a>
+									</li>
+								</ul>
+								<ul class="name_jz">
+									<li class="infor_wi_le"><a href="javascript:void(0);">手机验证码：</a></li>
+									<li class="teaeu">
+										<a href="javascript:void(0);">
+											<input  class="name_zjxs" type="text" style="width: 50%" name="code"  maxlength="4" oninput = "value=value.replace(/[^\d]/g,'')"  id="code" class="input" placeholder="输入验证码">
+											<span class="send-again" id="sendmessage" style="cursor: pointer;" data-phone="{$userlist.user_phone}" data-status="2">发送手机验证码<em></em></span>
+										</a>
+									</li>
+								</ul>
+
+								<ul class="hobby_jz">
+									<li class="infor_wi_le"></li>
+									<div class="save_s">
+										<input type="submit" style="display: none;" id="submit">
+										<input class="save" type="button" id="checksubmit" value="保存">
+									</div>
+								</ul>
+							</form>
+						</div>
+					</div>
+				</div>
+				<!--右边列表内容  结束-->
+			</div>
+		</div>
+
+		<!-- 内容  结束-->
+
+
+	<include file="public/footer"/>
+
+	</body>
+<script type="text/javascript">
+
+    //点击发送短信
+    $(document).on('click','#sendmessage',function () {
+   
+        var status = $(this).data('status');
+		var phone = $(this).data('phone');
+
+        $.ajax({
+            type: "POST",
+            url: "/Index/User/test",
+            // url: "/Index/User/sendreg",
+            data: {
+                'phone':phone,
+                'status':status
+            },
+            async: false,
+            dataType:'json',
+            success: function(data){
+                if (data.status == 0){
+                    layer.alert('短信发送次数已达上限，请明天再来!',{icon:2});
+                }
+                if(data.status == 1){
+                    layer.msg('短信发送成功!',{icon:1,time:2000});
+                }
+                if (data.status == 3){
+                    layer.alert(data.msg ,{icon:2});
+                }
+
+            },
+            error : function(XMLHttpRequest, textStatus, errorThrown) {
+                layer.msg("网络失败，请刷新页面后重试!",{icon:2,time:2000});
+            }
+        });
+    })
+
+    //点击提交
+    $(document).on('click','#checksubmit',function () {
+
+        var password = $("input[name='password']").val();
+        var code = $("input[name='code']").val();
+        // alert(status);
+
+
+        if(password==''){
+              layer.msg('密码不能为空！',{icon:2,time:2000});
+              return false
+            } else if(code==''){
+            layer.msg('验证码不能为空！',{icon:2,time:2000});
+            return false;
+        }else {
+            $.ajax({
+                type: "POST",
+                url: "/Index/User/editpwd",
+                data: {
+                    'password':password,
+                    'code':code
+                },
+                async: false,
+                dataType:'json',
+                success: function(data){
+                    if (data.status == 200){
+                        layer.msg(data.msg,{icon:1,time:2000},function () {
+                            window.location.href="/index/user/security/type/security.html";
+                        });
+                    }else{
+                        layer.msg(data.msg,{icon:2,time:2000})
+					}
+
+
+                },
+                error : function(XMLHttpRequest, textStatus, errorThrown) {
+                    layer.msg("网络失败，请刷新页面后重试!",{icon:2,time:2000});
+                }
+            });
+        }
+
+
+
+
+    })
+</script>
+</html>

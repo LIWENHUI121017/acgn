@@ -10,7 +10,8 @@
     <dl>
         <dt>资产中心</dt>
         <dd>
-            <p><a>账户余额</a></p>
+            <p class="<if condition="$Request.param.type eq 'usermoney'">selected</if>"><a href="{:url('/index/user/usermoney',array('type'=>'usermoney'))}">账户余额</a></p>
+
         </dd>
     </dl>
     <dl>
@@ -25,8 +26,10 @@
 
             <p class="<if condition="$Request.param.type eq 'userinfo'">selected</if>"><a href="{:url('/index/user/userinfo',array('type'=>'userinfo'))}">个人信息</a></p>
 
-            <p><a href="#" >地址管理</a></p>
-            <p><a href="#" >安全设置</a></p>
+            <p class="<if condition="$Request.param.type eq 'myaddress'">selected</if>"><a href="{:url('/index/user/myaddress',array('type'=>'myaddress'))}">地址管理</a></p>
+
+            <p class="<if condition="$Request.param.type eq 'security'">selected</if>"><a href="{:url('/index/user/security',array('type'=>'security'))}">安全设置</a></p>
+
         </dd>
     </dl>
 </div>

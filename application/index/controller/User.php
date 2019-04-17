@@ -118,8 +118,44 @@ class User extends Base
         if ($user_id>0){
             $logic = new UserLogic();
             $userinfo = $logic->get_one(['id'=>$user_id],'*');
-            dump($userinfo);
+            $userinfo['user_phone']=hidtel($userinfo['user_phone']);
+//            dump($userinfo);
             $this->assign('userinfo',$userinfo);
+            return $this->fetch();
+        }
+    }
+
+    //修改个人信息
+    public function changeuserinfo(){
+        $id =input('id/d');
+        $data["user_pic"] =input('user_pic');
+        $data["user_nickname"] =input('user_nickname');
+        $data["user_sex"] =input('sex');
+        $data["birthday"] =strtotime(input('birthday'));
+        $logic = new UserLogic();
+        $res = $logic->edit(['id'=>$id],$data);
+        if ($res){
+            $this->success('修改个人信息成功',url('user/userinfo'));
+        }else{
+            $this->error('修改个人信息失败',url('user/userinfo'));
+        }
+
+    }
+
+    //余额
+    public function usermoney(){
+        self::isLogin();
+        $user_id =$this->user_id;
+        if ($user_id>0){
+            $logic = new UserLogic();
+            $logic->setUserId($user_id);
+            $userlist = $logic->get_one(['id'=>$user_id],'*');
+            $userloglist=$logic->get_all(['user_id'=>$user_id],'*','UserLog');
+//            dump($userloglist);
+//            die;
+
+            $this->assign('userlist',$userlist);
+            $this->assign('userloglist',$userloglist);
             return $this->fetch();
         }
     }
@@ -269,12 +305,13 @@ class User extends Base
     public function sendreg(){
         $sms = new SendSms();
         //设置关键的四个配置参数，其实配置参数应该写在公共或者模块下的config配置文件中，然后在获取使用，这里我就直接使用了。
-        $sms->accessKeyId = 'LTAI8CDXqHonU0Ck';
-        $sms->accessKeySecret = 'FzvkfdtZvEAwagKS0wKBAay99EBJsT';
-        $sms->signName = 'acgn周边商城';
-        $sms->templateCode = 'SMS_151576238';
+        $sms->accessKeyId = 'LTAINy47t2rDMyIC';
+        $sms->accessKeySecret = 'i4zVLxCSzxyCVtcbfFosLG9L6imrbJ';
+        $sms->signName = 'acgn';
+        $sms->templateCode = 'SMS_163725105';
 
         $status = input('status');
+
         //注册操作
         if ($status==1){
             //$mobile为手机号
@@ -293,6 +330,7 @@ class User extends Base
         cookie('code',$code,300);
         $templateParam = array("code"=>$code);
         $m = $sms->send($phone,$templateParam);
+
         //类中有说明，默认返回的数组格式，如果需要json，在自行修改类，或者在这里将$m转换后在输出
         if($m['Code']== "OK"){
             return json(['status'=> 1]);
@@ -303,14 +341,15 @@ class User extends Base
 
 
     }
+
     //登录发送短信
     public function sendlogin(){
         $sms = new SendSms();
         //设置关键的四个配置参数，其实配置参数应该写在公共或者模块下的config配置文件中，然后在获取使用，这里我就直接使用了。
-        $sms->accessKeyId = Config::get('accessKeyId');
-        $sms->accessKeySecret = Config::get('accessKeySecret');
-        $sms->signName = Config::get('signName');
-        $sms->templateCode = Config::get('templateCode');
+        $sms->accessKeyId = 'LTAINy47t2rDMyIC';
+        $sms->accessKeySecret = 'i4zVLxCSzxyCVtcbfFosLG9L6imrbJ';
+        $sms->signName = 'acgn';
+        $sms->templateCode = 'SMS_163725105';
 
         //$mobile为手机号
         $phone = input('phone');
@@ -325,7 +364,8 @@ class User extends Base
         $m = $sms->send($phone,$templateParam);
         //类中有说明，默认返回的数组格式，如果需要json，在自行修改类，或者在这里将$m转换后在输出
         if($m['Code']== "OK"){
-            return json(['status'=> 1,'msg'=>$code]);
+//            return json(['status'=> 1,'msg'=>$code]);
+            return json(['status'=> 1]);
 //            var_dump($m);
         }elseif ($m['Code']=="isv.BUSINESS_LIMIT_CONTROL"){
             return json(['status'=> 0]);
@@ -338,8 +378,6 @@ class User extends Base
     public function test(){
         $code = mt_rand(1000,9999);
         cookie('code',$code,300);
-
-
 
             return json(['status'=> 1,'code'=>$code]);
 
@@ -373,6 +411,213 @@ class User extends Base
         return json(['status' => 1, 'msg' => '获取成功','result'=>['user_address'=>$userAddress,'province_list'=>$province_list,'city_list'=>$city_list,'district_list'=>$district_list,'twon_list'=>$town_list]]);
     }
 
+    //地址管理
+    public function myaddress(){
+        $logic = new My_Logic();
+        $addresslist = $logic->get_all([],'*','Address');
+//        dump($addresslist);
+        $region=Db::name('region')->column('id,name,level,parent_id');
+//        dump($region);
+        $this->assign('address',$addresslist);
+        $this->assign('count',count($addresslist));
+        $this->assign('more',20-count($addresslist));
+        $this->assign('region',$region);
+        return $this->fetch();
+    }
+
+    //安全设置
+    public function security(){
+        self::isLogin();
+        $user_id =$this->user_id;
+        if ($user_id>0){
+            $logic = new UserLogic();
+            $logic->setUserId($user_id);
+            $userlist = $logic->get_one(['id'=>$user_id],'*');
+//            dump($userlist);
+
+
+            $this->assign('userlist',$userlist);
+
+            return $this->fetch();
+        }
+        return $this->fetch();
+    }
+
+    //修改登录密码页面
+    public function changepwd(){
+        self::isLogin();
+        $user_id =$this->user_id;
+        if ($user_id>0){
+            $logic = new UserLogic();
+            $logic->setUserId($user_id);
+            $userlist = $logic->get_one(['id'=>$user_id],'*');
+            $this->assign('userlist',$userlist);
+
+            return $this->fetch();
+        }
+        return $this->fetch();
+    }
+
+    //修改登录密码操作
+    public function editpwd(){
+        $userid=$this->user_id;
+        $user=$this->user;
+        $password=input('password');
+        $code=input('code');
+        $cookiecode = cookie('code');
+        $userlogic=new UserLogic();
+        if ($code!=$cookiecode){
+            return json(['status'=>-100,'msg'=>'验证码错误！']);
+        }
+        if(!preg_match('/^[a-zA-Z0-9_*-+.]{6,16}$/',$password)) {
+            return json(['status'=> -100,'msg'=>'6-16位大小写英文字母、数字或符号的组合！']);
+        }
+        if($user['user_pwd']== md5(md5($password))){
+            return json(['status'=> -100,'msg'=>'密码不能与之前的相同']);
+        }
+        $where = ['id' => $userid];
+        $data = [
+            'user_pwd' => md5(md5($password)),
+        ];
+        $res = $userlogic->edit($where,$data);
+//        dump($password);
+//        die;
+        if ($res) {
+            return json(['status'=>200,'msg'=>'修改密码成功！']);
+        }else{
+            return json(['status'=>-100,'msg'=>'修改密码失败！']);
+        }
+    }
+
+    //修改手机号码页面
+    public function newphone(){
+        self::isLogin();
+        $user_id =$this->user_id;
+        if ($user_id>0){
+            $logic = new UserLogic();
+            $logic->setUserId($user_id);
+            $userlist = $logic->get_one(['id'=>$user_id],'*');
+            $this->assign('userlist',$userlist);
+
+            return $this->fetch();
+        }
+        return $this->fetch();
+    }
+
+    //新增手机号码页面
+    public function changephone(){
+        self::isLogin();
+        $user_id =$this->user_id;
+        if ($user_id>0){
+            $logic = new UserLogic();
+            $logic->setUserId($user_id);
+            $userlist = $logic->get_one(['id'=>$user_id],'*');
+            $this->assign('userlist',$userlist);
+
+            return $this->fetch();
+        }
+        return $this->fetch();
+    }
+
+    //判断手机验证码正确
+    public function checkcode(){
+        $code=input('code');
+        $cookiecode = cookie('code');
+        if ($code!=$cookiecode){
+            return json(['status'=>-100,'msg'=>'验证码错误！']);
+        }else{
+            return json(['status'=>200]);
+        }
+    }
+
+    //新增修改支付密码
+    public function addEditPaypwd(){
+        $userid=$this->user_id;
+        $status = input('status');
+        $paypwd = input('pwdfirst');
+        $userlogic=new UserLogic();
+        $phone = input('phone');
+        $code = input('code');
+        $cookiecode = cookie('code');
+        if ($code!=$cookiecode){
+            return json(['status'=>-100,'msg'=>'验证码错误！']);
+        }
+        if (!$cookiecode){
+            return json(['status'=>-100,'msg'=>'验证码过期！请重新发送']);
+        }
+        if ($status==2||$status==3){//新建支付密码或者同时绑定手机号码
+            $paypwdsecond = input('pwdsecond');
+            if ($paypwd!=$paypwdsecond){
+                return json(['status'=>-100,'msg'=>'输入的两次密码不一样！']);
+            }
+            if ($status==2) {//执行新建支付密码和绑定手机号码
+                if (!$phone){
+                    return json(['status'=>-100,'msg'=>'请输入手机号码！']);
+                }
+                $where = ['id' => $userid];
+                $data = [
+                    'paypwd' => md5(md5($paypwd)),
+                    'user_phone' => $phone,
+                ];
+                $res = $userlogic->edit($where, $data);
+                if ($res) {
+                    return json(['status'=>200,'msg'=>'新建支付密码成功！']);
+                }
+            }else{
+                $where = ['id' => $userid];
+                $data = [
+                    'paypwd' => md5(md5($paypwd)),
+                ];
+                $res = $userlogic->edit($where, $data);
+                if ($res) {
+                    return json(['status'=>200,'msg'=>'新建支付密码成功！']);
+                }
+            }
+        }else{//修改支付密码
+
+            $where = ['id' => $userid];
+            $data = [
+                'paypwd' => md5(md5($paypwd)),
+            ];
+            $res = $userlogic->edit($where,$data);
+            if ($res) {
+                return json(['status'=>200,'msg'=>'修改支付密码成功！']);
+            }else{
+                return json(['status'=>-100,'msg'=>'修改失败！']);
+            }
+        }
+    }
+
+    //新增更改绑定手机号码
+    public function addeditUserPhone(){
+        $userid=$this->user_id;
+        $user=$this->user;
+        $userlogic=new UserLogic();
+        $phone = input('phone');
+        $code = input('code');
+        $cookiecode = cookie('code');
+        if ($code!=$cookiecode){
+            return json(['status'=>-100,'msg'=>'验证码错误！']);
+        }
+        if (!$cookiecode){
+            return json(['status'=>-100,'msg'=>'验证码过期！请重新发送']);
+        }
+        $check=$userlogic->get_one(['user_phone'=>$phone],'*');
+        if ($check){
+            return json(['status'=>-100,'msg'=>'该手机已经被使用过了，请换另一个']);
+        }
+        $where = ['id' => $userid];
+        $data = [
+            'user_phone' => $phone,
+        ];
+        $res = $userlogic->edit($where, $data);
+        if ($res) {
+            return json(['status'=>200,'msg'=>'操作成功！']);
+        }else{
+            return json(['status'=>-100,'msg'=>'操作失败']);
+        }
+    }
+
     //地址选择器
     public function region(){
         $parent_id = input('parent_id');
@@ -397,8 +642,6 @@ class User extends Base
     public function addressSave(){
         $address_id = input('address_id/d',0);
         $data = input('post.');
-//        dump($data);
-//        die;
 
         $logic = new UserLogic();
         $userAddressValidate = Loader::validate('UserAddress');

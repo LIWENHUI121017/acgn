@@ -230,7 +230,7 @@ class Order extends Base {
                        'user_id'=>$this->user_id,
                        'user_money'=>"-".$order['order_amount'],
                        'change_time'=>time(),
-                       'desc'=>'充值金额',
+                       'desc'=>'订单支付',
                        'order_sn'=>$order['order_sn'],
                        'order_id'=>$orderid,
                    ];

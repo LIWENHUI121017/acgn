@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<link href="__PUBLIC__/static/css/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet">
+		<link href="__PUBLIC__/static/css/user/usermoney.css" rel="stylesheet">
+		<link rel="stylesheet" type="text/css" href="__PUBLIC__/static/css/order/buyConfirm.css" />
+		<link href="__PUBLIC__/static/css/user/security.css" rel="stylesheet">
+		<include file="public/head"/>
+		<title>安全中心</title>
+		<style>
+			#book-tit{
+				line-height: 38px;
+			}
+		</style>
+	</head>
+
+	<body style="background: #f0f1f5">
+		<include file="public/publichead"/>
+
+		<include file="user/user_title"/>
+
+		<!-- 内容  开始-->
+		<div class="wrap">
+			<div class="vip_cont c100 clearfix">
+				<include file="user/nav-left"/>
+
+				<!--右边列表内容  开始-->
+				<div class="fr vip_right vip_magRight">
+					<div class="order-list">
+						<div class="security-right">
+							<div data-v-4cbad597="" class="security-right-title">
+								<span data-v-4cbad597="" class="security-right-title-icon"></span>
+								<span data-v-4cbad597="" class="security-right-title-text">安全中心</span>
+							</div>
+						</div>
+						<!--内容开始-->
+						<div class="menu-ri-t setsafe p">
+							<div class="mu-head fl">
+								<img src="{$userlist.user_pic}">
+							</div>
+							<div class="mu-midd fl">
+								<h1>{$userlist.user_nickname}</h1>
+								<p class="advice">建议你启动全部安全设置，以保障账户及资金安全</p>
+							</div>
+						</div>
+						<ul data-v-73d7a318="" class="nav-list">
+							<!--登录密码-->
+							<li data-v-73d7a318="">
+								<div data-v-73d7a318="" class="nav-container clearfix">
+									<div data-v-73d7a318="" class="list-title clearfix">
+										<div data-v-73d7a318="" class="list-title-text">
+											<span data-v-73d7a318="" class="safe" style="background-image: url('/public/static/images/user/yes.png')" ></span>
+											<p data-v-73d7a318="">登录密码</p>
+										</div>
+									</div>
+									<div data-v-73d7a318="" class="list-description">
+										<p data-v-73d7a318="" class=""  style="color: green;">已设置</p>
+									</div>
+									<div data-v-73d7a318="" class="list-link">
+										<p data-v-73d7a318="">
+											<if condition="$userlist.user_phone eq ''">
+												要修改密码请先绑定手机号码
+												<else/>
+												<a data-v-73d7a318="" href="{:url('/index/user/changepwd',array('type'=>'security'))}" class="">修改密码</a>
+
+											</if>
+												</p>
+									</div>
+								</div>
+							</li>
+							<!--支付密码-->
+							<li data-v-73d7a318="">
+								<div data-v-73d7a318="" class="nav-container clearfix">
+									<div data-v-73d7a318="" class="list-title clearfix">
+										<div data-v-73d7a318="" class="list-title-text">
+											<if condition="$userlist.paypwd neq '' ">
+												<span data-v-73d7a318="" class="safe" style="background-image: url('/public/static/images/user/yes.png')" ></span>
+												<else/>
+												<span data-v-73d7a318="" class="safe" style="background-image: url('/public/static/images/user/no.png')" ></span>
+											</if>
+											<p data-v-73d7a318="">支付密码</p></div>
+									</div>
+									<div data-v-73d7a318="" class="list-description">
+										<if condition="$userlist.paypwd neq '' ">
+											<p data-v-73d7a318="" class="" style="color: green;">已设置</p>
+											<else/>
+											<p data-v-73d7a318="" class="text-warning">未设置</p>
+										</if>
+
+									</div>
+									<div data-v-73d7a318="" class="list-link">
+										<if condition="$userlist.paypwd neq '' ">
+											<p data-v-73d7a318=""><a data-v-73d7a318="" href="javascript:void(0)" id="payBtn" class="">修改支付密码</a></p>
+											<else/>
+											<p data-v-73d7a318=""><a data-v-73d7a318="" href="javascript:void(0)" id="payBtn"  class="">新建支付密码</a></p>
+										</if>
+										</div>
+								</div>
+							</li>
+							<!--手机绑定-->
+							<li data-v-73d7a318="">
+								<div data-v-73d7a318="" class="nav-container clearfix">
+									<div data-v-73d7a318="" class="list-title clearfix">
+										<div data-v-73d7a318="" class="list-title-text">
+											<if condition="$userlist.user_phone neq '' ">
+												<span data-v-73d7a318="" class="safe" style="background-image: url('/public/static/images/user/yes.png')" ></span>
+												<else/>
+												<span data-v-73d7a318="" class="safe" style="background-image: url('/public/static/images/user/no.png')" ></span>
+
+											</if>
+											<p data-v-73d7a318="">绑定手机</p>
+										</div>
+									</div>
+									<div data-v-73d7a318="" class="list-description">
+
+										<if condition="$userlist.user_phone neq '' ">
+											<p data-v-73d7a318="" class="" style="color: green;">已设置</p>
+											<else/>
+											<p data-v-73d7a318=""class="text-warning">未绑定手机（账号容易被盗）</p>
+										</if>
+									</div>
+									<div data-v-73d7a318="" class="list-link">
+										<p data-v-73d7a318="">
+											<if condition="$userlist.user_phone neq '' ">
+												<a data-v-73d7a318="" href="{:url('/index/user/changephone',array('type'=>'security'))}" class="">更改手机绑定</a>
+											<else/>
+												<a data-v-73d7a318="" href="{:url('/index/user/newphone',array('type'=>'security'))}" class="">绑定手机</a>
+											</if>
+										</p>
+									</div>
+								</div>
+							</li>
+
+						</ul>
+					</div>
+				</div>
+				<!--右边列表内容  结束-->
+			</div>
+		</div>
+
+		<!-- 内容  结束-->
+
+		<!-- 新增修改支付密码框 -->
+		<div class="modal balance-pay" id="balancePay">
+			<div class="shadow">
+				<div class="modal-body" style="display: none;">
+					<div class="close"></div>
+						<if condition="$userlist.paypwd neq ''">
+							<h4 style="margin-top: 5px;">修改支付密码</h4>
+							<input type="password" name="Newpaypwd[first]" maxlength="6" oninput = "value=value.replace(/[^\d]/g,'')" class="input" placeholder="请输入6位纯数字支付密码">
+							<span class="red" style="font-size: 13px" id="paypwdfirstcheck"><em></em></span>
+							<input type="text" name="code"  maxlength="4" oninput = "value=value.replace(/[^\d]/g,'')"  id="code" class="input" placeholder="请输入验证码">
+							<span class="send-again" id="sendmessage" data-phone="{$userlist.user_phone}" data-status="2">发送手机验证码<em></em></span>
+							<p><input type="button" value="提交" class="btn btn-primary" id="submit"  data-status="1"></p>
+							<else/>
+							<h4 style="margin-top: 5px;">你还没设置支付密码</h4>
+							<input type="password" name="Newpaypwd[first]" maxlength="6" oninput = "value=value.replace(/[^\d]/g,'')" class="input" placeholder="请输入6位纯数字支付密码">
+							<span class="red" style="font-size: 13px" id="paypwdfirstcheck"><em></em></span>
+							<input type="password" name="Newpaypwd[second]"  maxlength="6" oninput = "value=value.replace(/[^\d]/g,'')" class="input" placeholder="请再次输入支付密码">
+							<span class="red" style="font-size: 13px" id="paypwdcheck"><em></em></span>
+							<if condition="$userlist.user_phone eq ''">
+								<h4 style="margin-top: 5px;">你还没绑定手机号码</h4>
+								<input type="text" name="phone" maxlength="11" oninput = "value=value.replace(/[^\d]/g,'')"  class="input" placeholder="请输入接收短信的手机号">
+								<span class="send-again" id="sendmessage"  data-status="1">发送手机验证码<em></em></span>
+								<input type="text" name="code"  maxlength="4" oninput = "value=value.replace(/[^\d]/g,'')"  id="code" class="input" placeholder="请输入验证码">
+								<p><input type="button" value="提交" class="btn btn-primary" id="submit"  data-status="2"></p>
+								<else/>
+								<input type="text" name="code"  maxlength="4" oninput = "value=value.replace(/[^\d]/g,'')"  id="code" class="input" placeholder="请输入验证码">
+								<span class="send-again" id="sendmessage" data-phone="{$userlist.user_phone}" data-status="2">发送手机验证码<em></em></span>
+								<p><input type="button" value="提交" class="btn btn-primary" id="submit"  data-status="3"></p>
+							</if>
+						</if>
+
+
+
+				</div>
+			</div>
+		</div>
+	<include file="public/footer"/>
+
+	</body>
+<script type="text/javascript">
+
+    //点击下一步
+    $(document).on('click','#payBtn',function () {
+            var balancePay = $('#balancePay')
+            balancePay.removeClass('modal');
+            balancePay.children('div').find('.modal-body').css('display','block')
+    })
+    //点击close关闭弹窗
+    $(document).on('click','.close',function () {
+        $('#balancePay').addClass('modal');
+        $('.modal-body').css('display','none');
+    })
+    //点击发送短信
+    $(document).on('click','#sendmessage',function () {
+        var status = $(this).data('status');
+		var phone = $(this).data('phone');
+
+        // console.log(phone);
+        $.ajax({
+            type: "POST",
+            url: "/Index/User/test",
+            // url: "/Index/User/sendreg",
+            data: {
+                'phone':phone,
+                'status':status
+            },
+            async: false,
+            dataType:'json',
+            success: function(data){
+                if (data.status == 0){
+                    layer.alert('短信发送次数已达上限，请明天再来!',{icon:2});
+                }
+                if(data.status == 1){
+                    layer.msg('短信发送成功!',{icon:1,time:2000});
+                }
+                if (data.status == 3){
+                    layer.alert(data.msg ,{icon:2});
+                }
+
+            },
+            error : function(XMLHttpRequest, textStatus, errorThrown) {
+                layer.msg("网络失败，请刷新页面后重试!",{icon:2,time:2000});
+            }
+        });
+    })
+
+    //点击提交
+    $(document).on('click','#submit',function () {
+
+        var phone = $("input[name='phone']").val();
+        var status = $(this).data('status');
+        var pwdfirst = $("input[name='Newpaypwd[first]']").val();
+        var pwdsecond = $("input[name='Newpaypwd[second]']").val();
+        var code = $("input[name='code']").val();
+        // alert(status);
+        if (status==2){
+            if (pwdfirst!=pwdsecond){
+                $('#paypwdcheck').html('两次输入的密码必须相同!');
+                return false;
+            }else if(pwdfirst==''){
+                $('#paypwdfirstcheck').html('密码不能为空!');
+            }else if(pwdsecond==''){
+                $('#paypwdcheck').html('密码不能为空!');
+            }else {
+                $('#paypwdcheck').html('');
+                $('#paypwdfirstcheck').html('');
+			}
+        }
+
+        $.ajax({
+            type: "get",
+			url:'/index/user/addEditPaypwd',
+            data: {
+                'phone':phone,
+                'status':status,
+                'pwdfirst':pwdfirst,
+                'pwdsecond':pwdsecond,
+                'code':code,
+            },
+            async: false,
+            dataType:'json',
+            success: function(data){
+                if (data.status == -100) {
+                    layer.msg(data.msg, {icon: 2, time: 2000}, function () {
+                        window.location.reload();
+                    });
+                }
+
+                if(data.status == 200){
+                    layer.msg(data.msg,{icon:1,time:2000},function () {
+                        window.location.reload();
+                    });
+
+
+                }
+
+
+
+            },
+            error : function(XMLHttpRequest, textStatus, errorThrown) {
+                alert("网络失败，请刷新页面后重试!");
+            }
+        });
+
+
+
+    })
+</script>
+</html>

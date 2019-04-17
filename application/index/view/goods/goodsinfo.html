@@ -265,11 +265,7 @@
         }else {
             $('.no_pic').css("background-image","url("+src+")")
         }
-
-
     })
-
-
 
     //缩略图切换
     $('.small-pic-li').mouseenter(function () {
@@ -464,10 +460,12 @@
         }
     }
     $(document).on('click','.buy_car',function () {
+        alert(1);
         buycar();
     });
     //加入购物车
     function buycar(){
+        alert(1);
         var goods_id = $(" input[ name='goods_id' ] ").val();
         var item_id = $("input[name='item_id']").val();
         // var goods_name = $('#goods_name').val();
