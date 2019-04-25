@@ -84,7 +84,7 @@ class GoodsLogic extends My_Logic{
     }
     //获取商品分类并处理
     public function getcatelist(){
-        $categoryList = Db::name('goods_category')->cache(true)->field('id,name,pid,level')->select();
+        $categoryList = Db::name('goods_category')->field('id,name,pid,level')->select();
         $nameList = array();
         foreach($categoryList as $k => $v)
         {

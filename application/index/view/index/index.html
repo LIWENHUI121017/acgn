@@ -13,6 +13,13 @@
         #page{
             display: block;
         }
+        .floor a:hover{
+            text-decoration:none;
+
+        }
+        .floor-goods-item .googs-title:hover{
+            color: red;
+        }
     </style>
 </head>
 <body id="back">
@@ -22,17 +29,17 @@
 <div id="myCarousel" class="carousel clearfix">
     <ul class="carousel-inner" style="width: 6853px; left: -3916px;">
         <li class="item" style="background-image: linear-gradient(-49deg,#0033ff,#cc0000);">
-            <a class="item-pic" href="javascript:void(0);" >
+            <a class="item-pic" href="/index/goods/goodsinfo/id/98.html" >
                 <img class="w-100" src="/public/static/images/banner/jujia.jpg"  title="" alt="">
             </a>
         </li>
         <li class="item"  style="background-image: linear-gradient(0deg,#cc99ff,#6699ff);">
-            <a class="item-pic" href="javascript:void(0);">
+            <a class="item-pic" href="/index/goods/goodsinfo/id/84.html">
                 <img class="w-100" src="/public/static/images/banner/peishi.jpg" title="" alt="">
             </a>
         </li>
         <li class="item" style="background-image: linear-gradient(0deg,#ff6600,#990000);">
-            <a class="item-pic" href="javascript:void(0);">
+            <a class="item-pic" href="/index/goods/goodsinfo/id/10.html">
                 <img class="w-100" src="/public/static/images/banner/weiyi.jpg" title="" alt="">
             </a>
         </li>
@@ -152,208 +159,197 @@
                 <span class="show-next"></span></div>
         </div>
     </div>
+    <div >
+        <foreach name="catelist" key="k" item="v">
+            <div class="floor floor{$k+1} w1224" >
+            <div class="floor-top" >
+               <a href="{:url('index/Goods/goodslist',array('id'=>$v.id))}">
+                   <h3 class="floor-title" >{$v['name']}</h3>
+               </a>
+                <div class="floor-nav-list clearfix">
+                <foreach name="$v['tmenu']" key="kk" item="vv">
+                    <a class="floor-nav-item" href="{:url('index/Goods/goodslist',array('id'=>$vv.id))}">{$vv['name']}</a>
+                </foreach>
 
 
-<div>
-
-    <foreach name="catelist" key="k" item="v">
-        <div class="floor floor{$k+1} w1224">
-        <div class="floor-top">
-           <a href="{:url('index/Goods/goodslist',array('id'=>$v.id))}">
-               <h3 class="floor-title" >{$v['name']}</h3>
-           </a>
-            <div class="floor-nav-list clearfix">
-            <foreach name="$v['tmenu']" key="kk" item="vv">
-                <a class="floor-nav-item" href="{:url('index/Goods/goodslist',array('id'=>$vv.id))}">{$vv['name']}</a>
-            </foreach>
-
-
-            </div>
-            <a class="nav-more-btn" href="{:url('index/Goods/goodslist',array('id'=>$v.id))}">更多<i>></i></a>
-        </div>
-        <div class="floor-main">
-
-            <div class="floor-brand cleanflow">
-
-                <if condition="$k eq 0">
-                    <a class="brand-big" href="javascript:void(0);">
-                        <img class="w-100" src="/public/uploads/20190411/df45fa0343d5b949bf5d646aa06ba1ea.jpg" alt="" />
-                    </a>
-                    <elseif condition="$k eq 1"/   >
-                        <a class="brand-big" href="javascript:void(0);">
-                            <img class="w-100" src="/public/uploads/20190411/21291052ef3d75dfc5116b1933503c37.jpg" alt="" />
-                        </a>
-                    <elseif condition="$k eq 1"/>
-                        <a class="brand-big" href="javascript:void(0);">
-                            <img class="w-100" src="/public/uploads/20190411/21291052ef3d75dfc5116b1933503c37.jpg" alt="" />
-                        </a>
-                    <elseif condition="$k eq 2"/>
-                    <a class="brand-big" href="javascript:void(0);">
-                        <img class="w-100" src="/public/uploads/20190417/0469a6507eb685f38e972f4f3437287d.jpg" alt="" />
-                    </a>
-                    <elseif condition="$k eq 3"/>
-                    <a class="brand-big" href="javascript:void(0);">
-                        <img class="w-100" src="/public/uploads/20190411/2dc6373fb05e3f42917430042039f24d.jpg" alt="" />
-                    </a>
-                    <elseif condition="$k eq 4"/>
-                    <a class="brand-big" href="javascript:void(0);">
-                        <img class="w-100" src="/public/uploads/20190411/21291052ef3d75dfc5116b1933503c37.jpg" alt="" />
-                    </a>
-                </if>
-
-
-
-                <a class="brand-samll" href="javascript:void(0);"><img class="w-100" src="__PUBLIC__/static/images/index-goods/1.jpg" alt="" /></a>
-
-            </div>
-            <div class="floor-goods-list">
-
-            <foreach name="$v['hot_goods']" item="g" key="gk">
-                <a class="floor-goods-item" href="{:url('Goods/goodsInfo',array('id'=>$g['id']))}">
-                    <div class="googs-title ellipsis-1">{$g['goods_name']}</div>
-                    <div class="googs-price ellipsis-1">￥{$g['goods_price']}</div>
-                    <div class="goods-pic"><img class="w-100" src="{$g['original_img']}" alt=""></div>
-                </a>
-            </foreach>
-
-
-
-            </div>
-            <div class="floor-recommend">
-                <div class="floor-recommend-title">热门推荐</div>
-                <div class="floor-recommend-wrap">
-                    <div class="floor-recommend-list">
-
-                        <a class="floor-recommend-item" href="#">
-                            <div class="floor-recommend-pic">
-                                <img class="w-100" src="__PUBLIC__/static/images/test/2.jpg" alt="" />
-                            </div>
-                            <div class="floor-recommend-cont">
-                                <div class="recommend-goods-name ellipsis-1">国家地理（National G...</div>
-                                <div class="recommend-goods-des ellipsis-1"></div>
-                                <div class="recommend-goods-price  recommend-goods-des">￥ 1699.00</div>
-                            </div>
-                        </a>
-                        <a class="floor-recommend-item" href="#">
-                            <div class="floor-recommend-pic">
-                                <img class="w-100" src="__PUBLIC__/static/images/test/2.jpg" alt="" />
-                            </div>
-                            <div class="floor-recommend-cont">
-                                <div class="recommend-goods-name ellipsis-1">国家地理（National G...</div>
-                                <div class="recommend-goods-des ellipsis-1"></div>
-                                <div class="recommend-goods-price  recommend-goods-des">￥ 1699.00</div>
-                            </div>
-                        </a>
-
-                    </div>
                 </div>
-                <a class="recommend-more-btn" href="#">更多 <i>></i></a>
+                <a class="nav-more-btn" href="{:url('index/Goods/goodslist',array('id'=>$v.id))}">更多<i>></i></a>
             </div>
-        </div>
+            <div class="floor-main">
+
+                <div class="floor-brand cleanflow">
+
+                    <if condition="$k eq 0">
+                        <a class="brand-big" href="/index/goods/goodsinfo/id/83.html">
+                            <img class="w-100" src="/public/uploads/20190411/df45fa0343d5b949bf5d646aa06ba1ea.jpg" alt="" />
+                        </a>
+                        <elseif condition="$k eq 1"/>
+                            <a class="brand-big" href="/index/goods/goodsinfo/id/85.html">
+                                <img class="w-100" src="/public/uploads/20190411/21291052ef3d75dfc5116b1933503c37.jpg" alt="" />
+                            </a>
+                        <elseif condition="$k eq 2"/>
+                        <a class="brand-big" href="/index/goods/goodsinfo/id/96.html" >
+                            <img class="w-100" src="/public/uploads/20190417/0469a6507eb685f38e972f4f3437287d.jpg" alt="" />
+                        </a>
+                        <elseif condition="$k eq 3"/>
+                        <a class="brand-big" href="/index/goods/goodsinfo/id/84.html" >
+                            <img class="w-100" src="/public/uploads/20190411/2dc6373fb05e3f42917430042039f24d.jpg" alt="" />
+                        </a>
+                        <elseif condition="$k eq 4"/>
+                        <a class="brand-big" href="/index/goods/goodsinfo/id/97.html">
+                            <img class="w-100" src="/public/uploads/20190417/03f648d8a68f32a0c5ae6252e65c1c47.jpg" alt="" />
+                        </a>
+                    </if>
+
+
+
+                    <a class="brand-samll" href="/index/goods/goodsinfo/id/87.html">
+                        <img class="w-100" src="__PUBLIC__/static/images/index-goods/1.jpg" alt="" />
+                    </a>
+
+                </div>
+                <div class="floor-goods-list" >
+
+                <foreach name="$v['hot_goods']" item="g" key="gk">
+                    <a class="floor-goods-item" href="{:url('Goods/goodsInfo',array('id'=>$g['id']))}">
+                        <div class="googs-title ellipsis-1">{$g['goods_name']}</div>
+                        <div class="googs-price ellipsis-1">￥{$g['goods_price']}</div>
+                        <div class="goods-pic"><img class="w-100" src="{$g['original_img']}" alt=""></div>
+                    </a>
+                </foreach>
+
+
+
+                </div>
+
+                <div class="floor-recommend">
+                    <div class="floor-recommend-title">热门推荐</div>
+                    <div class="floor-recommend-wrap" style="height: 400px;">
+                        <div class="floor-recommend-list">
+
+                            <foreach name="$v['hot_goods']" item="rg" key="gk">
+                                <a class="floor-recommend-item" href=" {:url('/index/Goods/goodsInfo',array('id'=>$rg['id']))}">
+                                    <div class="floor-recommend-pic">
+                                        <img class="w-100" src={$rg['original_img']} alt="" />
+                                    </div>
+                                    <div class="floor-recommend-cont">
+                                        <div class="recommend-goods-name ellipsis-1">{$rg['goods_name']}</div>
+                                        <div class="recommend-goods-des ellipsis-1"></div>
+                                        <div class="recommend-goods-price  recommend-goods-des">￥ {$rg['goods_price']}</div>
+                                    </div>
+                                </a>
+                            </foreach>
+
+                        </div>
+                    </div>
+                    <a class="recommend-more-btn" href="{:url('index/Good/goodsList',array('id'=>$v['id']))}">更多 <i>></i></a>
+
+                </div>
+            </div>
+            </div>
+        </foreach>
     </div>
-    </foreach>
-</div>
 <include file="public/footer"/>
 </body>
 <script>
 
-    function init(){  //初始化函数
-        //首页商品分类显示
-        $('.categorys .dd').show();
-
-        //自动楼层居中设置
-        $('#floor-nav').css('margin-top',(-41*$('#floor-nav').find('li').length+1)/2);
-
-        //推荐列表自动滚动
-        carouselList('.floor-recommend-wrap','.floor-recommend-list','.floor-recommend-item');
-
-        //右侧边栏
-        rightBar();
-
-        //楼层导航切换
-        sidebarRollChange();
-    }
-
-    function rightBar(){  //右侧边栏
-        var $_slidebar4 = $('.ico-slidebar4');
-        $(window).scroll(function(){
-            if($(window).scrollTop()>100){
-                $_slidebar4.css('height',40);
-            }else{
-                $_slidebar4.css('height',0);
-            }
-        })
-        $_slidebar4.click(function () {
-            $('html,body').animate({'scrollTop':0},500)
-        });
-    }
-    function carouselList(wrap,list,item,timeWait,timeRun){ //推荐列表滚动
-        /*
-         * wrap：包裹容器
-         * list：列表容器
-         *item：列表单元
-         *timeWait：停顿时间(单位ms,可不传参数，默认3秒)
-         *timeRun：运动时间(单位ms,可不传参数，默认0.5秒)
-         * */
-        if(timeWait===undefined||typeof timeWait!="number"){
-            timeWait=3000;
-        }
-        if(timeRun===undefined||typeof timeRun!="number"){
-            timeRun=500;
-        }
-        $(wrap).each(function(){
-            var length=$(this).find(item).length;
-            if(length<3){
-                return;
-            }
-            var html=$(this).find(list).html();
-            $(this).find(list).html(html+html);
-            var num=1;
-            var _this=this;
-            function interval(){
-                clearInterval($(_this)[0].timer);
-                $(_this)[0].timer=setInterval(function(){
-                    num++;
-                    if(num==length){
-                        $(_this).find(list).animate({top:-108*num},timeRun,function (){
-                            $(_this).find(list).css('top',0);
-                        });
-                        num=0;
-                    }else{
-                        $(_this).find(list).animate({top:-108*num},timeRun);
-                    }
-                },timeWait);
-            }
-            interval();
-            $(this).find(item).hover(function (){
-                clearInterval($(_this)[0].timer);
-            },function (){
-                interval();
-            })
-        });
-    }
-    function sidebarRollChange() {  //楼层切换
-        var $_floorList=$('.floor');
-        var $_sidebar=$('#floor-nav');
-        $_sidebar.find('li').click(function(){ //点击切换楼层
-            $('html,body').animate({'scrollTop':$_floorList.eq($(this).index()).offset().top},500)
-        });
-        $(window).scroll(function(){
-            var scrollTop=$(window).scrollTop();
-            if(scrollTop<$_floorList.eq(0).offset().top-$(window).height()/2){
-                $_sidebar.hide();
-                return;
-            }
-            $_sidebar.show();  //左边侧边栏显示
-            for(var j=0,k=$_floorList.length;j<k;j++){ /*滚动改变侧边栏的状态*/
-                if(scrollTop>$_floorList.eq(j).offset().top-$(window).height()/2){
-                    $_sidebar.find('li').eq(j).addClass('floor-nav-ac').siblings().removeClass('floor-nav-ac');
-                }
-            }
-        })
-    }
-
-    init();
+     // function init(){  //初始化函数
+     //     //首页商品分类显示
+     //     $('.categorys .dd').show();
+     //
+     //     //自动楼层居中设置
+     //     $('#floor-nav').css('margin-top',(-41*$('#floor-nav').find('li').length+1)/2);
+     //
+     //     //推荐列表自动滚动
+     //     carouselList('.floor-recommend-wrap','.floor-recommend-list','.floor-recommend-item');
+     //
+     //     //右侧边栏
+     //     rightBar();
+     //
+     //     //楼层导航切换
+     //     sidebarRollChange();
+     // }
+     //
+     // function rightBar(){  //右侧边栏
+     //     var $_slidebar4 = $('.ico-slidebar4');
+     //     $(window).scroll(function(){
+     //         if($(window).scrollTop()>100){
+     //             $_slidebar4.css('height',40);
+     //         }else{
+     //             $_slidebar4.css('height',0);
+     //         }
+     //     })
+     //     $_slidebar4.click(function () {
+     //         $('html,body').animate({'scrollTop':0},500)
+     //     });
+     // }
+     // function carouselList(wrap,list,item,timeWait,timeRun){ //推荐列表滚动
+     //     /*
+     //      * wrap：包裹容器
+     //      * list：列表容器
+     //      *item：列表单元
+     //      *timeWait：停顿时间(单位ms,可不传参数，默认3秒)
+     //      *timeRun：运动时间(单位ms,可不传参数，默认0.5秒)
+     //      * */
+     //     if(timeWait===undefined||typeof timeWait!="number"){
+     //         timeWait=3000;
+     //     }
+     //     if(timeRun===undefined||typeof timeRun!="number"){
+     //         timeRun=500;
+     //     }
+     //     $(wrap).each(function(){
+     //         var length=$(this).find(item).length;
+     //         if(length<3){
+     //             return;
+     //         }
+     //         var html=$(this).find(list).html();
+     //         $(this).find(list).html(html+html);
+     //         var num=1;
+     //         var _this=this;
+     //         function interval(){
+     //             clearInterval($(_this)[0].timer);
+     //             $(_this)[0].timer=setInterval(function(){
+     //                 num++;
+     //                 if(num==length){
+     //                     $(_this).find(list).animate({top:-108*num},timeRun,function (){
+     //                         $(_this).find(list).css('top',0);
+     //                     });
+     //                     num=0;
+     //                 }else{
+     //                     $(_this).find(list).animate({top:-108*num},timeRun);
+     //                 }
+     //             },timeWait);
+     //         }
+     //         interval();
+     //         $(this).find(item).hover(function (){
+     //             clearInterval($(_this)[0].timer);
+     //         },function (){
+     //             interval();
+     //         })
+     //     });
+     // }
+     // function sidebarRollChange() {  //楼层切换
+     //     var $_floorList=$('.floor');
+     //     var $_sidebar=$('#floor-nav');
+     //     $_sidebar.find('li').click(function(){ //点击切换楼层
+     //         $('html,body').animate({'scrollTop':$_floorList.eq($(this).index()).offset().top},500)
+     //     });
+     //     $(window).scroll(function(){
+     //         var scrollTop=$(window).scrollTop();
+     //         if(scrollTop<$_floorList.eq(0).offset().top-$(window).height()/2){
+     //             $_sidebar.hide();
+     //             return;
+     //         }
+     //         $_sidebar.show();  //左边侧边栏显示
+     //         for(var j=0,k=$_floorList.length;j<k;j++){ /*滚动改变侧边栏的状态*/
+     //             if(scrollTop>$_floorList.eq(j).offset().top-$(window).height()/2){
+     //                 $_sidebar.find('li').eq(j).addClass('floor-nav-ac').siblings().removeClass('floor-nav-ac');
+     //             }
+     //         }
+     //     })
+     // }
+     //
+     // init();
 </script>
 
 </html>

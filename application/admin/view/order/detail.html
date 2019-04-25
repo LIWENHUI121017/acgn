@@ -92,7 +92,7 @@
                     <!--<if condition="$order['order_status'] lt 2 and $order.pay_status eq 0">-->
                         <!--<a href="" style="float:right;margin-right:10px" class="ncap-btn-big ncap-btn-green" ><i class="fa fa-pencil-square-o"></i>修改订单</a>-->
                     <!--</if>-->
-                    <a href="" target="_blank"  style="float:right;margin-right:10px" class="ncap-btn-big ncap-btn-green" ><i class="fa fa-print"></i>打印订单</a>
+                    <!--<a href="" target="_blank"  style="float:right;margin-right:10px" class="ncap-btn-big ncap-btn-green" ><i class="fa fa-print"></i>打印订单</a>-->
                 </div>
             </div>
 
@@ -267,7 +267,7 @@
                                                 <a class="ncap-btn-big ncap-btn-green" id="confirm" data-status="2">取消确认</a>
                                                 <a class="ncap-btn-big ncap-btn-green" href="{:url('Admin/order/delivery',array('orderid'=>$order.id))}" >去发货</a>
                                             </if>
-                                            <elseif condition="$order.order_status eq 0"/>
+                                            <elseif condition="$order.order_status eq 0 and $order.pay_status eq 1"/>
                                             <a class="ncap-btn-big ncap-btn-green" id="confirm" data-status="1">确认</a>
                                         </if>
 

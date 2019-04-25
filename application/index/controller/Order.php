@@ -43,6 +43,10 @@ class Order extends Base {
         if ($this->user_id == 0) {
             $this->error('请先登录', url('index/User/login'));
         }
+        $user=$this->user;
+        if ($user['is_disable']==1){
+            $this->error('您的账户已被冻结！', url('/index/user/usermoney',array('type'=>'usermoney')));
+        }
         //获取用户购物车选中的商品
         $user_id=$this->user_id;
         $where=['a.user_id'=>$user_id,'a.selected'=>1];

@@ -98,21 +98,25 @@
 
 	</body>
 <script type="text/javascript">
-
+    var countdown=60;
     //点击发送短信
     $(document).on('click','#sendmessage',function () {
    
         var status = $(this).data('status');
-
+        var obj = $('.send-again');
+        settime(obj);
 		if (status==3) {
 		    var phone = $("input[name='newphone']").val();
+		    if (!phone){
+                layer.alert('手机号码不能为空！' ,{icon:2,time:2000});
+			}
 		}else{
             var phone = $(this).data('phone');
 		}
         $.ajax({
             type: "POST",
-            url: "/Index/User/test",
-            // url: "/Index/User/sendreg",
+            // url: "/Index/User/test",
+            url: "/Index/User/sendreg",
             data: {
                 'phone':phone,
                 'status':status
@@ -136,10 +140,28 @@
             }
         });
     })
-
+    function settime(obj) { //发送验证码倒计时
+        if (countdown == 0) {
+            obj.attr('id','sendmessage');
+            obj.css('cursor','pointer');
+            //obj.removeattr("disabled");
+            obj.html("发送验证码");
+            countdown = 60;
+            return;
+        } else {
+            obj.attr('id','');
+            obj.css('cursor','none');
+            obj.html("重新发送(" + countdown + ")");
+            countdown--;
+        }
+        setTimeout(function() {
+                settime(obj) }
+            ,1000)
+    }
 	//点击下一步
     $(document).on('click','#next',function () {
         var code = $("input[name='code']").val();
+        countdown=0;
 
         $.ajax({
             type: "POST",

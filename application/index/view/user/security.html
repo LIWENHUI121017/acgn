@@ -182,7 +182,7 @@
 
 	</body>
 <script type="text/javascript">
-
+    var countdown=60;
     //点击下一步
     $(document).on('click','#payBtn',function () {
             var balancePay = $('#balancePay')
@@ -198,12 +198,13 @@
     $(document).on('click','#sendmessage',function () {
         var status = $(this).data('status');
 		var phone = $(this).data('phone');
-
+        var obj = $('.send-again');
+        settime(obj);
         // console.log(phone);
         $.ajax({
             type: "POST",
-            url: "/Index/User/test",
-            // url: "/Index/User/sendreg",
+            // url: "/Index/User/test",
+            url: "/Index/User/sendreg",
             data: {
                 'phone':phone,
                 'status':status
@@ -228,6 +229,24 @@
         });
     })
 
+    function settime(obj) { //发送验证码倒计时
+        if (countdown == 0) {
+            obj.attr('id','sendmessage');
+            obj.css('cursor','pointer');
+            //obj.removeattr("disabled");
+            obj.html("重新发送");
+            countdown = 60;
+            return;
+        } else {
+            obj.attr('id','');
+            obj.css('cursor','none');
+            obj.html("重新发送(" + countdown + ")");
+            countdown--;
+        }
+        setTimeout(function() {
+                settime(obj) }
+            ,1000)
+    }
     //点击提交
     $(document).on('click','#submit',function () {
 
@@ -265,9 +284,7 @@
             dataType:'json',
             success: function(data){
                 if (data.status == -100) {
-                    layer.msg(data.msg, {icon: 2, time: 2000}, function () {
-                        window.location.reload();
-                    });
+                    layer.msg(data.msg, {icon: 2, time: 2000});
                 }
 
                 if(data.status == 200){

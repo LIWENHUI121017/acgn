@@ -35,10 +35,11 @@ class Goods extends Base
 
 
     public function index(){
-        $cateid=input('cateid');
+        $cateid=input('cateid/d');
         $isonsale=input('isonsale');
         $type=input('type');
         $search=input('search');
+
 
         $goodslogic = new GoodsLogic();
         $goodslist = $goodslogic->goodsAlllist($cateid,$isonsale,$type,$search);

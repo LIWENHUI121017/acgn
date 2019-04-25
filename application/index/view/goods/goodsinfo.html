@@ -104,7 +104,7 @@
                                 </li>
                             </ul> <!---->
                             <div class="product-buy-wrapper">
-                                <div class="enable product-buy buy_button" id="buy_button">立即购买</div>
+                                <!--<div class="enable product-buy buy_button" id="buy_button">立即购买</div>-->
                                 <div class="want-wrapper">
                                     <div class="enable product-buy buy_car ">
                                         <!--<input type="submit" value="加入购物车">-->
@@ -189,6 +189,8 @@
                                 <div class="comment-hot-item-user-name">
                                     <if condition="$value.is_anonymous eq 0">
                                         {$value.username}
+                                        <else/>
+                                        匿名用户
                                     </if>
                                 </div>
                             <div class="comment-hot-item-user-content">
@@ -216,7 +218,7 @@
                                 </div> <!---->
                                 <div class="comment-hot-item-floor">
                                     <span class="time">{$value.add_time|date='Y-m-d H:i:s',###}</span>
-                                    <span class="fa fa-thumbs-o-up"></span>
+                                    <!--<span class="fa fa-thumbs-o-up"></span>-->
                                     <span class="report"></span>
                                 </div>
                                 <div class="reply-comment-list"></div> <!----> <!----></div>
@@ -231,20 +233,18 @@
             <div class="recommend-wrapper">
                 <div class="ticket-tips-wrapper">
                     <div class="ticket-tips">
-                        <div class="ticket-tips-header">
-                            <span></span>神奇宝贝口袋妖怪
-                        </div>
-                        <div class="ticket-tips-content">
-                            <p><img src="__PUBLIC__/static/images/index-goods/pigaqiu/1.jpg" width="100px" height="100px"></p>
+                        <p>推荐热卖</p>
+                        <foreach name="hotgoods" key="k" item="v">
+                            <a href="index/goods/goodsinfo/id/{$v.id}">
+                                <div class="ticket-tips-header">
+                                    <span>{$v.goods_name}</span>
+                                </div>
+                                <div class="ticket-tips-content">
+                                    <p><img src="{$v.original_img}" width="200px" height="200px"></p>
+                                </div>
+                            </a>
 
-                        </div>
-                        <div class="ticket-tips-header">
-                            <span></span>神奇宝贝口袋妖怪
-                        </div>
-                        <div class="ticket-tips-content">
-                            <p><img src="__PUBLIC__/static/images/index-goods/pigaqiu/1.jpg" width="100px" height="100px"></p>
-
-                        </div>
+                        </foreach>
                     </div>
 
                     </div>

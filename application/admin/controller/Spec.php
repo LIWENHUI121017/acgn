@@ -100,14 +100,13 @@ class Spec extends Base
     //修改操作
     public function updatespec(){
         $data = input('post.');
-//        dump($data);
-//    exit();
+
         $validate = Loader::validate('Spec');
         if (!$validate->check($data)){
             $this->error($validate->getError(),url('Admin/spec/add'));
         }else{
             $logic = new SpecLogic();
-            $check = $logic->check($data['id'],$data['name']);
+            $check = $logic->check($data['id'],$data['name'],$data['tid']);
 
             if ($check){
                 $this->error('规格名称重复了',url('Admin/Spec/change',array('id'=>$data['id'])));

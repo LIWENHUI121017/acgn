@@ -42,8 +42,14 @@
 										<else/>
 										<em style="color: red">已冻结</em>
 									</if>
-								</i></span><br>
+								</i>
+								</span>
+								<br>
 
+								<div class="cuschan tc-uic">
+									<a  class="topup-mom" style="cursor: pointer;margin-left: 160px;margin-top: 20px" onclick="getMoney(100000)">
+										测试（充值100000元）</a>
+								</div>
 							</div>
 
 						</div>
@@ -101,68 +107,29 @@
 
 	</body>
 <script>
-    layui.use('upload', function() {
-        var $ = layui.jquery
-            , upload = layui.upload;
-
-        //普通图片上传
-        var uploadInst = upload.render({
-            elem: '#test1'
-            , url: '/admin/Goods/img'
-            , done: function (res) {
-                if (res.status == 0) {
-                    return layer.msg('上传失败');
-                }else {
-                    //上传成功
-                    $('#original_img').val(res.path);
-                    $('#demo1').attr('src', res.path);
+    //测试点击充值
+    function getMoney(m) {
+        var orderid = $("input[name='orderid']").val();
+        var order_sn = $("input[name='order_sn']").val();
+        $.ajax({
+            type: "POST",
+            url: "/Index/User/getMoney",
+            data: {'money':m,'orderid':orderid,'order_sn':order_sn},
+            async: false,
+            dataType:'json',
+            success: function(data){
+                if (data.status==1){
+                    layer.msg('充值成功',{icon:1,time:2000},function () {
+                        window.location.reload();
+                    })
+                } else {
+                    layer.msg('充值失败',{icon:2,time:2000})
                 }
-            }
-            , error: function () {
-                //演示失败状态，并实现重传
-                var demoText = $('#demoText');
-                demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-xs demo-reload">重试</a>');
-                demoText.find('.demo-reload').on('click', function () {
-                    uploadInst.upload();
-                });
+            },
+            error : function(XMLHttpRequest, textStatus, errorThrown) {
+                alert("网络失败，请刷新页面后重试!");
             }
         });
-    })
-    layui.use('laydate', function() {
-        var laydate = layui.laydate;
-
-        //日期常规用法
-        laydate.render({
-            elem: '#birthday'
-        });
-    })
-	//取消订单
-    function cancel_order(id){
-        layer.confirm('确定取消订单?', {
-                btn: ['确定','取消'] //按钮
-            }, function(){
-                // 确定
-                $.ajax({
-					type:'get',
-					dataType:'json',
-					url:"/index/order/cancel_order",
-					data:{id:id},
-					success:function (data) {
-					    if(data.status==0){
-                            layer.alert(data.msg,{icon:2,time:2000});
-						}
-						if(data.status==1){
-                            layer.alert(data.msg,{icon:1,time:2000},function () {
-								window.location.reload();
-                            });
-						}
-
-                    }
-				})
-            }, function(index){
-                layer.close(index);
-            }
-        );
     }
 
 

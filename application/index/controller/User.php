@@ -48,13 +48,18 @@ class User extends Base
     public function index(){
         self::isLogin();
         $user_id =$this->user_id;
+//        dump($user_id);
         if ($user_id>0){
             $user=$this->user;
             $user['user_phone']=hidtel($user['user_phone']);
             $orderlogic = new OrderLogic();
             $orderlogic->setUserId($user_id);
             $order = $orderlogic->user_get_all_order(1,'all');
-            $goods = $orderlogic->get_order_goods($order[0]['id']);
+            if ($order){
+                $goods = $orderlogic->get_order_goods($order[0]['id']);
+                $this->assign('goods',$goods);
+            }
+
             $where=[
                 'a.user_id'=>$user_id,
             ];
@@ -66,7 +71,7 @@ class User extends Base
                 ->select()
                 ->toArray();
 
-            $this->assign('goods',$goods);
+
             $this->assign('collect',$collect);
             $this->assign('order',$order);
             $this->assign('user',$user);
@@ -413,10 +418,16 @@ class User extends Base
 
     //地址管理
     public function myaddress(){
-        $logic = new My_Logic();
-        $addresslist = $logic->get_all([],'*','Address');
+        self::isLogin();
+        $user_id =$this->user_id;
+//        dump($user_id);
+        if ($user_id>0) {
+            $logic = new My_Logic();
+            $addresslist = $logic->get_all(['user_id'=>$user_id],'*','Address');
 //        dump($addresslist);
-        $region=Db::name('region')->column('id,name,level,parent_id');
+            $region=Db::name('region')->column('id,name,level,parent_id');
+        }
+
 //        dump($region);
         $this->assign('address',$addresslist);
         $this->assign('count',count($addresslist));
@@ -707,12 +718,13 @@ class User extends Base
     //测试充值
     public function getMoney(){
             $money = input('money');
-            $orderid = input('orderid');
-            $order_sn = input('order_sn');
+            $orderid = input('orderid',0);
+            $order_sn = input('order_sn',0);
             $userid = $this->user_id;
+            $user=$this->user;
             $logic = new UserLogic();
             $where=['id'=>$userid];
-            $data=['user_money'=>$money];
+            $data=['user_money'=>$money+$user['user_money']];
             $res = $logic->edit($where,$data);
             if (!$res){
                 return json(['status'=>0,'msg'=>'充值失败']);

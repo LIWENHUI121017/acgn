@@ -24,55 +24,58 @@
 					<!--用户信息  开始 -->
 					<div class="cus01">
 						<div class="cusImg">
-							<img src="__PUBLIC__/static/images/userHeaddefault/default.jpg" width="120px" height="120px" title="更换头像" />
+							<img src="{$user.user_pic|default='__PUBLIC__/static/images/userHeaddefault/default.jpg'}" width="120px" height="120px" title="更换头像" />
 						</div>
 						<div class="cusName">
 							<p title="用户昵称">{$user.user_nickname}</p>
 							<span class="">手机绑定:<em>{$user.user_phone}</em></span>
-							<span title="余额"><i class="fa fa-credit-card">:</i>{$user.user_money} 元<a href="javascript; ">充值</a></span>
+							<span title="余额"><i class="fa fa-credit-card">:</i>{$user.user_money} 元
+								<a href="/index/user/usermoney/type/usermoney.html">充值</a>
+
+							</span>
 						</div>
-						<div class="cusMoney">
-								<ul class="mu-a1">
-									<li class="">
-										<a href="/Home/User/recharge.html">
-											<i class="icon-balance"></i>
-											<span>账户余额</span>
-											<em class="mu-unit">&nbsp;元</em>
-											<em class="mu-num">100000.00</em>
-											<i class="icon-ar"></i>
-										</a>
-									</li>
-									<li>
-										<a href="/Home/User/account.html">
-											<i class="icon-point"></i>
-											<span>可用积分</span>
-											<em class="mu-unit">&nbsp;分</em>
-											<em class="mu-num">141500</em>
-											<i class="icon-ar"></i>
-										</a>
-									</li>
-								</ul>
-								<ul class="mu-a2">
-									<li>
-										<a href="/Home/User/coupon.html">
-											<i class="icon-coupon"></i>
-											<span>优惠券</span>
-											<em class="mu-unit">&nbsp;张</em>
-											<em class="mu-num">0</em>
-											<i class="icon-ar"></i>
-										</a>
-									</li>
-									<li class="">
-										<a href="/Home/User/rechargevip.html">
-											<i class="icon-card"></i>
-											<span>VIP充值</span>
-											<em class="mu-unit"></em>
-											<em class="mu-num"></em>
-											<i class="icon-ar"></i>
-										</a>
-									</li>
-								</ul>
-						</div>
+						<!--<div class="cusMoney">-->
+								<!--<ul class="mu-a1">-->
+									<!--<li class="">-->
+										<!--<a href="/Home/User/recharge.html">-->
+											<!--<i class="icon-balance"></i>-->
+											<!--<span>账户余额</span>-->
+											<!--<em class="mu-unit">&nbsp;元</em>-->
+											<!--<em class="mu-num">100000.00</em>-->
+											<!--<i class="icon-ar"></i>-->
+										<!--</a>-->
+									<!--</li>-->
+									<!--<li>-->
+										<!--<a href="/Home/User/account.html">-->
+											<!--<i class="icon-point"></i>-->
+											<!--<span>可用积分</span>-->
+											<!--<em class="mu-unit">&nbsp;分</em>-->
+											<!--<em class="mu-num">141500</em>-->
+											<!--<i class="icon-ar"></i>-->
+										<!--</a>-->
+									<!--</li>-->
+								<!--</ul>-->
+								<!--<ul class="mu-a2">-->
+									<!--<li>-->
+										<!--<a href="/Home/User/coupon.html">-->
+											<!--<i class="icon-coupon"></i>-->
+											<!--<span>优惠券</span>-->
+											<!--<em class="mu-unit">&nbsp;张</em>-->
+											<!--<em class="mu-num">0</em>-->
+											<!--<i class="icon-ar"></i>-->
+										<!--</a>-->
+									<!--</li>-->
+									<!--<li class="">-->
+										<!--<a href="/Home/User/rechargevip.html">-->
+											<!--<i class="icon-card"></i>-->
+											<!--<span>VIP充值</span>-->
+											<!--<em class="mu-unit"></em>-->
+											<!--<em class="mu-num"></em>-->
+											<!--<i class="icon-ar"></i>-->
+										<!--</a>-->
+									<!--</li>-->
+								<!--</ul>-->
+						<!--</div>-->
 					</div>
 					<!--订单列表-->
 					<div class="order-list">

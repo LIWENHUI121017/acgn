@@ -72,6 +72,8 @@ class Cart extends Base {
 
     }
 
+
+
     //更新购物车
     public function updatecart(){
         $data = input('cart/a',[]);

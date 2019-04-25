@@ -390,6 +390,7 @@
 .floor-top{
     height: 35px;
     padding-top: 40px;
+
 }
 .floor-title{
     float: left;
@@ -431,6 +432,7 @@
 }
 .floor-main{
     height: 573px;
+
 }
 .floor-brand{
     float: left;
@@ -523,8 +525,8 @@
 .floor-recommend-item{
     display: block;
     width: 195px;
-    height: 67px;
-    padding: 20px 15px;
+    height: 80px;
+    padding-top: 10px;
     border-bottom: 1px solid #eee;
 }
 .floor-recommend-item:hover{

@@ -103,7 +103,11 @@ class Goods extends Base{
         $userid = $this->user_id;
         $get = new GoodsLogic();
         $goodslist = $get->goodslist($id);
+        //推荐商品
 //        dump($goodslist);
+//        die;
+        $hotgoods = Db::name('goods')->where(['goods_type_id'=>$goodslist[0]['goods_type_id']])->select();
+//        dump($hotgoods);
 //        die;
         Session::set('goodsname',$goodslist[0]['goods_name']);
         $goodsinfo = array_reduce($goodslist, 'array_merge', array());
@@ -135,6 +139,7 @@ class Goods extends Base{
         $this->assign('collect',$collect);
         $this->assign('goods',$goodslist);
         $this->assign('goodsinfo',$goodsinfo);
+        $this->assign('hotgoods',$hotgoods);
         $this->assign('navigate',navigate_goods($id,$type=1));
         $this->assign('spec', $get->getspec($id));
         $this->assign('comment', $comment);

@@ -63,8 +63,8 @@ class SpecLogic extends Model{
     }
 
     //判断修改规格名称是否重复
-    public function check($id,$name){
-        $check = Db::name('spec')->whereNotIn('id',$id)->select();
+    public function check($id,$name,$typeid){
+        $check = Db::name('spec')->whereNotIn('id',$id)->where(['type_id'=>$typeid])->select();
 
         foreach ($check as $value){
             if ($value['name']==$name){
